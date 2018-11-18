@@ -154,6 +154,7 @@
       <url>/2018/11/13/%E5%86%8D%E8%B0%88Babel-polyfill/</url>
       <content type="html"><![CDATA[<p>Babel 包含编译和polyfill两部分，这次我们专门来说一下polyfill部分（感觉很容易搞混）。</p>
 <p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"></p>
+<a id="more"></a>
 <h1 id="Polyfill"><a href="#Polyfill" class="headerlink" title="Polyfill"></a>Polyfill</h1><p>先说结论，Polyfill 的准确意思为：<strong>用于实现低版本浏览器还不支持的原生API的代码。</strong></p>
 <p>例如，<code>querySelectorAll</code>是很多现代浏览器都支持的原生Web API，但是有些古老的浏览器并不支持，那么假设有人写了库，只要用了这个库，你就可以在古老的浏览器里面使用<code>document.querySelectorAll</code>，使用方法跟现代浏览器原生API无异。那么这个库就可以称为<code>Polyfill</code>或者<code>Polyfiller</code>。</p>
 <h2 id="polyfill的来历"><a href="#polyfill的来历" class="headerlink" title="polyfill的来历"></a>polyfill的来历</h2><p><code>Polyfill</code>或者<code>Polyfiller</code>，是英国Web开发者 <a href="https://remysharp.com/" target="_blank" rel="noopener">Remy Sharp</a> 在咖啡店蹲坑的时候拍脑袋造出来的。当时他想用一个词来形容：用 JavaScript（或者Flash之类的什么鬼）来实现一些浏览器不支持的原生API。<code>Shim</code>这个已经有的词汇第一时间出现在他的脑海里。但是他回头想了一下<code>Shim</code>一般有自己的API，而不是单纯实现原生不支持的API。苦思冥想一直想不到合适的单词，于是他一怒之下造了一个单词<code>Polyfill</code>。除了他自己用这个词以外，他还给其他开发者用。随着他在各种Web会议演讲和他写的书《Introducing HTML5》中频繁提到这个词，大家用了都觉得很好，就一起来用。</p>

@@ -634,98 +634,15 @@
 
       
         
-          
-            <p>Babel 包含编译和polyfill两部分，这次我们专门来说一下polyfill部分（感觉很容易搞混）。</p>
+          <p>Babel 包含编译和polyfill两部分，这次我们专门来说一下polyfill部分（感觉很容易搞混）。</p>
 <p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"></p>
-<h1 id="Polyfill"><a href="#Polyfill" class="headerlink" title="Polyfill"></a>Polyfill</h1><p>先说结论，Polyfill 的准确意思为：<strong>用于实现低版本浏览器还不支持的原生API的代码。</strong></p>
-<p>例如，<code>querySelectorAll</code>是很多现代浏览器都支持的原生Web API，但是有些古老的浏览器并不支持，那么假设有人写了库，只要用了这个库，你就可以在古老的浏览器里面使用<code>document.querySelectorAll</code>，使用方法跟现代浏览器原生API无异。那么这个库就可以称为<code>Polyfill</code>或者<code>Polyfiller</code>。</p>
-<h2 id="polyfill的来历"><a href="#polyfill的来历" class="headerlink" title="polyfill的来历"></a>polyfill的来历</h2><p><code>Polyfill</code>或者<code>Polyfiller</code>，是英国Web开发者 <a href="https://remysharp.com/" target="_blank" rel="noopener">Remy Sharp</a> 在咖啡店蹲坑的时候拍脑袋造出来的。当时他想用一个词来形容：用 JavaScript（或者Flash之类的什么鬼）来实现一些浏览器不支持的原生API。<code>Shim</code>这个已经有的词汇第一时间出现在他的脑海里。但是他回头想了一下<code>Shim</code>一般有自己的API，而不是单纯实现原生不支持的API。苦思冥想一直想不到合适的单词，于是他一怒之下造了一个单词<code>Polyfill</code>。除了他自己用这个词以外，他还给其他开发者用。随着他在各种Web会议演讲和他写的书《Introducing HTML5》中频繁提到这个词，大家用了都觉得很好，就一起来用。</p>
-<p>tip：术语polyfill来自于一个家装产品Polyfilla，Polyfilla是一个英国产品，（在美国称之为Spackling Paste，在中国称为腻子，刮墙的）。把旧的浏览器想象成为一面有了裂缝的墙。这些 [polyfills] 会帮助我们把这面墙的裂缝抹平,还我们一个更好的光滑的墙壁（浏览器）。</p>
-<h2 id="shim和polyfill的区别"><a href="#shim和polyfill的区别" class="headerlink" title="shim和polyfill的区别"></a>shim和polyfill的区别</h2><p>一个shim是一个库，它将一个新的API引入到一个旧的环境中，而且仅靠旧环境中已有的手段实现。两者对比网上说法有很多，这里从中选了一种我认为比较靠谱的：<a href="https://www.zhihu.com/question/22129715/answer/21242550" target="_blank" rel="noopener">shim和polyfill有什么区别? - 李靖威的回答 - 知乎</a></p>
-<blockquote>
-<p>polyfill 是 shim 的一种。</p>
-<p>shim 是将不同 api 封装成一种，比如 jQuery 的 $.ajax 封装了 XMLHttpRequest 和 IE 用 ActiveXObject 方式创建 xhr 对象；</p>
-<p>polyfill 特指 shim 成的 api 是<strong>遵循标准</strong>的，其典型做法是在IE浏览器中增加 window.XMLHttpRequest ，内部实现使用 ActiveXObject。</p>
-<p>在实际中为了方便做对比，会特指 shim 的 api，<strong>不是</strong>遵循标准的，而是自己设计的。</p>
-</blockquote>
-<p>tip：还有一种叫shiv的东西，它的作用是使得不支持HTML5标签的浏览器诸如ie6-8, 支持html5标签。</p>
-<h1 id="babel-polyfill"><a href="#babel-polyfill" class="headerlink" title="babel-polyfill"></a>babel-polyfill</h1><p>其实之前我们提到的”Babel 只编译语法不编译 API“说法并不完全正确，Babel 是处于构建时（也就是传统Java等语言的编译时），转译出来的结果在默认情况下并不包括 ES6 对运行时的扩展，例如，builtins（内建对象，包括 Promise、Set、Map 等）、内建类型上的扩展（如 ES6 对 Array、Object、String 等内建类型上的扩展）以及 Regenerator（用于generators / yield）等都不包括在内。</p>
-<p>tips：</p>
-<ol>
-<li>built-ins（内建），又可以叫”natives”（本地人） ，可以理解为内建对象，比如 String 和 Number。</li>
-<li><a href="http://facebook.github.io/regenerator/" target="_blank" rel="noopener">Regenerator</a>，是Facebook开发的，一个用来转换es6的yield语法到es5的工具。</li>
-</ol>
-<h2 id="core-js-标准库"><a href="#core-js-标准库" class="headerlink" title="core-js 标准库"></a>core-js 标准库</h2><p>这是所有 Babel polyfill 方案都需要依赖的开源库<a href="https://link.zhihu.com/?target=https%3A//github.com/zloirock/core-js" target="_blank" rel="noopener">zloirock/core-js</a>，它提供了 ES5、ES6 的 polyfills，包括 <a href="https://link.zhihu.com/?target=https%3A//github.com/zloirock/core-js%23ecmascript-6-promise" target="_blank" rel="noopener">promises</a> 、<a href="https://link.zhihu.com/?target=https%3A//github.com/zloirock/core-js%23ecmascript-6-symbol" target="_blank" rel="noopener">symbols</a>、<a href="https://link.zhihu.com/?target=https%3A//github.com/zloirock/core-js%23ecmascript-6-collections" target="_blank" rel="noopener">collections</a>、iterators、<a href="https://link.zhihu.com/?target=https%3A//github.com/zloirock/core-js%23ecmascript-6-typed-arrays" target="_blank" rel="noopener">typed arrays</a>、<a href="https://link.zhihu.com/?target=https%3A//github.com/zloirock/core-js%23ecmascript-7-proposals" target="_blank" rel="noopener">ECMAScript 7+ proposals</a>、<a href="https://link.zhihu.com/?target=https%3A//github.com/zloirock/core-js%23setimmediate" target="_blank" rel="noopener">setImmediate</a> 等等。</p>
-<p><strong>如果使用了 babel-runtime、babel-plugin-transform-runtime 或者 babel-polyfill，你就可以间接的引入了 core-js 标准库。例如，Array.from 就是来自于 core-js/array/from.js 。</strong></p>
-<h2 id="regenerator-运行时库"><a href="#regenerator-运行时库" class="headerlink" title="regenerator 运行时库"></a>regenerator 运行时库</h2><p>这是 Facebook 提供的 <a href="https://link.zhihu.com/?target=https%3A//github.com/facebook/regenerator" target="_blank" rel="noopener">facebook/regenerator</a> 库，用来实现 ES6/ES7 中 generators、yield、async 及 await 等相关的 polyfills。在下面即将提到的 babel-runtime 中被引用。有些初学者遇到的<a href="https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined" target="_blank" rel="noopener"><code>regeneratorRuntime is not defined</code></a>就是因为只在 preset 中配置了 stage-0 却忘记加上 babel-polyfill。</p>
-<p><strong>如果使用了 babel-runtime、babel-plugin-transform-runtime 或者 babel-polyfill，你就可以间接的引入了 regenerator-runtime 运行时库。</strong></p>
-<h2 id="babel-runtime-库"><a href="#babel-runtime-库" class="headerlink" title="babel-runtime 库"></a>babel-runtime 库</h2><p>babel-runtime 是由 Babel 提供的 polyfill 库，它本身就是由 core-js 与 regenerator-runtime  库组成，除了做简单的合并与映射外，并没有做任何额外的加工。</p>
-<p>所以在使用时，你需要自己去 require，举一个例子，如果你想使用 Promise，你必须在每一处需要用到 Promise 的 module 里，手工引入 promise 模块：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="built_in">Promise</span> = <span class="built_in">require</span>(<span class="string">'babel-runtime/core-js/promise'</span>);</span><br></pre></td></tr></table></figure>
-<p><strong>由于这种方式十分繁琐，事实上严谨的使用还要配合 interopRequireDefault() 方法使用，所以 Babel 提供了一个插件，即 babel-plugin-transform-runtime。</strong></p>
-<h2 id="babel-plugin-transform-runtime-插件"><a href="#babel-plugin-transform-runtime-插件" class="headerlink" title="babel-plugin-transform-runtime 插件"></a>babel-plugin-transform-runtime 插件</h2><p>这个插件让 Babel 发现代码中使用到 Symbol、Promise、Map 等新类型时，自动且按需进行 polyfill，因为是“自动”所以非常受大家的欢迎。</p>
-<p>在官网中，Babel 提醒大家如果正在开发一个 library 的话，建议使用这种方案，因为没有全局变量和 prototype 污染。</p>
-<p>全局变量污染，是指 babel-plugin-transform-runtime 插件会帮你实现一个沙盒（sandbox），虽然你的 ES6 源代码显式的使用了看似全局的 Promise、Symbol，但是在沙盒模式下，Babel 会将它们转译成：</p>
-<p><strong>ES6 代码</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sym = <span class="built_in">Symbol</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(arr[<span class="built_in">Symbol</span>.iterator]());</span><br></pre></td></tr></table></figure>
-<p><strong>转译后的代码</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">"use strict"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _getIterator2 = <span class="built_in">require</span>(<span class="string">"babel-runtime/core-js/get-iterator"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _getIterator3 = _interopRequireDefault(_getIterator2);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _promise = <span class="built_in">require</span>(<span class="string">"babel-runtime/core-js/promise"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _promise2 = _interopRequireDefault(_promise);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _symbol = <span class="built_in">require</span>(<span class="string">"babel-runtime/core-js/symbol"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _symbol2 = _interopRequireDefault(_symbol);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_interopRequireDefault</span>(<span class="params">obj</span>) </span>&#123; <span class="keyword">return</span> obj &amp;&amp; obj.__esModule ? obj : &#123; <span class="attr">default</span>: obj &#125;; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> sym = (<span class="number">0</span>, _symbol2.default)();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> _promise2.default();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log((<span class="number">0</span>, _getIterator3.default)(arr));</span><br></pre></td></tr></table></figure>
-<p>你会发现，这个插件至始至终没有在 Global 对象下挂载全局的 Symbol 和 Promise 变量。这样一来，如果你引入的其他类库使用了 bluebird 之类的第三方 polyfill 也不会受此影响。</p>
-<p>那么什么是 prototype 污染呢，这就要说到 ES6 的 Array、String 等内建类型扩展了很多新方法，<strong>如 Array 原型上的 includes()、filter() 等新方法（实例方法），babel-plugin-transform-runtime 插件是不会进行扩展修改的，很多人往往忽略了这一点。要区分的是，Array.from 等静态方法（或者叫类方法）还是会被插件 polyfill 的。因此，babel-plugin-transform-runtime 这个插件更适合于开发类库（library）时去使用，而不适合直接用在独立的前端工程中。另外，它可以按需polyfill，所以从一定程度上控制了polyfill 文件的大小。</strong></p>
-<h2 id="babel-polyfill-1"><a href="#babel-polyfill-1" class="headerlink" title="babel-polyfill"></a>babel-polyfill</h2><p>最后来到 babel-polyfill，它的初衷是emulate（模拟）一整套 ES2015+ 运行时环境，所以它的确会以全局变量的形式 polyfill Map、Set、Promise 之类的类型，也的确会以类似 Array.prototype.includes() 的方式去注入污染原型，这也是官网中提到最适合应用级开发的 polyfill，再次提醒如果你在开发 library 的话，不推荐使用（或者说绝对不要使用）。</p>
-<p><strong>不同于插件（babel-plugin-transform-runtime 就是一个插件，需要配置在<code>.babelrc</code>中）</strong>，你所要做的事情很简单，就是将<code>babel-polyfill</code>一次性的引入到你的工程中，通常是和其他的第三方类库（如 jQuery、React 等）一同打包在 vendor.js（vendor中文翻译为厂商，即第三方， webpack 中通常用vendor来命名我们项目中使用的第三方库，俗称三方库）中即可。在你写程序的时候，你完全不会感知 babel-polyfill 的存在，如果你的浏览器已经支持 Promise，它会优先使用 native 的 Promise，如果没有的话，则会采用 polyfill 的版本（这个行为与 babel-plugin-transform-runtime 一致），在使用 babel-polyfill 后，你不需要引入 babel-plugin-transform-runtime 插件和其他依赖的类库。它的缺点也显而易见，那就是占文件空间并且无法按需定制。</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fx8o0c97gtj30bw02m74i.jpg" alt="image-20181115130650463"></p>
-<p>tip：babel-polyfill 并不是一定会污染全局环境，在引入这个 js，并运行的时候，它会先判断当前有没有这个方法，在看要不要重写，如上图，是对<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math/sign" target="_blank" rel="noopener"><code>`Math.sign()</code></a>方法的替换。</p>
-<h2 id="对比babel-polyfill和babel-plugin-transform-runtime"><a href="#对比babel-polyfill和babel-plugin-transform-runtime" class="headerlink" title="对比babel-polyfill和babel-plugin-transform-runtime"></a>对比babel-polyfill和babel-plugin-transform-runtime</h2><table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center">babel-polyfill</th>
-<th style="text-align:center">babel-plugin-transform-runtime</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">根本区别</td>
-<td style="text-align:center">不是一个plugin（插件），要所有代码之前引入，并且如果当前项目已经有一个 polyfill 的包了，那你只能保留其一，改造目标环境，让目标环境拥有本来不支持的特性。</td>
-<td style="text-align:center">是一个plugin（插件），写的顺序应该没所谓，会改造你的代码，让你的代码能在所有目标环境上运行，但不改造目标环境</td>
-</tr>
-<tr>
-<td style="text-align:center">是否依赖<code>bable-runtime</code></td>
-<td style="text-align:center">依赖</td>
-<td style="text-align:center">依赖</td>
-</tr>
-<tr>
-<td style="text-align:center">builtins（内建，包括 Promise、Set、Map）支持</td>
-<td style="text-align:center">支持（优先使用 native 的 Promise，如果没有的话，则会采用 polyfill 的版本）</td>
-<td style="text-align:center">支持（优先使用 native 的 Promise，如果没有的话，则会采用 polyfill 的版本）</td>
-</tr>
-<tr>
-<td style="text-align:center">是否支持内建类型上的扩展</td>
-<td style="text-align:center">支持类方法和原型方法（污染prototype）</td>
-<td style="text-align:center">支持类方法，不支持原型方法（所以不污染prototype）</td>
-</tr>
-<tr>
-<td style="text-align:center">Regenerator</td>
-<td style="text-align:center">支持</td>
-<td style="text-align:center">支持</td>
-</tr>
-<tr>
-<td style="text-align:center">使用时间</td>
-<td style="text-align:center">一开始就全量转换</td>
-<td style="text-align:center">babel发现使用到时自动且按需</td>
-</tr>
-</tbody>
-</table>
-<p>如果你还是困惑，我推荐一个非常简单的区分方法 - 打开浏览器开发者工具，在 console 里执行代码：</p>
-<ol>
-<li>引入 babel-polyfill 后的 IE 11，你可以在 console 下执行 <code>Object.assign({}, {})</code></li>
-<li>而引入 babel-plugin-transform-runtime 后的 IE 11，仍然提示你：<code>Object doesn&#39;t support property or method &#39;assign&#39;</code></li>
-</ol>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>babel 本身不具有任何转化功能，它把转化的功能都分解到一个个 plugin 内，<code>babel-plugin-syntax</code>开头的插件是语法插件，负责解析新的语法，<code>babel-plugin-transform</code>开头的插件负责转译，也就是解析语法+转换代码，也就是我们最终的目的，所以如果使用了转译插件，就不用再使用语法插件了。preset可以整合众多plugin，如早期的<code>babel-preset-es2015</code>整合了es6的语法和转译插件，现在推荐使用env。转译/编译是构建阶段的操作，除了转译/编译，babel还包括polyfill部分，主要使用babel-runtime（包括core-js、regenerator和helpers）完成，使用又包括 babel-polyfill 和 transform-runtime，区别见上面讨论。</p>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://www.zhihu.com/question/49382420/answer/223915243" target="_blank" rel="noopener">Babel 编译出来还是 ES 6？难道只能上 polyfill？ - Henry的回答 - 知乎</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/13/再谈Babel-polyfill/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
