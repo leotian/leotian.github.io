@@ -286,7 +286,7 @@
 <ol>
 <li>使用单体文件（standalone script，如使用<a href="https://github.com/Daniel15/babel-standalone" target="_blank" rel="noopener">babel-standalone</a>模块提供的浏览器版本，将其插入网页，但网页中实时将ES6代码转为ES5，对性能会有影响，生产环境一般使用已经转码完成的脚本）。</li>
 </ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.4.4/babel.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/babel"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">// Your ES6 code</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.4.4/babel.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/babel"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// Your ES6 code</span></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <ol>
 <li>Babel还提供一个<a href="https://babeljs.io/repl/" target="_blank" rel="noopener">REPL在线编译器</a>，可以在线将ES6代码转为ES5代码。转换后的代码，可以直接作为ES5代码插入网页运行。</li>
 <li>命令行（cli），多见于 package.json 中的 <code>scripts</code> 段落中的某条命令。</li>
@@ -1334,71 +1334,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[npm使用总结（2）：探究版本锁]]></title>
-      <url>/2017/07/29/npm%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93%EF%BC%882%EF%BC%89%EF%BC%9A%E6%8E%A2%E7%A9%B6%E7%89%88%E6%9C%AC%E9%94%81/</url>
-      <content type="html"><![CDATA[<p>上次说的 <code>node_modules</code> 的目录结构和依赖树取决于安装顺序只是 npm 非确定性（Non-Determinism）的一部分，这种不确定是不会影响使用的，所以我觉得更大的坑来自于语义化版本（semantic versioning, semver）带来的包升级的不确定性。<img src="https://ws1.sinaimg.cn/large/006tNc79ly1fo71w155h1j31240ciq3v.jpg" alt="34648639-2cb71c5e-f3d8-11e7-9a1c-6ad418fce6ed副本"><a id="more"></a></p>
-<p>在我的加班生涯中有一次印象深刻的经历，那次是晚上上线出了问题，但是代码在我的电脑上工作的很好，在测试环境也测试通过，偏偏在上线后出现了严重的问题，原因就是一个包在我电脑上的版本和线上的版本不同了，这个不兼容的升级搞出了这次事故。自此后我开始使用 npm shrinkwrap 来手动锁定版本。接下来我们讨论一下这个功能的必要性和使用。</p>
-<h2 id="首先：什么是语义化版本"><a href="#首先：什么是语义化版本" class="headerlink" title="首先：什么是语义化版本"></a>首先：什么是语义化版本</h2><blockquote>
-<p>一旦你定义了公共 API，你就可以透过修改相应的版本号来向大家说明你的修改。考虑使用这样的版本号格式：XYZ （主版本号.次版本号.修订号）修复问题但不影响API 时，递增修订号；API 保持向下兼容的新增及修改时，递增次版本号；进行不向下兼容的修改时，递增主版本号。</p>
-<p>我称这套系统为“语义化的版本控制”，在这套约定下，版本号及其更新方式包含了相邻版本间的底层代码和修改内容的信息。</p>
-</blockquote>
-<p>以上是<a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener">semver</a>的官方解释，更多的规则和使用我找了两篇文章，感觉已经足够详细，在此不展开讨论。</p>
-<p><a href="http://www.u396.com/semver-range.html" target="_blank" rel="noopener">语义化版本（SemVer）的范围</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/20747196" target="_blank" rel="noopener">semver：语义化版本规范在 Node.js 中的实现</a></p>
-<h2 id="其次：版本锁的必要性和使用npm-5"><a href="#其次：版本锁的必要性和使用npm-5" class="headerlink" title="其次：版本锁的必要性和使用npm 5"></a>其次：版本锁的必要性和使用npm 5</h2><h3 id="必要性"><a href="#必要性" class="headerlink" title="必要性"></a>必要性</h3><p>在Node.js项目开发的时候，我们也经常需要安装和升级对应的依赖。虽然 npm 以及语意化的版本号 (semantic versioning, semver) 让开发过程中依赖的获取和升级变得非常容易， 但不严格的版本号限制，也带来了版本号的不确定性。主要的问题可能有三个：</p>
-<ol>
-<li>npm 建议使用 semver 的应用程序版本，但这也完全依赖第三方包遵守这一规则。如果你依赖于的包不遵循 semver ，或者依赖的包的新版本有重大更改（而你使用了 ^ 的宽泛版本安装，实际上当 npm i xx —save 时默认就是用 ^ 来定义版本范围），这潜在可能是会导致问题的。</li>
-<li>另一个问题的出现是由于 npm 安装依赖的机制。npm 的安装包是有层次结构的，手动控制要安装的软件包的版本号可以实现，但是你只能在 package.json 使用精确的版本号控制你的直接依赖包，但那些多层以上的依赖就没办法控制了；一个第三方包不严谨的版本依赖生命可能破坏你的依赖管理。</li>
-<li>在开发阶段执行得到的版本，和后续部署时得到的可能是不一致的，更不可控的是，你依赖的第三方包也有这样的情况会导致潜在的上线风险。</li>
-</ol>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1fo7wss9g9zj30dw0aeqb0.jpg" alt="6022D8B3-32AD-406C-A874-FD9C96C51167"></p>
-<p>如果要控制上线的风险，我们就必需要解决这些问题，这时候就需要使用到版本锁。当然，对于是否应该使用版本锁还有一些不同的意见：<a href="https://zhuanlan.zhihu.com/p/22934066" target="_blank" rel="noopener">为什么我不使用 shrinkwrap（lock）</a>。但我觉得对于我来说还是很有必要的，至少可以少踩一些上线的坑，不是吗哈哈。</p>
-<h3 id="使用npm-5"><a href="#使用npm-5" class="headerlink" title="使用npm 5"></a>使用npm 5</h3><p>之前一直在使用shrinkwrap控制这个问题，对于shrinkwrap这里有一篇美团的教程：<a href="https://tech.meituan.com/npm-shrinkwrap.html" target="_blank" rel="noopener">使用 npm shrinkwrap 来管理项目依赖</a>。上次说到npm依赖管理的三次重要变化，依赖树的变化属于v1—v3版本的变化，而v3—v5的变化主要是安装时默认产生 lock 文件。也就是说，npm 在 v3 版本中是没有默认的版本锁的，如果想进行锁定需要使用 shrinkwrap，而 npm v5 版本是默认带版本锁功能的。</p>
-<p>所以现在我们可以直接使用 npm v5 来进行最保险的版本控制了，还是上次的demo，这次我们用npm 5进行安装：</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fo80pvk5c7j30gy0ajq4k.jpg" alt="7DF1047F-FA6C-4F72-97D4-C354867F0561"></p>
-<p>可以看到，用 npm v5 进行安装会显示安装时间，这点和 yarn 一样，并且默认产生了 lock 文件，npm ls 显示的依赖树也不太一样，deduped（重复数据删除，也就是顶级目录已经有了）的包也做了标记。</p>
-<p>总结npm v5 的一些变化：</p>
-<ol>
-<li>改写了 cache 机制，速度跟 yarn 接近了（仍然慢一点点，但缓存将由 npm 来全局维护不再需要用户操心）</li>
-<li>简化的 logging，安装完成后会打印耗时，跟 yarn 简直一样</li>
-<li>安装时默认产生 <code>package-lock.json</code> 文件来记录依赖树信息，进行依赖锁定（存在 lock 时所有人安装产生的目录都一样，不过记录的依赖信息还是跟安装顺序有关，如果遇到：根据 npm i 安装完后再单独 npm i xxx 安装一个包而生成的 lock 文件安装，还是可能跟删除 node_modules 后完全重装的目录结构不一样，但这除了可能会产生一些多余的磁盘空间占用外不会有什么使用问题，一样是无关紧要的）</li>
-<li>npm 的 lock 文件中的 resolved 优先级低于配置的 registry（这点比yarn好很多，尤其是在内部项目转外部开源的时候）</li>
-<li>发布的模块不会包含 <code>package-lock.json</code> 文件（如果想要包含可以自行添加 <code>npm-shrinkwrap.json</code> 随包发布）</li>
-<li>使用 <code>npm install xxx</code> 命令安装模块时，不再需要 <code>--save</code> 选项，会自动将模块依赖信息保存到 <code>package.json</code> 文件，除非加上 <code>--no-save</code></li>
-</ol>
-<h2 id="最后：不同包管理器的版本锁比较"><a href="#最后：不同包管理器的版本锁比较" class="headerlink" title="最后：不同包管理器的版本锁比较"></a>最后：不同包管理器的版本锁比较</h2><h3 id="npm-5对比npm-3"><a href="#npm-5对比npm-3" class="headerlink" title="npm 5对比npm 3"></a>npm 5对比npm 3</h3><p>npm 5 使用新的 shrinkwrap 格式，对比npm 3 的格式如下图：</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1foqlmj41esj31kw0x1k78.jpg" alt="17C1FF1F-725A-4362-9B09-D32B6CA74FF4"></p>
-<p>npm 5 如果使用的<code>npm shrinkwrap</code>命令仍会产生名为<code>npm-shrinkwrap.json</code>的文件，不过产生的<code>npm-shrinkwrap.json</code>和<code>package-lock.json</code>是一模一样的（指其格式也是npm 5的新shrinkwrap格式），而如果已经存在<code>package-lock.json</code>会自动将<code>package-lock.json</code>重命名为<code>npm-shrinkwrap.json</code>。</p>
-<h3 id="对比yarn"><a href="#对比yarn" class="headerlink" title="对比yarn"></a>对比yarn</h3><p>本来 yarn 相对于 npm@4 的区别主要就是：</p>
-<ol>
-<li>yarn 安装速度更快</li>
-<li>yarn 默认会用 lock file 锁住依赖版本</li>
-</ol>
-<p>现在 npm@5 一改多年的挤牙膏作风，在以上方面都有改进，npm 相对于 yarn 更成熟，而且 yarn 用起来也不完美：</p>
-<ol>
-<li>yarn.lock 里带有 registry url ，且优先级高于配置中的 registry，切换 registry 时不太方便</li>
-<li>yarn 对 npm 参数的支持度有限，可以说大部分参数都不支持</li>
-<li>yarn 对 npm scripts 支持不完善，而且 npm 也再不断增加新的 life cycle scripts， yarn 在这方面有滞后性</li>
-</ol>
-<h3 id="对比cnpm"><a href="#对比cnpm" class="headerlink" title="对比cnpm"></a>对比cnpm</h3><p>cnpm 根本没有版本锁功能，所以也没有比较这回事了</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://tech.meituan.com/npm-shrinkwrap.html" target="_blank" rel="noopener">使用 npm shrinkwrap 来管理项目依赖</a></p>
-<p><a href="https://github.com/muwenzi/Program-Blog/issues/112" target="_blank" rel="noopener">npm@5 新特性使用指南</a></p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> Node </tag>
-            
-            <tag> shrinkwrap </tag>
-            
-            <tag> npm </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[npm使用总结（1）：探究依赖树]]></title>
       <url>/2017/07/29/npm%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93%EF%BC%881%EF%BC%89%EF%BC%9A%E6%8E%A2%E7%A9%B6%E4%BE%9D%E8%B5%96%E6%A0%91/</url>
       <content type="html"><![CDATA[<p>在项目开发中，通常会使用<a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a>来管理项目中的依赖，下面我们就来看看它是如何帮助我们管理这些依赖的。</p>
@@ -1460,6 +1395,71 @@
         <tags>
             
             <tag> Node </tag>
+            
+            <tag> npm </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[npm使用总结（2）：探究版本锁]]></title>
+      <url>/2017/07/29/npm%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93%EF%BC%882%EF%BC%89%EF%BC%9A%E6%8E%A2%E7%A9%B6%E7%89%88%E6%9C%AC%E9%94%81/</url>
+      <content type="html"><![CDATA[<p>上次说的 <code>node_modules</code> 的目录结构和依赖树取决于安装顺序只是 npm 非确定性（Non-Determinism）的一部分，这种不确定是不会影响使用的，所以我觉得更大的坑来自于语义化版本（semantic versioning, semver）带来的包升级的不确定性。<img src="https://ws1.sinaimg.cn/large/006tNc79ly1fo71w155h1j31240ciq3v.jpg" alt="34648639-2cb71c5e-f3d8-11e7-9a1c-6ad418fce6ed副本"><a id="more"></a></p>
+<p>在我的加班生涯中有一次印象深刻的经历，那次是晚上上线出了问题，但是代码在我的电脑上工作的很好，在测试环境也测试通过，偏偏在上线后出现了严重的问题，原因就是一个包在我电脑上的版本和线上的版本不同了，这个不兼容的升级搞出了这次事故。自此后我开始使用 npm shrinkwrap 来手动锁定版本。接下来我们讨论一下这个功能的必要性和使用。</p>
+<h2 id="首先：什么是语义化版本"><a href="#首先：什么是语义化版本" class="headerlink" title="首先：什么是语义化版本"></a>首先：什么是语义化版本</h2><blockquote>
+<p>一旦你定义了公共 API，你就可以透过修改相应的版本号来向大家说明你的修改。考虑使用这样的版本号格式：XYZ （主版本号.次版本号.修订号）修复问题但不影响API 时，递增修订号；API 保持向下兼容的新增及修改时，递增次版本号；进行不向下兼容的修改时，递增主版本号。</p>
+<p>我称这套系统为“语义化的版本控制”，在这套约定下，版本号及其更新方式包含了相邻版本间的底层代码和修改内容的信息。</p>
+</blockquote>
+<p>以上是<a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener">semver</a>的官方解释，更多的规则和使用我找了两篇文章，感觉已经足够详细，在此不展开讨论。</p>
+<p><a href="http://www.u396.com/semver-range.html" target="_blank" rel="noopener">语义化版本（SemVer）的范围</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/20747196" target="_blank" rel="noopener">semver：语义化版本规范在 Node.js 中的实现</a></p>
+<h2 id="其次：版本锁的必要性和使用npm-5"><a href="#其次：版本锁的必要性和使用npm-5" class="headerlink" title="其次：版本锁的必要性和使用npm 5"></a>其次：版本锁的必要性和使用npm 5</h2><h3 id="必要性"><a href="#必要性" class="headerlink" title="必要性"></a>必要性</h3><p>在Node.js项目开发的时候，我们也经常需要安装和升级对应的依赖。虽然 npm 以及语意化的版本号 (semantic versioning, semver) 让开发过程中依赖的获取和升级变得非常容易， 但不严格的版本号限制，也带来了版本号的不确定性。主要的问题可能有三个：</p>
+<ol>
+<li>npm 建议使用 semver 的应用程序版本，但这也完全依赖第三方包遵守这一规则。如果你依赖于的包不遵循 semver ，或者依赖的包的新版本有重大更改（而你使用了 ^ 的宽泛版本安装，实际上当 npm i xx —save 时默认就是用 ^ 来定义版本范围），这潜在可能是会导致问题的。</li>
+<li>另一个问题的出现是由于 npm 安装依赖的机制。npm 的安装包是有层次结构的，手动控制要安装的软件包的版本号可以实现，但是你只能在 package.json 使用精确的版本号控制你的直接依赖包，但那些多层以上的依赖就没办法控制了；一个第三方包不严谨的版本依赖生命可能破坏你的依赖管理。</li>
+<li>在开发阶段执行得到的版本，和后续部署时得到的可能是不一致的，更不可控的是，你依赖的第三方包也有这样的情况会导致潜在的上线风险。</li>
+</ol>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1fo7wss9g9zj30dw0aeqb0.jpg" alt="6022D8B3-32AD-406C-A874-FD9C96C51167"></p>
+<p>如果要控制上线的风险，我们就必需要解决这些问题，这时候就需要使用到版本锁。当然，对于是否应该使用版本锁还有一些不同的意见：<a href="https://zhuanlan.zhihu.com/p/22934066" target="_blank" rel="noopener">为什么我不使用 shrinkwrap（lock）</a>。但我觉得对于我来说还是很有必要的，至少可以少踩一些上线的坑，不是吗哈哈。</p>
+<h3 id="使用npm-5"><a href="#使用npm-5" class="headerlink" title="使用npm 5"></a>使用npm 5</h3><p>之前一直在使用shrinkwrap控制这个问题，对于shrinkwrap这里有一篇美团的教程：<a href="https://tech.meituan.com/npm-shrinkwrap.html" target="_blank" rel="noopener">使用 npm shrinkwrap 来管理项目依赖</a>。上次说到npm依赖管理的三次重要变化，依赖树的变化属于v1—v3版本的变化，而v3—v5的变化主要是安装时默认产生 lock 文件。也就是说，npm 在 v3 版本中是没有默认的版本锁的，如果想进行锁定需要使用 shrinkwrap，而 npm v5 版本是默认带版本锁功能的。</p>
+<p>所以现在我们可以直接使用 npm v5 来进行最保险的版本控制了，还是上次的demo，这次我们用npm 5进行安装：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fo80pvk5c7j30gy0ajq4k.jpg" alt="7DF1047F-FA6C-4F72-97D4-C354867F0561"></p>
+<p>可以看到，用 npm v5 进行安装会显示安装时间，这点和 yarn 一样，并且默认产生了 lock 文件，npm ls 显示的依赖树也不太一样，deduped（重复数据删除，也就是顶级目录已经有了）的包也做了标记。</p>
+<p>总结npm v5 的一些变化：</p>
+<ol>
+<li>改写了 cache 机制，速度跟 yarn 接近了（仍然慢一点点，但缓存将由 npm 来全局维护不再需要用户操心）</li>
+<li>简化的 logging，安装完成后会打印耗时，跟 yarn 简直一样</li>
+<li>安装时默认产生 <code>package-lock.json</code> 文件来记录依赖树信息，进行依赖锁定（存在 lock 时所有人安装产生的目录都一样，不过记录的依赖信息还是跟安装顺序有关，如果遇到：根据 npm i 安装完后再单独 npm i xxx 安装一个包而生成的 lock 文件安装，还是可能跟删除 node_modules 后完全重装的目录结构不一样，但这除了可能会产生一些多余的磁盘空间占用外不会有什么使用问题，一样是无关紧要的）</li>
+<li>npm 的 lock 文件中的 resolved 优先级低于配置的 registry（这点比yarn好很多，尤其是在内部项目转外部开源的时候）</li>
+<li>发布的模块不会包含 <code>package-lock.json</code> 文件（如果想要包含可以自行添加 <code>npm-shrinkwrap.json</code> 随包发布）</li>
+<li>使用 <code>npm install xxx</code> 命令安装模块时，不再需要 <code>--save</code> 选项，会自动将模块依赖信息保存到 <code>package.json</code> 文件，除非加上 <code>--no-save</code></li>
+</ol>
+<h2 id="最后：不同包管理器的版本锁比较"><a href="#最后：不同包管理器的版本锁比较" class="headerlink" title="最后：不同包管理器的版本锁比较"></a>最后：不同包管理器的版本锁比较</h2><h3 id="npm-5对比npm-3"><a href="#npm-5对比npm-3" class="headerlink" title="npm 5对比npm 3"></a>npm 5对比npm 3</h3><p>npm 5 使用新的 shrinkwrap 格式，对比npm 3 的格式如下图：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1foqlmj41esj31kw0x1k78.jpg" alt="17C1FF1F-725A-4362-9B09-D32B6CA74FF4"></p>
+<p>npm 5 如果使用的<code>npm shrinkwrap</code>命令仍会产生名为<code>npm-shrinkwrap.json</code>的文件，不过产生的<code>npm-shrinkwrap.json</code>和<code>package-lock.json</code>是一模一样的（指其格式也是npm 5的新shrinkwrap格式），而如果已经存在<code>package-lock.json</code>会自动将<code>package-lock.json</code>重命名为<code>npm-shrinkwrap.json</code>。</p>
+<h3 id="对比yarn"><a href="#对比yarn" class="headerlink" title="对比yarn"></a>对比yarn</h3><p>本来 yarn 相对于 npm@4 的区别主要就是：</p>
+<ol>
+<li>yarn 安装速度更快</li>
+<li>yarn 默认会用 lock file 锁住依赖版本</li>
+</ol>
+<p>现在 npm@5 一改多年的挤牙膏作风，在以上方面都有改进，npm 相对于 yarn 更成熟，而且 yarn 用起来也不完美：</p>
+<ol>
+<li>yarn.lock 里带有 registry url ，且优先级高于配置中的 registry，切换 registry 时不太方便</li>
+<li>yarn 对 npm 参数的支持度有限，可以说大部分参数都不支持</li>
+<li>yarn 对 npm scripts 支持不完善，而且 npm 也再不断增加新的 life cycle scripts， yarn 在这方面有滞后性</li>
+</ol>
+<h3 id="对比cnpm"><a href="#对比cnpm" class="headerlink" title="对比cnpm"></a>对比cnpm</h3><p>cnpm 根本没有版本锁功能，所以也没有比较这回事了</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://tech.meituan.com/npm-shrinkwrap.html" target="_blank" rel="noopener">使用 npm shrinkwrap 来管理项目依赖</a></p>
+<p><a href="https://github.com/muwenzi/Program-Blog/issues/112" target="_blank" rel="noopener">npm@5 新特性使用指南</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> Node </tag>
+            
+            <tag> shrinkwrap </tag>
             
             <tag> npm </tag>
             
