@@ -6,10 +6,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
 <link rel="manifest" href="/manifest.json">
 
@@ -27,8 +27,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -47,7 +47,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -55,21 +55,21 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="工具,编译器,babel," />
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
+  <meta name="keywords" content="工具,编译器,babel,">
 
 
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png?v=5.1.2" />
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png?v=5.1.2">
 
 
 
@@ -91,7 +91,8 @@
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwly1fx6u0xh616j307e01n74c.jpg">
 <meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwly1fx6u0x7u7sj308u01awef.jpg">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwly1fx6tkgb4ntj3070058t94.jpg">
-<meta property="og:updated_time" content="2018-11-16T14:26:07.837Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNbRwly1fxewyq3ikxj305j01mjr7.jpg">
+<meta property="og:updated_time" content="2019-02-18T08:20:23.545Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Babel第一讲">
 <meta name="twitter:description" content="最近在小伙伴的推动下进行了一波工具的升级，包括webpack、babel。这两大工具都是前端工程化的常用工具，我准备依次总结一下这两样工具的使用。">
@@ -125,7 +126,7 @@
 
 
 
-  <link rel="canonical" href="https://leotian.cn/2018/11/01/Babel第一讲/"/>
+  <link rel="canonical" href="https://leotian.cn/2018/11/01/Babel第一讲/">
 
 
 
@@ -159,7 +160,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">天生爱走神</span>
         <span class="logo-line-after"><i></i></span>
@@ -189,7 +190,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             首页
           </a>
@@ -199,7 +200,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
             标签
           </a>
@@ -209,7 +210,7 @@
         <li class="menu-item menu-item-about">
           <a href="/about/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
             
             关于
           </a>
@@ -219,7 +220,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
             归档
           </a>
@@ -232,7 +233,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
             
             搜索
           </a>
@@ -300,7 +301,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Leo.Tian">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
@@ -382,7 +383,7 @@
 <ol>
 <li>使用单体文件（standalone script，如使用<a href="https://github.com/Daniel15/babel-standalone" target="_blank" rel="noopener">babel-standalone</a>模块提供的浏览器版本，将其插入网页，但网页中实时将ES6代码转为ES5，对性能会有影响，生产环境一般使用已经转码完成的脚本）。</li>
 </ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.4.4/babel.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/babel"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">// Your ES6 code</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.4.4/babel.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/babel"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// Your ES6 code</span></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <ol>
 <li>Babel还提供一个<a href="https://babeljs.io/repl/" target="_blank" rel="noopener">REPL在线编译器</a>，可以在线将ES6代码转为ES5代码。转换后的代码，可以直接作为ES5代码插入网页运行。</li>
 <li>命令行（cli），多见于 package.json 中的 <code>scripts</code> 段落中的某条命令。</li>
@@ -393,7 +394,7 @@
 <p>babel 本身不具有任何转化功能，它把转化的功能都分解到一个个 plugin 里面。因此当我们不配置任何插件时，经过 babel 的代码和输入是相同的。</p>
 <p>插件总共分为语法插件和转译插件两种：</p>
 <ul>
-<li>当我们添加 <strong>语法插件</strong> 之后，在解析这一步就使得 babel 能够解析更多的语法。（tip：babel 内部使用的解析类库叫做 babylon，并非 babel 自行开发）</li>
+<li>当我们添加 <strong>语法插件</strong> 之后，就在解析这一步使得 babel 能够解析更多的语法。（tip：babel 内部使用的解析类库叫做 babylon，并非 babel 自行开发）</li>
 </ul>
 <p>举个简单的例子，当我们定义或者调用方法时，最后一个参数之后是不允许增加逗号的，如 <code>callFoo(param1, param2,)</code> 就是非法的。如果源码是这种写法，经过 babel 之后就会提示语法错误。</p>
 <p>但最近的JavaScript<a href="https://github.com/tc39/proposal-trailing-function-commas" target="_blank" rel="noopener">提案</a>中已经允许了这种新的写法（让代码 diff 更加清晰）。为了避免 babel 报错，就需要增加语法插件 <code>babel-plugin-syntax-trailing-function-commas</code>。</p>
@@ -420,13 +421,16 @@
 <ul>
 <li>Plugin 会运行在 Preset 之前。</li>
 <li>Plugin 会从前到后顺序执行。</li>
-<li>Preset 的顺序则 <strong>刚好相反</strong>(从后向前)。</li>
+<li>Preset 的顺序则 <strong>刚好相反</strong>（从后向前）。</li>
 </ul>
 <p>preset 的逆向顺序主要是为了保证向后兼容，因为大多数用户的编写顺序是 <code>[&#39;es2015&#39;, &#39;stage-0&#39;]</code>。这样必须先执行 <code>stage-0</code> 才能确保 babel 不报错。因此我们编排 preset 的时候，也要注意顺序，<strong>其实只要按照规范的时间顺序列出即可。</strong></p>
 <h2 id="插件和-preset-的配置项"><a href="#插件和-preset-的配置项" class="headerlink" title="插件和 preset 的配置项"></a>插件和 preset 的配置项</h2><p>简略情况下，插件和 preset 只要列出字符串格式的名字即可。但如果某个 preset 或者插件需要一些配置项（或者说参数），就需要把自己先变成数组。第一个元素依然是字符串，表示自己的名字；第二个元素是一个对象，即配置对象。</p>
 <p>最需要配置的当属 env，如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">"presets": [</span><br><span class="line">	  // 带了配置项，自己变成数组</span><br><span class="line">    [</span><br><span class="line">        // 第一个元素依然是名字</span><br><span class="line">        <span class="string">"env"</span>,</span><br><span class="line">        // 第二个元素是对象，列出配置项</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"modules"</span>: <span class="literal">false</span> // 指将ES6模块语法转换为另一种模块类型。设置为 <span class="literal">false</span> 则不会转换模块</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    // 不带配置项，直接列出名字</span><br><span class="line">    <span class="string">"stage-2"</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<h2 id="env（重点）"><a href="#env（重点）" class="headerlink" title="env（重点）"></a>env（重点）</h2><p>env 最常用也最重要，所以我们需要重点关注。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">"presets": [</span><br><span class="line">	  // 带了配置项，自己变成数组</span><br><span class="line">    [</span><br><span class="line">        // 第一个元素依然是名字</span><br><span class="line">        <span class="string">"env"</span>,</span><br><span class="line">        // 第二个元素是对象，列出配置项</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"modules"</span>: <span class="literal">false</span></span><br><span class="line">          // 指将ES6模块语法转换为另一种模块类型。设置为 <span class="literal">false</span> 则不会转换模块</span><br><span class="line">          // 推荐将 modules 设置为 <span class="literal">false</span>，即交由 Webpack 来处理模块化，通过其 TreeShaking 特性将有效减少打包出来的 JS 文件大小</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    // 不带配置项，直接列出名字</span><br><span class="line">    <span class="string">"stage-2"</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h2 id="env（重点）"><a href="#env（重点）" class="headerlink" title="env（重点）"></a>env（重点）</h2><p>env 最常用也最重要，所以我们需要重点关注。Babel 的官网上在2017年9月就宣布 ES2015 / ES2016/ ES2017 等等 ES20xx 时代的 presets 通通被废弃（deprecated），取而代之的是 babel-preset-env，并且承诺它将成为“未来不会过时的（future-proof）”解决方案。</p>
+<blockquote>
+<p>在过去，Babel 将 babel-preset-es2015 放在 babel/babel 的主仓库中进行维护，而 babel-preset-env 则独立为一级项目，这从某种程度上也显示出 Babel 官方对这款 preset 的重视程度和更长远的规划。</p>
+</blockquote>
 <p>env 的核心目的是通过配置得知目标环境的特点，然后只做必要的转换。例如目标浏览器支持 es2015，那么 es2015 这个 preset 其实是不需要的，于是代码就可以小一点（一般转化后的代码总是更长），构建时间也可以缩短一些。</p>
 <p>如果不写任何配置项，env 等价于 latest，也等价于 es2015 + es2016 + es2017 三个相加（不包含 stage-x 中的插件）。env 包含的插件列表维护在<a href="http://link.zhihu.com/?target=https%3A//github.com/babel/babel-preset-env/blob/master/data/plugin-features.js" target="_blank" rel="noopener">这里</a>。</p>
 <p>下面列出几种比较常用的配置方法：</p>
@@ -459,7 +463,7 @@
 <li>使用 <code>babel-polyfill</code> 会导致打出来的包非常大，因为 <code>babel-polyfill</code> 是一个整体，把所有方法都加到原型链上。比如我们只使用了 <code>Array.from</code>，但它把 <code>Object.defineProperty</code>也给加上了，这就是一种浪费了。这个问题可以通过单独使用 <a href="https://github.com/zloirock/core-js#readme" target="_blank" rel="noopener"><code>core-js</code></a> 的某个类库来解决，<code>core-js</code> 都是分开的（core-js 是babel-polyfill 的底层依赖，通过各种奇技淫巧，用 ES3 实现了大部分的 ES2017 原生标准库）。</li>
 <li><code>babel-polyfill</code> 会污染全局变量，给很多类的原型链上都作了修改，如果我们开发的也是一个类库供其他开发者使用，这种情况就会变得非常不可控。</li>
 </ol>
-<p>因此在实际使用中，如果我们无法忍受这两个缺点（尤其是第二个），通常我们会倾向于使用 <code>babel-plugin-transform-runtime</code>。</p>
+<p>因此在实际使用中，如果我们无法忍受这两个缺点（尤其是第二个，比如要写一个npm包，如果引入导致污染了使用者的全局变量是不太好的，可能对使用者项目带来不确定性），通常我们会倾向于使用 <code>babel-plugin-transform-runtime</code>。</p>
 <p>但如果代码中包含高版本 js 中类型的实例方法（例如 <code>[1,2,3].includes(1)</code>），这还是要使用 polyfill。</p>
 <h2 id="babel-runtime-和-babel-plugin-transform-runtime"><a href="#babel-runtime-和-babel-plugin-transform-runtime" class="headerlink" title="babel-runtime 和 babel-plugin-transform-runtime"></a>babel-runtime 和 babel-plugin-transform-runtime</h2><p>我们时常在项目中看到 .babelrc 中使用 <code>babel-plugin-transform-runtime</code>，而 <code>package.json</code> 中的 <code>dependencies</code>（注意不是 <code>devDependencies</code>） 又包含了 <code>babel-runtime</code>，那这两个的关系和作用分别是什么呢？是不是要成套使用呢？</p>
 <p>先说 <code>babel-plugin-transform-runtime</code>。</p>
@@ -468,7 +472,7 @@
 <p>不用过于纠结具体的语法，只需看到，这个 <code>_asyncToGenerator</code> 在当前文件被定义，然后被使用了，以替换源代码的 <code>await</code>。但每个被转化的文件都会插入一段 <code>_asyncToGenerator</code> 这就导致重复和浪费了。</p>
 <p>在使用了 <code>babel-plugin-transform-runtime</code> 了之后，转化后的代码会变成：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从直接定义改为引用，这样就不会重复定义了。</span></span><br><span class="line"><span class="keyword">var</span> _asyncToGenerator2 = <span class="built_in">require</span>(<span class="string">'babel-runtime/helpers/asyncToGenerator'</span>);</span><br><span class="line"><span class="keyword">var</span> _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体使用处是一样的</span></span><br><span class="line"><span class="keyword">var</span> _ref = _asyncToGenerator3(<span class="function"><span class="keyword">function</span>* (<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> (<span class="number">0</span>, something)(arg1, arg2);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>从定义方法改成引用，那重复定义就变成了重复引用，就不存在代码重复的问题了。</p>
+<p>从定义方法改成引用，那重复定义就变成了引用，就不存在代码重复的问题了。</p>
 <p>但在这里，我们也发现 <code>babel-runtime</code> 出场了，它就是这些方法的集合处，也因此，<strong>在使用 babel-plugin-transform-runtime 的时候必须把 babel-runtime 当做依赖。</strong></p>
 <p>再说 <code>babel-runtime</code>，它内部集成了：</p>
 <ol>
@@ -498,7 +502,7 @@
 <p>下面是一个例子。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> es6Code = <span class="string">'let x = n =&gt; n + 1'</span>;</span><br><span class="line"><span class="keyword">var</span> es5Code = <span class="built_in">require</span>(<span class="string">'babel-core'</span>)</span><br><span class="line">  .transform(es6Code, &#123;</span><br><span class="line">    presets: [<span class="string">'es2015'</span>]</span><br><span class="line">  &#125;)</span><br><span class="line">  .code;</span><br></pre></td></tr></table></figure>
 <p>babel-core 可以把 js 代码分析成 AST ，方便各个插件分析语法进行相应的处理。有些新语法在低版本 js 中是不存在的，如箭头函数，rest 参数，函数默认值等，这种语言层面的不兼容只能通过将代码转为 AST，分析其语法后再转为低版本 js。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><table>
 <thead>
 <tr>
 <th style="text-align:center">包名</th>
@@ -538,6 +542,11 @@
 <td style="text-align:center"><img src="https://ws2.sinaimg.cn/large/006tNbRwly1fx6tkgb4ntj3070058t94.jpg" alt="img"></td>
 </tr>
 <tr>
+<td style="text-align:center">babel-preset-env</td>
+<td style="text-align:center">整合了 es201x，并自动根据目标平台分析需要用哪些插件</td>
+<td style="text-align:center">plugin太多，不截图了，把除了babel开头的截一下<br><img src="https://ws1.sinaimg.cn/large/006tNbRwly1fxewyq3ikxj305j01mjr7.jpg" alt="image-20181120224948380"></td>
+</tr>
+<tr>
 <td style="text-align:center">babel-loader</td>
 <td style="text-align:center">使用webpack时作为一个loader，在代码混淆前进行转码</td>
 <td style="text-align:center">babel-loader和babel-core是<a href="https://nodejs.org/zh-cn/blog/npm/peer-dependencies/" target="_blank" rel="noopener"><code>Peer Dependencies</code></a>关系，不装会报<code>UNMET PEER DEPENDENCY</code></td>
@@ -550,6 +559,7 @@
 </tbody>
 </table>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://zhuanlan.zhihu.com/p/43249121" target="_blank" rel="noopener">一口（很长的）气了解 babel</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/29506685" target="_blank" rel="noopener">再见，babel-preset-2015</a></p>
 
       
     </div>
@@ -570,14 +580,14 @@
 
     
       <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.png" alt="Leo.Tian 微信"/>
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Leo.Tian 微信">
         <p>微信</p>
       </div>
     
 
     
       <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.png" alt="Leo.Tian 支付宝"/>
+        <img id="alipay_qr" src="/images/alipay.png" alt="Leo.Tian 支付宝">
         <p>支付宝</p>
       </div>
     
@@ -698,7 +708,7 @@
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -710,9 +720,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
-            <img class="site-author-image" itemprop="image"
-              src="/images/avatar.png"
-              alt="Leo.Tian" />
+            <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Leo.Tian">
           
             <p class="site-author-name" itemprop="name">Leo.Tian</p>
             <p class="site-description motion-element" itemprop="description">程序员、电影爱好者</p>
@@ -725,7 +733,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -738,7 +746,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -770,7 +778,7 @@
         
           <div class="cc-license motion-element" itemprop="license">
             <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
             </a>
           </div>
         
@@ -793,7 +801,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#what’s-babel"><span class="nav-number">1.</span> <span class="nav-text">what’s babel</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">1.1.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行方式和插件"><span class="nav-number">1.2.</span> <span class="nav-text">运行方式和插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置插件"><span class="nav-number">1.3.</span> <span class="nav-text">配置插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preset"><span class="nav-number">1.4.</span> <span class="nav-text">preset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行顺序"><span class="nav-number">1.5.</span> <span class="nav-text">执行顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插件和-preset-的配置项"><span class="nav-number">1.6.</span> <span class="nav-text">插件和 preset 的配置项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#env（重点）"><span class="nav-number">1.7.</span> <span class="nav-text">env（重点）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他配套工具"><span class="nav-number">2.</span> <span class="nav-text">其他配套工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-cli"><span class="nav-number">2.1.</span> <span class="nav-text">babel-cli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-node"><span class="nav-number">2.2.</span> <span class="nav-text">babel-node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-register"><span class="nav-number">2.3.</span> <span class="nav-text">babel-register</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-polyfill"><span class="nav-number">2.4.</span> <span class="nav-text">babel-polyfill</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-runtime-和-babel-plugin-transform-runtime"><span class="nav-number">2.5.</span> <span class="nav-text">babel-runtime 和 babel-plugin-transform-runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-loader"><span class="nav-number">2.6.</span> <span class="nav-text">babel-loader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-eslint"><span class="nav-number">2.7.</span> <span class="nav-text">babel-eslint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-core"><span class="nav-number">2.8.</span> <span class="nav-text">babel-core</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">2.9.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">3.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#what’s-babel"><span class="nav-number">1.</span> <span class="nav-text">what’s babel</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">1.1.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行方式和插件"><span class="nav-number">1.2.</span> <span class="nav-text">运行方式和插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置插件"><span class="nav-number">1.3.</span> <span class="nav-text">配置插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preset"><span class="nav-number">1.4.</span> <span class="nav-text">preset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行顺序"><span class="nav-number">1.5.</span> <span class="nav-text">执行顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插件和-preset-的配置项"><span class="nav-number">1.6.</span> <span class="nav-text">插件和 preset 的配置项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#env（重点）"><span class="nav-number">1.7.</span> <span class="nav-text">env（重点）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他配套工具"><span class="nav-number">2.</span> <span class="nav-text">其他配套工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-cli"><span class="nav-number">2.1.</span> <span class="nav-text">babel-cli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-node"><span class="nav-number">2.2.</span> <span class="nav-text">babel-node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-register"><span class="nav-number">2.3.</span> <span class="nav-text">babel-register</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-polyfill"><span class="nav-number">2.4.</span> <span class="nav-text">babel-polyfill</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-runtime-和-babel-plugin-transform-runtime"><span class="nav-number">2.5.</span> <span class="nav-text">babel-runtime 和 babel-plugin-transform-runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-loader"><span class="nav-number">2.6.</span> <span class="nav-text">babel-loader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-eslint"><span class="nav-number">2.7.</span> <span class="nav-text">babel-eslint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel-core"><span class="nav-number">2.8.</span> <span class="nav-text">babel-core</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.9.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">3.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
@@ -813,10 +821,10 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        <div class="copyright">
   
   &copy;  2016 &mdash; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
