@@ -109,8 +109,8 @@
       author: '博主'
     },
     algolia: {
-      applicationID: 'UBPVXBB4IO',
-      apiKey: 'e28c9b6991f2bb73047a8382df740b89',
+      applicationID: 'MTRGWT9OKH',
+      apiKey: '83c0e99cb156fe27d37705002f709791',
       indexName: 'blog',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
@@ -410,7 +410,7 @@
 <h2 id="babel-polyfill-1"><a href="#babel-polyfill-1" class="headerlink" title="babel-polyfill"></a>babel-polyfill</h2><p>最后回到 babel-polyfill，它的初衷是emulate（模拟）一整套 ES2015+ 运行时环境，所以它的确会以全局变量的形式 polyfill Map、Set、Promise 之类的类型，也的确会以类似 Array.prototype.includes() 的方式去注入污染原型，这也是官网中提到最适合应用级开发的 polyfill，再次提醒如果你在开发 library 的话，不推荐使用（或者说绝对不要使用）。</p>
 <p><strong>不同于插件（babel-plugin-transform-runtime 就是一个插件，需要配置在<code>.babelrc</code>中）</strong>，你所要做的事情很简单，就是将<code>babel-polyfill</code>一次性的引入到你的工程中，通常是和其他的第三方类库（如 jQuery、React 等）一同打包在 vendor.js（vendor中文翻译为厂商，即第三方， webpack 中通常用vendor来命名我们项目中使用的第三方库，俗称三方库）中即可。在你写程序的时候，你完全不会感知 babel-polyfill 的存在，如果你的浏览器已经支持 Promise，它会优先使用 native 的 Promise，如果没有的话，则会采用 polyfill 的版本（这个行为与 babel-plugin-transform-runtime 一致），在使用 babel-polyfill 后，你不需要引入 babel-plugin-transform-runtime 插件和其他依赖的类库。它的缺点也显而易见，那就是占文件空间并且无法按需定制。</p>
 <p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fx8o0c97gtj30bw02m74i.jpg" alt="image-20181115130650463"></p>
-<p>tip：babel-polyfill 并不是一定会污染全局环境，在引入这个 js，并运行的时候，它会先判断当前有没有这个方法，在看要不要重写，如上图，是对<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math/sign" target="_blank" rel="noopener"><code>`Math.sign()</code></a>方法的替换。</p>
+<p>tip：babel-polyfill 并不是一定会污染全局环境，在引入这个 js，并运行的时候，它会先判断当前有没有这个方法，在看要不要重写，如上图，是对<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math/sign" target="_blank" rel="noopener"><code></code>Math.sign()`</a>方法的替换。</p>
 <h2 id="对比babel-polyfill和babel-plugin-transform-runtime"><a href="#对比babel-polyfill和babel-plugin-transform-runtime" class="headerlink" title="对比babel-polyfill和babel-plugin-transform-runtime"></a>对比babel-polyfill和babel-plugin-transform-runtime</h2><table>
 <thead>
 <tr>

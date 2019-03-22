@@ -113,8 +113,8 @@
       author: '博主'
     },
     algolia: {
-      applicationID: 'UBPVXBB4IO',
-      apiKey: 'e28c9b6991f2bb73047a8382df740b89',
+      applicationID: 'MTRGWT9OKH',
+      apiKey: '83c0e99cb156fe27d37705002f709791',
       indexName: 'blog',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
@@ -410,7 +410,7 @@
 <li>join只是把各个path片段连接在一起， resolve会把‘／’当成根目录</li>
 </ol>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path.join(<span class="string">'/a'</span>, <span class="string">'/b'</span>)    <span class="comment">// 返回 '/a/b'</span></span><br><span class="line">path.resolve(<span class="string">'/a'</span>, <span class="string">'/b'</span>) <span class="comment">// 返回 '/b'</span></span><br></pre></td></tr></table></figure>
-<ol>
+<ol start="2">
 <li>join直接拼接字段，resolve解析路径，如果解析的不是绝对路径，会在前面增加当前文件所在的目录</li>
 </ol>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path.join(<span class="string">"a"</span>, <span class="string">"b1"</span>, <span class="string">".."</span>, <span class="string">"b2"</span>)    <span class="comment">// 返回 'a/b2'</span></span><br><span class="line">path.resolve(<span class="string">"a"</span>, <span class="string">"b1"</span>, <span class="string">".."</span>, <span class="string">"b2"</span>) <span class="comment">// 返回 '/Users/tyb/workspace/NodeJs/path-test/bin/a/b2'</span></span><br></pre></td></tr></table></figure>
@@ -418,7 +418,7 @@
 <li>都会规范化路径</li>
 <li>都不会去验证路径是否真的存在</li>
 </ol>
-<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p>最好只在 <code>require()</code> 时才使用相对路径<code>./</code>或者<code>`../</code> 的写法，其他地方一律配合<code>path</code>模块使用绝对路径。</p>
+<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p>最好只在 <code>require()</code> 时才使用相对路径<code>./</code>或者<code></code>../<code>的写法，其他地方一律配合</code>path`模块使用绝对路径。</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/imsobear/blog/issues/48" target="_blank" rel="noopener">浅析 NodeJs 的几种文件路径</a></p>
 <p><a href="https://github.com/jawil/blog/issues/18" target="_blank" rel="noopener">Node.js的<strong>dirname，</strong>filename，process.cwd()，./的一些坑</a></p>
 <p><a href="https://itbilu.com/nodejs/core/NJHZjdRN.html" target="_blank" rel="noopener">Node.js使用path模块处理文件路径</a></p>

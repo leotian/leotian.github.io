@@ -108,8 +108,8 @@
       author: '博主'
     },
     algolia: {
-      applicationID: 'UBPVXBB4IO',
-      apiKey: 'e28c9b6991f2bb73047a8382df740b89',
+      applicationID: 'MTRGWT9OKH',
+      apiKey: '83c0e99cb156fe27d37705002f709791',
       indexName: 'blog',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
@@ -379,7 +379,7 @@
 </ol>
 <p>程序要求你按参数定义的顺序传递参数进去。如果后面有没传的，就省略了。如果要省略中间的……对不起，自己传入 null 或 undefined。</p>
 <p>对于 javascript 来说，可以对参数类型进行简单的判断来进行识别，以达到省略中间参数的效果，比如</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> set = <span class="function"><span class="keyword">function</span>(<span class="params">name, date, age</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">typeof</span> date === <span class="string">"number"</span>) &#123;</span><br><span class="line">    	age = date;</span><br><span class="line">	    date = <span class="literal">undefined</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// ....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="keyword">set</span> = function(name, date, age) &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">typeof</span> date === <span class="string">"number"</span>) &#123;</span><br><span class="line">    	age = date;</span><br><span class="line">	    date = <span class="literal">undefined</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// ....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里是简单通过类型来识别的。更复杂一些的情况可以使用正则表达式来识别 domain， url, email 等，不过说起来就比较麻烦了，而且代码逻辑复杂，也不易写。参数较多，部分可以省略的情况，建议使用参数对象，其他语言也有命名参数之类的特性。es6中已经有一些新式的传递参数的方法，这里不展开介绍了。</p>
 <h2 id="关于…"><a href="#关于…" class="headerlink" title="关于…"></a>关于…</h2><p><code>[arg1, arg2...]</code>表示若干可选参数，”…”表示了若干，就是可以有很多，不止一个的意思。</p>
 <h2 id="巴科斯范式"><a href="#巴科斯范式" class="headerlink" title="巴科斯范式"></a>巴科斯范式</h2><p>如果说有什么源头的话，可能都来自于一个叫巴科斯范式的东西，很多的linux手册以及各种软件的官方文档，所有稍微复杂点儿的语法规则几乎都是它定义的！ 巴科斯范式(BNF: Backus-Naur Form 的缩写)是由 John Backus 和Peter Naur首先引入的用来描述计算机语言语法的符号集。现在，几乎每一位新编程语言书籍的作者都使用巴科斯范式来定义编程语言的语法规则。</p>
@@ -469,8 +469,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/29/npm使用总结（2）探究版本锁/" rel="next" title="npm使用总结（2）探究版本锁">
-                <i class="fa fa-chevron-left"></i> npm使用总结（2）探究版本锁
+              <a href="/2017/07/29/npm使用总结（1）探究依赖树/" rel="next" title="npm使用总结（1）探究依赖树">
+                <i class="fa fa-chevron-left"></i> npm使用总结（1）探究依赖树
               </a>
             
           </div>
