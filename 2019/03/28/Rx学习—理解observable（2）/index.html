@@ -77,14 +77,15 @@
 
 
 <meta name="description" content="程序员、电影爱好者">
-<meta property="og:type" content="website">
-<meta property="og:title" content="天生爱走神">
-<meta property="og:url" content="https://leotian.cn/archives/2019/02/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rx学习—理解observable（2）">
+<meta property="og:url" content="https://leotian.cn/2019/03/28/Rx学习—理解observable（2）/index.html">
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="程序员、电影爱好者">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-28T08:53:12.413Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="天生爱走神">
+<meta name="twitter:title" content="Rx学习—理解observable（2）">
 <meta name="twitter:description" content="程序员、电影爱好者">
 
 
@@ -115,13 +116,13 @@
 
 
 
-  <link rel="canonical" href="https://leotian.cn/archives/2019/02/">
+  <link rel="canonical" href="https://leotian.cn/2019/03/28/Rx学习—理解observable（2）/">
 
 
 
 
 
-  <title>归档 | 天生爱走神</title>
+  <title>Rx学习—理解observable（2） | 天生爱走神</title>
   
 
 
@@ -140,7 +141,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -272,71 +273,198 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-         
-        
-        OK! 目前共计 40 篇日志。 继续努力。
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leotian.cn/2019/03/28/Rx学习—理解observable（2）/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo.Tian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天生爱走神">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/02/15/如何学习和实践ES201X/" itemprop="url">
-              
-                <span itemprop="name">如何学习和实践ES201X</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Rx学习—理解observable（2）</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-15T16:39:08+08:00" content="2019-02-15">
-          02-15
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T16:53:12+08:00">
+                2019-03-28
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
 
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/03/28/Rx学习—理解observable（2）/" class="leancloud_visitors" data-flag-title="Rx学习—理解observable（2）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        
+      
     </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>赞赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Leo.Tian 微信">
+        <p>微信</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Leo.Tian 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Leo.Tian
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://leotian.cn/2019/03/28/Rx学习—理解observable（2）/" title="Rx学习—理解observable（2）">https://leotian.cn/2019/03/28/Rx学习—理解observable（2）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/25/Rx学习—理解observable（1）/" rel="next" title="Rx学习—理解observable（1）">
+                <i class="fa fa-chevron-left"></i> Rx学习—理解observable（1）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -344,6 +472,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="vcomments"></div>
+    
+  </div>
+
 
         </div>
         
