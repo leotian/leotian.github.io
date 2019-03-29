@@ -60,7 +60,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Rx,observable,入门,">
 
 
 
@@ -76,17 +76,21 @@
 
 
 
-<meta name="description" content="程序员、电影爱好者">
+<meta name="description" content="上次我们把 Observable 和函数进行类比，从函数的角度分析了 Observable 的一些特性，这次我们换一个角度，从流的角度理解 Observable。">
+<meta name="keywords" content="Rx,observable,入门">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Rx学习—理解observable（2）">
-<meta property="og:url" content="https://leotian.cn/2019/03/28/Rx学习—理解observable（2）/index.html">
+<meta property="og:title" content="Rx学习—理解Observable（2）">
+<meta property="og:url" content="https://leotian.cn/2019/03/28/Rx学习—理解Observable（2）/index.html">
 <meta property="og:site_name" content="天生爱走神">
-<meta property="og:description" content="程序员、电影爱好者">
+<meta property="og:description" content="上次我们把 Observable 和函数进行类比，从函数的角度分析了 Observable 的一些特性，这次我们换一个角度，从流的角度理解 Observable。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-28T08:53:12.413Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1g1jh8a5v20j30ii01q0t0.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1g1jhwcy84gg30go0dxt9l.gif">
+<meta property="og:updated_time" content="2019-03-29T07:37:39.032Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Rx学习—理解observable（2）">
-<meta name="twitter:description" content="程序员、电影爱好者">
+<meta name="twitter:title" content="Rx学习—理解Observable（2）">
+<meta name="twitter:description" content="上次我们把 Observable 和函数进行类比，从函数的角度分析了 Observable 的一些特性，这次我们换一个角度，从流的角度理解 Observable。">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1g1jh8a5v20j30ii01q0t0.jpg">
 
 
 
@@ -116,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://leotian.cn/2019/03/28/Rx学习—理解observable（2）/">
+  <link rel="canonical" href="https://leotian.cn/2019/03/28/Rx学习—理解Observable（2）/">
 
 
 
 
 
-  <title>Rx学习—理解observable（2） | 天生爱走神</title>
+  <title>Rx学习—理解Observable（2） | 天生爱走神</title>
   
 
 
@@ -287,7 +291,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://leotian.cn/2019/03/28/Rx学习—理解observable（2）/">
+    <link itemprop="mainEntityOfPage" href="https://leotian.cn/2019/03/28/Rx学习—理解Observable（2）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Leo.Tian">
@@ -304,7 +308,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Rx学习—理解observable（2）</h1>
+          <h1 class="post-title" itemprop="name headline">Rx学习—理解Observable（2）</h1>
         
 
         <div class="post-meta">
@@ -334,7 +338,7 @@
 
           
           
-             <span id="/2019/03/28/Rx学习—理解observable（2）/" class="leancloud_visitors" data-flag-title="Rx学习—理解observable（2）">
+             <span id="/2019/03/28/Rx学习—理解Observable（2）/" class="leancloud_visitors" data-flag-title="Rx学习—理解Observable（2）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -365,7 +369,41 @@
       
 
       
-        
+        <p>上次我们把 Observable 和函数进行类比，从函数的角度分析了 Observable 的一些特性，这次我们换一个角度，从流的角度理解 Observable。</p>
+<a id="more"></a>
+<h2 id="从事件机制说起"><a href="#从事件机制说起" class="headerlink" title="从事件机制说起"></a>从事件机制说起</h2><h3 id="Event"><a href="#Event" class="headerlink" title="Event"></a>Event</h3><p>在浏览器中，事件机制是用户交互的基础，本质是程序各个组成部分之间的一种通信方式（或者叫观察者模式）。当事件源被触发，会调用相应的事件处理函数执行，并把事件对象（Event 对象，持有事件源的一些信息）传递给事件处理函数。没有Rx之前，事件一般是互相独立，各自调用的。</p>
+<h3 id="增加时间的维度"><a href="#增加时间的维度" class="headerlink" title="增加时间的维度"></a>增加时间的维度</h3><p>现在我们增加一个时间维度，在时间坐标上把同一个按钮上的单个事件点连成一条线：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1g1jh8a5v20j30ii01q0t0.jpg" alt="image-20190329105443416"></p>
+<p>有了时间维度，这条线看起来会是流动的，所以把他叫做一个流，接下来我们具体了解一下关于流的概念。</p>
+<h2 id="流stream"><a href="#流stream" class="headerlink" title="流stream"></a>流stream</h2><h3 id="创建数据流"><a href="#创建数据流" class="headerlink" title="创建数据流"></a>创建数据流</h3><p>RxJS提供了各种API来创建数据流，我们先使用 create 进行自定义创建：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = Rx.Observable.create(<span class="function">(<span class="params">observer</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">  setInterval(<span class="function"><span class="params">()</span> =&gt;</span> observer.next(i++), <span class="number">1000</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">foo.subscribe(<span class="function"><span class="params">i</span> =&gt;</span> <span class="built_in">console</span>.log(i))</span><br></pre></td></tr></table></figure>
+<p>可以看到我们创建了一个定时器定时触发，并在定时器中定时回调 observer，吐出一个返回值，相当于我们通过迭代器模拟了一个定时发生的点击事件（事件源），返回值相当于 Event（事件对象），而 observer 则相当于 EventListener（事件处理的监听器），单个事件串联起来就形成了流。</p>
+<p>还记得我们上次提到的生产者和消费者的概念吗？上例中，迭代器作为生产者不断生成数据形成流，observer 作为消费者等待回调，虽然 Observable 本质上还是一个函数，但是从形式上来看，Observable 就像一个管道对接了生产者和消费者。</p>
+<h3 id="数据的管道"><a href="#数据的管道" class="headerlink" title="数据的管道"></a>数据的管道</h3><blockquote>
+<p>数据流这个词，很多时候，是从data-flow翻译过来的，但flow跟stream是不一样的，我的理解是：flow只关注一个大致方向，而stream是受到更严格约束的，它更像是在无形的管道里面流动。</p>
+</blockquote>
+<p>而 Observable 就是限制 stream 流动的无形管道中的一种。，从整个过程来看， <strong>Observable 对接了生产者和消费者，也就是作为管道对接了流</strong>，从生产者角度来说，Observable 是使得数据流可以被观测的一种特殊函数，于是有了一个新的名字：可观测对象，而从消费者的角度来说，它就是流的代表，可以直接被叫做流。</p>
+<h2 id="Everything-is-a-stream"><a href="#Everything-is-a-stream" class="headerlink" title="Everything is a stream"></a>Everything is a stream</h2><p>不只是 Events，我们可以把一切输入都当做数据流来处理，比如说：</p>
+<ul>
+<li>用户操作</li>
+<li>网络响应</li>
+<li>定时器</li>
+<li>Worker</li>
+</ul>
+<h3 id="产生新流"><a href="#产生新流" class="headerlink" title="产生新流"></a>产生新流</h3><p>当产生了一个流后，我们可以通过操作符（Operator）对这个流进行一系列加工操作，然后产生一个新的流：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Rx.Observable.fromEvent(<span class="built_in">window</span>, <span class="string">'click'</span>)</span><br><span class="line">  .map(<span class="function"><span class="params">e</span> =&gt;</span> <span class="number">1</span>)</span><br><span class="line">  .scan(<span class="function">(<span class="params">total, now</span>) =&gt;</span> total + now)</span><br><span class="line">  .subscribe(<span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<p><code>map</code> 把流转换成了一个每次产生1的新流，然后 <code>scan</code> 类似 <code>reduce</code>，也会产生一个新流，最后这个流被订阅。最终实现了每次点击累加1的效果。</p>
+<p>可以用一个效果图来表示该过程：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1g1jhwcy84gg30go0dxt9l.gif" alt="img"></p>
+<h3 id="lodash-for-stream"><a href="#lodash-for-stream" class="headerlink" title="lodash for stream"></a>lodash for stream</h3><blockquote>
+<p>这时候回头看，其实RxJS在事件处理的路上已经走得太远了，从事件到流，它被称为lodash for events，倒不如说是lodash for stream更贴切，它提供的这些操作符也确实可以跟lodash媲美。</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在两篇文章中，我们分别从函数和流的角度了解了 Observable。本质上讲，Observable 是一种特殊的函数， 同时也是 RxJS 的一个核心类型，可以收集单个事件形成流来统一处理。</p>
+<p>我觉得复杂的东西都有多种特性，就像光的波粒二象性一样，我们学习时不要拘泥于某种特性去归类，因为其可能具有不同事物的多种特性，需要我们从不同角度来描述和理解。</p>
+<p>最后再分享一篇文章，希望能帮助更好的理解Observable：<a href="https://zhuanlan.zhihu.com/p/27776484" target="_blank" rel="noopener">如何从头开始创建 Observable</a>。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://zhuanlan.zhihu.com/p/25383159" target="_blank" rel="noopener">RxJS 入门指引和初步应用</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/34357403" target="_blank" rel="noopener">RxJS基础教程</a></p>
+
       
     </div>
     
@@ -414,7 +452,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://leotian.cn/2019/03/28/Rx学习—理解observable（2）/" title="Rx学习—理解observable（2）">https://leotian.cn/2019/03/28/Rx学习—理解observable（2）/</a>
+    <a href="https://leotian.cn/2019/03/28/Rx学习—理解Observable（2）/" title="Rx学习—理解Observable（2）">https://leotian.cn/2019/03/28/Rx学习—理解Observable（2）/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -427,6 +465,16 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Rx/" rel="tag"># Rx</a>
+          
+            <a href="/tags/observable/" rel="tag"># observable</a>
+          
+            <a href="/tags/入门/" rel="tag"># 入门</a>
+          
+        </div>
+      
 
       
       
@@ -436,8 +484,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/25/Rx学习—理解observable（1）/" rel="next" title="Rx学习—理解observable（1）">
-                <i class="fa fa-chevron-left"></i> Rx学习—理解observable（1）
+              <a href="/2019/03/25/Rx学习—理解Observable（1）/" rel="next" title="Rx学习—理解Observable（1）">
+                <i class="fa fa-chevron-left"></i> Rx学习—理解Observable（1）
               </a>
             
           </div>
@@ -498,8 +546,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Leo.Tian">
@@ -573,6 +630,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从事件机制说起"><span class="nav-number">1.</span> <span class="nav-text">从事件机制说起</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Event"><span class="nav-number">1.1.</span> <span class="nav-text">Event</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加时间的维度"><span class="nav-number">1.2.</span> <span class="nav-text">增加时间的维度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流stream"><span class="nav-number">2.</span> <span class="nav-text">流stream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建数据流"><span class="nav-number">2.1.</span> <span class="nav-text">创建数据流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据的管道"><span class="nav-number">2.2.</span> <span class="nav-text">数据的管道</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Everything-is-a-stream"><span class="nav-number">3.</span> <span class="nav-text">Everything is a stream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#产生新流"><span class="nav-number">3.1.</span> <span class="nav-text">产生新流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lodash-for-stream"><span class="nav-number">3.2.</span> <span class="nav-text">lodash for stream</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

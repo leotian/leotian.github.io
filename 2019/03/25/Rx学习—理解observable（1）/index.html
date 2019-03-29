@@ -60,7 +60,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="入门,Rx,observable,">
+  <meta name="keywords" content="Rx,observable,入门,">
 
 
 
@@ -76,18 +76,18 @@
 
 
 
-<meta name="description" content="RxJS（以下简称Rx）是使用 Observables 进行反应式编程的库，让组织异步和基于回调的代码更为方便。我们先从最核心的 Observable 来了解Rx，并且尝试以我们已有的知识—函数为基础来类比，帮助理解 Observable。 Observable 一种特殊的函数我们首先选择了函数作为类比对象，尝试从不同角度分析Observable的特性。 封装我们先看一个最普通的函数： 12345">
-<meta name="keywords" content="入门,Rx,observable">
+<meta name="description" content="RxJS（以下简称Rx）是使用 Observables 进行反应式编程的库，让组织异步和基于回调的代码更为方便。我们先从最核心的 Observable 来了解Rx，并且尝试以我们已有的知识—函数为基础来类比，帮助理解 Observable。">
+<meta name="keywords" content="Rx,observable,入门">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Rx学习—理解observable（1）">
-<meta property="og:url" content="https://leotian.cn/2019/03/25/Rx学习—理解observable（1）/index.html">
+<meta property="og:title" content="Rx学习—理解Observable（1）">
+<meta property="og:url" content="https://leotian.cn/2019/03/25/Rx学习—理解Observable（1）/index.html">
 <meta property="og:site_name" content="天生爱走神">
-<meta property="og:description" content="RxJS（以下简称Rx）是使用 Observables 进行反应式编程的库，让组织异步和基于回调的代码更为方便。我们先从最核心的 Observable 来了解Rx，并且尝试以我们已有的知识—函数为基础来类比，帮助理解 Observable。 Observable 一种特殊的函数我们首先选择了函数作为类比对象，尝试从不同角度分析Observable的特性。 封装我们先看一个最普通的函数： 12345">
+<meta property="og:description" content="RxJS（以下简称Rx）是使用 Observables 进行反应式编程的库，让组织异步和基于回调的代码更为方便。我们先从最核心的 Observable 来了解Rx，并且尝试以我们已有的知识—函数为基础来类比，帮助理解 Observable。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-27T11:17:22.397Z">
+<meta property="og:updated_time" content="2019-03-28T13:43:00.541Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Rx学习—理解observable（1）">
-<meta name="twitter:description" content="RxJS（以下简称Rx）是使用 Observables 进行反应式编程的库，让组织异步和基于回调的代码更为方便。我们先从最核心的 Observable 来了解Rx，并且尝试以我们已有的知识—函数为基础来类比，帮助理解 Observable。 Observable 一种特殊的函数我们首先选择了函数作为类比对象，尝试从不同角度分析Observable的特性。 封装我们先看一个最普通的函数： 12345">
+<meta name="twitter:title" content="Rx学习—理解Observable（1）">
+<meta name="twitter:description" content="RxJS（以下简称Rx）是使用 Observables 进行反应式编程的库，让组织异步和基于回调的代码更为方便。我们先从最核心的 Observable 来了解Rx，并且尝试以我们已有的知识—函数为基础来类比，帮助理解 Observable。">
 
 
 
@@ -117,13 +117,13 @@
 
 
 
-  <link rel="canonical" href="https://leotian.cn/2019/03/25/Rx学习—理解observable（1）/">
+  <link rel="canonical" href="https://leotian.cn/2019/03/25/Rx学习—理解Observable（1）/">
 
 
 
 
 
-  <title>Rx学习—理解observable（1） | 天生爱走神</title>
+  <title>Rx学习—理解Observable（1） | 天生爱走神</title>
   
 
 
@@ -288,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://leotian.cn/2019/03/25/Rx学习—理解observable（1）/">
+    <link itemprop="mainEntityOfPage" href="https://leotian.cn/2019/03/25/Rx学习—理解Observable（1）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Leo.Tian">
@@ -305,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Rx学习—理解observable（1）</h1>
+          <h1 class="post-title" itemprop="name headline">Rx学习—理解Observable（1）</h1>
         
 
         <div class="post-meta">
@@ -335,7 +335,7 @@
 
           
           
-             <span id="/2019/03/25/Rx学习—理解observable（1）/" class="leancloud_visitors" data-flag-title="Rx学习—理解observable（1）">
+             <span id="/2019/03/25/Rx学习—理解Observable（1）/" class="leancloud_visitors" data-flag-title="Rx学习—理解Observable（1）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -367,6 +367,7 @@
 
       
         <p>RxJS（以下简称Rx）是使用 Observables 进行反应式编程的库，让组织异步和基于回调的代码更为方便。我们先从最核心的 Observable 来了解Rx，并且尝试以我们已有的知识—<strong>函数</strong>为基础来类比，帮助理解 Observable。</p>
+<a id="more"></a>
 <h2 id="Observable-一种特殊的函数"><a href="#Observable-一种特殊的函数" class="headerlink" title="Observable 一种特殊的函数"></a>Observable 一种特殊的函数</h2><p>我们首先选择了函数作为类比对象，尝试从不同角度分析Observable的特性。</p>
 <h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><p>我们先看一个最普通的函数：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'foo...'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo()</span><br><span class="line"><span class="comment">// 输出：</span></span><br><span class="line"><span class="comment">// foo...</span></span><br></pre></td></tr></table></figure>
@@ -502,7 +503,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://leotian.cn/2019/03/25/Rx学习—理解observable（1）/" title="Rx学习—理解observable（1）">https://leotian.cn/2019/03/25/Rx学习—理解observable（1）/</a>
+    <a href="https://leotian.cn/2019/03/25/Rx学习—理解Observable（1）/" title="Rx学习—理解Observable（1）">https://leotian.cn/2019/03/25/Rx学习—理解Observable（1）/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -517,11 +518,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/入门/" rel="tag"># 入门</a>
-          
             <a href="/tags/Rx/" rel="tag"># Rx</a>
           
             <a href="/tags/observable/" rel="tag"># observable</a>
+          
+            <a href="/tags/入门/" rel="tag"># 入门</a>
           
         </div>
       
@@ -544,8 +545,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/28/Rx学习—理解observable（2）/" rel="prev" title="Rx学习—理解observable（2）">
-                Rx学习—理解observable（2） <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/28/Rx学习—理解Observable（2）/" rel="prev" title="Rx学习—理解Observable（2）">
+                Rx学习—理解Observable（2） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
