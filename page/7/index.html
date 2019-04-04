@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -101,9 +101,9 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Mist',
     version: '5.1.2',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
@@ -148,7 +148,7 @@
     
   
 
-  <div class="container sidebar-position-left 
+  <div class="container sidebar-position-right 
   page-home">
     <div class="headband"></div>
 
@@ -837,7 +837,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://leotian.cn/2017/07/29/npm使用总结（2）探究版本锁/">
+    <link itemprop="mainEntityOfPage" href="https://leotian.cn/2017/07/29/npm使用总结（1）探究依赖树/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Leo.Tian">
@@ -856,7 +856,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/29/npm使用总结（2）探究版本锁/" itemprop="url">npm使用总结（2）探究版本锁</a></h1>
+                <a class="post-title-link" href="/2017/07/29/npm使用总结（1）探究依赖树/" itemprop="url">npm使用总结（1）探究依赖树</a></h1>
         
 
         <div class="post-meta">
@@ -886,7 +886,7 @@
 
           
           
-             <span id="/2017/07/29/npm使用总结（2）探究版本锁/" class="leancloud_visitors" data-flag-title="npm使用总结（2）探究版本锁">
+             <span id="/2017/07/29/npm使用总结（1）探究依赖树/" class="leancloud_visitors" data-flag-title="npm使用总结（1）探究依赖树">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -918,17 +918,18 @@
 
       
         
-          <p>上次说的 <code>node_modules</code> 的目录结构和依赖树取决于安装顺序只是 npm 非确定性（Non-Determinism）的一部分，这种不确定是不会影响使用的，所以我觉得更大的坑来自于语义化版本（semantic versioning, semver）带来的包升级的不确定性。<img src="https://ws1.sinaimg.cn/large/006tNc79ly1fo71w155h1j31240ciq3v.jpg" alt="34648639-2cb71c5e-f3d8-11e7-9a1c-6ad418fce6ed副本">
+          <p>在项目开发中，通常会使用<a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a>来管理项目中的依赖，下面我们就来看看它是如何帮助我们管理这些依赖的。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fnzwxzc3l2j30yq0d7mxr.jpg" alt="npm"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/07/29/npm使用总结（2）探究版本锁/#more" rel="contents">
+            <a class="btn" href="/2017/07/29/npm使用总结（1）探究依赖树/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -1087,7 +1088,7 @@
   &copy;  2016 &mdash; 
   <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-coffee"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Leo.Tian</span>
 
@@ -1099,7 +1100,7 @@
 
   <span class="post-meta-divider">|</span>
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a></div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a></div>
 
 
   <p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>

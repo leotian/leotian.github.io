@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -93,7 +93,7 @@
 <meta property="og:description" content="最近遇到一个需要合并两个域名到一个域名下的需求，记录一下解决过程。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1g1o9rfq6mtj30hk0gzad5.jpg">
-<meta property="og:updated_time" content="2019-04-02T11:00:18.062Z">
+<meta property="og:updated_time" content="2019-04-02T14:39:07.688Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次网站代理配置">
 <meta name="twitter:description" content="最近遇到一个需要合并两个域名到一个域名下的需求，记录一下解决过程。">
@@ -105,9 +105,9 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Mist',
     version: '5.1.2',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
@@ -152,7 +152,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -385,9 +385,9 @@
 <p>open.xingshulin.com</p>
 <p>合并之后由一个域名下的两个一级目录分别提供服务：</p>
 <p>open.xingshulin.com/wxpage、open.xingshulin.com/utm</p>
-<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><h3 id="配置Nginx"><a href="#配置Nginx" class="headerlink" title="配置Nginx"></a>配置Nginx</h3><p>想起之前遇到过一次类似的需求，是把 blog.xingshulin.com 合并到了 <a href="http://www.xingshulin.com/blog" target="_blank" rel="noopener">www.xingshulin.com/blog</a> 下，是运维帮忙配置的Nginx，看一下当时的配置：</p>
+<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><h3 id="配置Nginx"><a href="#配置Nginx" class="headerlink" title="配置Nginx"></a>配置Nginx</h3><p>做之前就想起之前遇到过一次类似的需求，是把 blog.xingshulin.com 合并到了 <a href="http://www.xingshulin.com/blog" target="_blank" rel="noopener">www.xingshulin.com/blog</a> 下，是运维帮忙配置的Nginx，看一下当时的配置：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>  <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> qa-www.xingshulin.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">rewrite</span><span class="regexp"> ^(.*)$</span>  https://<span class="variable">$host</span><span class="variable">$1</span> <span class="literal">permanent</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>		<span class="number">443</span>;</span><br><span class="line">    <span class="attribute">server_name</span> qa-www.xingshulin.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">server_name_in_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>:<span class="variable">$server_port</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> REMOTE-HOST <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://192.168.64.79:3002;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">location</span> /blog &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://com_qa-blog_blog;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>要求项目挪动资源文件</p>
+<p>上次只简单配置了<code>location</code>，也就是访问 <a href="http://www.xingshulin.com/blog" target="_blank" rel="noopener">www.xingshulin.com/blog</a> 时对 blog.xingshulin.com 做透明传输，这样配置的话，就要求</p>
 <p>那么如何不挪动资源文件的进行修改呢？我们修改配置如下：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>              <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">listen</span>              <span class="number">443</span> ssl;</span><br><span class="line">    <span class="attribute">server_name</span>         qa-open.xingshulin.com;</span><br><span class="line">  </span><br><span class="line">    <span class="attribute">server_name_in_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>:<span class="variable">$server_port</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> REMOTE-HOST <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    <span class="attribute">location</span> /uformfe/ &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://com_qa-uformfe/;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">location</span> /wxpage/ &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://com_qa-wxpage/;</span><br><span class="line">    &#125;</span><br><span class="line">		<span class="attribute">location</span> / &#123;</span><br><span class="line">				<span class="attribute">set</span> <span class="variable">$r_location</span>  <span class="string">""</span>;</span><br><span class="line">				<span class="attribute">if</span> (<span class="variable">$http_referer</span> <span class="regexp">~* ^https?:\/\/qa-open.xingshulin.com\/(wxpage|uformfe)\/)</span> &#123;</span><br><span class="line">						<span class="attribute">set</span> <span class="variable">$r_location</span> <span class="variable">$1</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="attribute">if</span> (<span class="variable">$r_location</span>) &#123;</span><br><span class="line">						<span class="attribute">rewrite</span><span class="regexp"> ^/(.*)</span> /<span class="variable">$r_location</span>/<span class="variable">$1</span> <span class="literal">last</span>;</span><br><span class="line">						<span class="comment">#rewrite ^/(.*) /$r_location/$request_uri last;</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="attribute">rewrite_log</span> <span class="literal">on</span>;</span><br><span class="line">				<span class="attribute">error_log</span> logs/error.log <span class="literal">notice</span>;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们看一下上面这段配置的逻辑：</p>
@@ -460,11 +460,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/nginx/" rel="tag"># nginx</a>
+            <a href="/tags/nginx/" rel="tag"><i class="fa fa-tag"></i> nginx</a>
           
-            <a href="/tags/代理/" rel="tag"># 代理</a>
+            <a href="/tags/代理/" rel="tag"><i class="fa fa-tag"></i> 代理</a>
           
-            <a href="/tags/路由/" rel="tag"># 路由</a>
+            <a href="/tags/路由/" rel="tag"><i class="fa fa-tag"></i> 路由</a>
           
         </div>
       
@@ -658,7 +658,7 @@
   &copy;  2016 &mdash; 
   <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-coffee"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Leo.Tian</span>
 
@@ -670,7 +670,7 @@
 
   <span class="post-meta-divider">|</span>
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a></div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a></div>
 
 
   <p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
