@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+  <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-flash.min.css" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="编程基础,经典问题,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="又一个从大学开始看了又看，每次看完就忘的经典问题，总结一下。文中示例代码无特殊说明默认使用 java 语言。">
+<meta name="keywords" content="编程基础,经典问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="引用传递和值传递总结">
+<meta property="og:url" content="https://leotian.cn/post/cju9rpg1l004kzx5oesxg31cd/index.html">
+<meta property="og:site_name" content="天生爱走神">
+<meta property="og:description" content="又一个从大学开始看了又看，每次看完就忘的经典问题，总结一下。文中示例代码无特殊说明默认使用 java 语言。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwly1fwlrb8ga7oj30gx099aau.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwly1fwlrbhe05gj30gp08lmxy.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwly1fw5ff7msr7j30ek02tdg2.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwly1fw97t7txpoj30d6021wen.jpg">
+<meta property="og:updated_time" content="2018-10-29T03:40:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="引用传递和值传递总结">
+<meta name="twitter:description" content="又一个从大学开始看了又看，每次看完就忘的经典问题，总结一下。文中示例代码无特殊说明默认使用 java 语言。">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNbRwly1fwlrb8ga7oj30gx099aau.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"right","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'MTRGWT9OKH',
+      apiKey: '83c0e99cb156fe27d37705002f709791',
+      indexName: 'blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leotian.cn/post/cju9rpg1l004kzx5oesxg31cd/">
+
+
+
+
+
+  <title>引用传递和值传递总结 | 天生爱走神</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">天生爱走神</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">其实，我是一个天真活泼、充满创意的年轻人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leotian.cn/post/cju9rpg1l004kzx5oesxg31cd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo.Tian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天生爱走神">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">引用传递和值传递总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-11T16:39:21+08:00">
+                2018-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/post/cju9rpg1l004kzx5oesxg31cd/" class="leancloud_visitors" data-flag-title="引用传递和值传递总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>又一个从大学开始看了又看，每次看完就忘的经典问题，总结一下。文中示例代码无特殊说明默认使用 java 语言。</p>
+<a id="more"></a>
+<h2 id="讨论之前先要搞清楚的问题"><a href="#讨论之前先要搞清楚的问题" class="headerlink" title="讨论之前先要搞清楚的问题"></a>讨论之前先要搞清楚的问题</h2><h3 id="基本类型和引用类型的区别"><a href="#基本类型和引用类型的区别" class="headerlink" title="基本类型和引用类型的区别"></a>基本类型和引用类型的区别</h3><p>基本类型（primitive types，也称值类型，基本/基础数据类型、原始数据类型）：值就直接保存在变量中。基本数据类型的值是按值访问的。</p>
+<p>引用类型（reference types）：变量中保存的是实际对象的地址。一般称这种变量为”引用”，引用指向实际对象，实际对象中保存着内容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line">String str = <span class="string">"hello"</span>;</span><br></pre></td></tr></table></figure>
+<p>如图所示：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwly1fwlrb8ga7oj30gx099aau.jpg" alt="image-20181011190327208"></p>
+<h3 id="赋值运算符（-）的作用"><a href="#赋值运算符（-）的作用" class="headerlink" title="赋值运算符（=）的作用"></a>赋值运算符（=）的作用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">num = <span class="number">20</span>;</span><br><span class="line">str = <span class="string">"java"</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://ws2.sinaimg.cn/large/006tNbRwly1fwlrbhe05gj30gp08lmxy.jpg" alt="image-20181011191902401"></p>
+<p>对于基本类型 num ，赋值运算符会直接改变变量的值，原来的值被覆盖掉。</p>
+<p>对于引用类型 str，赋值运算符会改变引用中所保存的地址，原来的地址被覆盖掉。但是原来的对象不会被改变。</p>
+<p>如上图所示，”hello” 字符串对象没有被改变。（没有被任何引用所指向的对象是垃圾，会被垃圾回收器回收）。</p>
+<h3 id="本质上是求值策略问题"><a href="#本质上是求值策略问题" class="headerlink" title="本质上是求值策略问题"></a>本质上是求值策略问题</h3><p>值传递与引用传递，在计算机领域是专有名词，如果你没有专门了解过，一般很难自行悟出其含义。而且在理解下面的解释时，请不要把任何概念往你所熟悉的语言功能上套。很容易产生误解。比如Reference，请当个全新的概念，它和C#引用类型中的引用，和C++的&amp;，一点儿关系都没有。</p>
+<h4 id="求值策略（以下参考Hugo-Gu在知乎的答案）"><a href="#求值策略（以下参考Hugo-Gu在知乎的答案）" class="headerlink" title="求值策略（以下参考Hugo Gu在知乎的答案）"></a>求值策略（以下参考<a href="https://www.zhihu.com/question/20628016/answer/28970414" target="_blank" rel="noopener">Hugo Gu在知乎的答案</a>）</h4><p><strong>值传递和引用传递，属于函数调用时参数的求值策略（</strong>wiki： <a href="https://link.zhihu.com/?target=http%3A//en.wikipedia.org/wiki/Evaluation_strategy" target="_blank" rel="noopener">Evaluation Strategy</a><strong>），这是对调用函数时，求值和传值的方式的描述，而非传递的内容的类型</strong>（内容指：是值类型还是引用类型，是值还是指针）。值类型/引用类型，是用于区分两种内存分配方式，值类型在调用栈上分配，引用类型在堆上分配。（不要问我引用类型里定义个值类型成员或反之会发生什么，这不在这个本文的讨论范畴内，而且你看完之后，你应该可以自己想明白）。一个描述内存分配方式，一个描述参数求值策略，两者之间无任何依赖或约束关系。</p>
+<p>在函数调用过程中，调用方提供实参，这些实参可以是常量：<code>Call(1);</code>，也可以是变量：<code>Call(x);</code>，也可以是他们的组合：<code>Call(2 * x + 1);</code>，也可以是对其它函数的调用：<code>Call(GetNumber());</code>，但是所有这些实参的形式，都统称为表达式(Expression)。求值（Evaluation）即是指对这些表达式的简化并求解其值的过程。</p>
+<p><strong>求值策略（值传递和引用传递）的关注的点在于，这些表达式在调用函数的过程中，求值的时机、值的形式的选取等问题</strong>。求值的时机，可以是在函数调用前，也可以是在函数调用后，由被调用者自己求值。这里所谓调用后求值，可以理解为Lazy Load（延迟加载）或On Demand（一经请求）的一种求值方式。</p>
+<p>而且，除了值传递和引用传递，还有一些其它的求值策略。这些求值策略的划分依据是：求值的时机（调用前还是调用中）和值本身的传递方式。详见下表：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNbRwly1fw5ff7msr7j30ek02tdg2.jpg" alt="img"></p>
+<p>看到这里的名传递，可能就有人联想到C++里的别名(alias)，其实也是两码事儿。语言层直接支持名传递的语言很不主流，但是在C#中，名传递的行为可以用Func<t>来模拟，说到这儿应该能大概猜出名传递的大致行为了。不过这不是重点，重点是值传递和引用传递。上面给出的传值方式的表述有些单薄，下表列出了一些二者在行为表象上的区别。</t></p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNbRwly1fw97t7txpoj30d6021wen.jpg" alt="img"></p>
+<p><strong>这里的改变不是指mutate（变动），而是change（改变）</strong>，指把一个变量指向另一个对象，而不是指仅仅改变属性或是成员什么的（如Java，所以说Java是Pass by value，原因是它调用时Copy，实参不能指向另一个对象，而不是因为被传递的东西本质上是个Value，这么讲计算机上什么不是Value？所以如果探究传递的内容的类型，那么很容易陷入 <em>“一切传引用其实本质上是传值“</em> 这种并不能解决问题无意义论战中）。</p>
+<p>这些行为，与参数类型是值类型还是引用类型无关。对于值传递，无论是值类型还是引用类型，都会在调用栈上创建一个副本，不同是，对于值类型而言，这个副本就是整个原始值的复制。而对于引用类型而言，由于引用类型的实例在堆中，在栈上只有它的一个引用（一般情况下是指针），其副本也只是这个引用的复制，而不是整个原始对象的复制。</p>
+<p><strong>这便引出了值类型和引用类型（这不是在说值传递）的最大区别：值类型用做参数会被复制，但是很多人误以为这个区别是值类型的特性。其实这是值传递带来的效果，和值类型本身没有关系。</strong>只是最终结果是这样。</p>
+<p>求值策略定义的是函数调用时的行为，并不对具体实现方式做要求，但是指针由于其汇编级支持的特性，成为实现引用传递方式的首选。但是纯理论上，你完全可以不用指针，比如用一个全局的参数名到对象地址的HashTable来实现引用传递，只是这样效率太低，所以根本没有哪个编程语言会这样做。（自己写来模拟玩玩的不算）</p>
+<p>综上所述，对于Java的函数调用方式最准确的描述是：<strong>参数藉由值传递方式，传递的值是个引用。（句中两个“值”不是一个意思，第一个值是evaluation result（直译为求值结果，我觉得实际上是说值传递传递的是值的副本而不是值本身），第二个值是value content（值的内容））</strong>。</p>
+<p>由于这个描述太绕，而且在字面上与Java总是传引用的事实冲突。于是对于Java，Python、Ruby、JavaScript等语言使用的这种求值策略，起了一个更贴切名字，叫<a href="https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_sharing" target="_blank" rel="noopener">Call by sharing</a>。这个名字诞生于40年前。</p>
+<h2 id="分语言讨论问题"><a href="#分语言讨论问题" class="headerlink" title="分语言讨论问题"></a>分语言讨论问题</h2><h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ByValue</span><span class="params">(<span class="keyword">int</span> a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	a = a + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	指针运算符 &amp;（取地址）返回变量的地址。例如 &amp;a; 将给出变量的实际地址。</span></span><br><span class="line"><span class="comment">	但是这里的 &amp; 搭配int后不再是取地址符号，而是引用符号，变量的引用就是变量的别名。</span></span><br><span class="line"><span class="comment">	讲的通俗一点就是另外一个名字，同样可以理解如果变量a是变量b的引用。</span></span><br><span class="line"><span class="comment">	那么无论a，b中任何一个值改变，另外一个也相应的改变（a和b是一个内存地址）。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ByRef</span><span class="params">(<span class="keyword">int</span>&amp; a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	a = a + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	指针运算符 *（指针）指向一个变量。例如，*var; 将指向变量 var。</span></span><br><span class="line"><span class="comment">	而 int* a 则代表一个整型的指针，指针是一个变量，其值为另一个变量的地址。</span></span><br><span class="line"><span class="comment">	即，内存位置的直接地址。Pointer即指针。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ByPointer</span><span class="params">(<span class="keyword">int</span>* a)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	*a = *a + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argv, <span class="keyword">char</span>** args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> v = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	ByValue(v);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; v &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 输出 1, v 没有改变</span></span><br><span class="line"></span><br><span class="line">	ByRef(v);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; v &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 输出 2</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Pass by Reference</span></span><br><span class="line">	ByPointer(&amp;v);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; v &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 输出 3</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Pass by Value</span></span><br><span class="line">	<span class="keyword">int</span>* vp = &amp;v;</span><br><span class="line">	ByPointer(vp);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; v &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 输出 4, 但是vp是参数, vp没有改变，仍然是值传递</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Main函数里的前两种方式没有什么好说，第一个是值传递，第二个函数是引用传递，但是<strong>后面两种，同一个函数，一次调用是Call by reference, 一次是Call by value</strong>。</p>
+<p><code>ByPointer(vp);</code> 没有改变vp，其实是无法改变（只能将指针指向别处，但是）。</p>
+<p><code>ByPointer(&amp;v);</code> 改变了v。（你可能会说，这传递的其实是 v 的地址，而ByPointer无法改变 v 的地址，所以这是Call by value。这听上去可以自圆其说，但是 v 的地址，是个纯数据，在调用方的代码中并不存在，对于调用者而言，只有 v ，而 v 的确被ByPointer函数改了，这个结果，正是Call by reference的行为。<strong>从行为考虑，才是求值策略的本意。如果把所有东西都抽象成值，从数据考虑问题，那根本就没有必要引入求值策略的概念去混淆视听</strong>）。C++中指针的更多理解可以参考<a href="http://www.runoob.com/cplusplus/cpp-pointers.html" target="_blank" rel="noopener">这里</a>。</p>
+<p>C语言不支持引用，只支持指针，但是如上文所见，使用指针的函数，不能通过签名明确其求值策略。C++引入了引用，它的求值策略可以确定是Pass by reference。于是C++的一个奇葩的地方来了，它语言本身（模拟的不算，什么都能模拟）支持Call by value和Call by reference两种求值策略，但是却提供了三种语法去做这俩事儿。</p>
+<p>C#的设计就相对合理，函数声明里，有ref/out，就是引用传递，没有ref/out，就是值传递，与参数类型无关。</p>
+<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一个例子：基本类型</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    value = <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo(num); <span class="comment">// num 没有被改变</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二个例子：没有提供改变自身方法的引用类型</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(String text)</span> </span>&#123;</span><br><span class="line">    text = <span class="string">"windows"</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo(str); <span class="comment">// str 也没有被改变</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三个例子：提供了改变自身方法的引用类型</span></span><br><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder(<span class="string">"iphone"</span>);</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(StringBuilder builder)</span> </span>&#123;</span><br><span class="line">    builder.append(<span class="string">"4"</span>);</span><br><span class="line">&#125;</span><br><span class="line">foo(sb); <span class="comment">// sb 被改变了，变成了"iphone4"。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第四个例子：提供了改变自身方法的引用类型，但是不使用，而是使用赋值运算符。</span></span><br><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder(<span class="string">"iphone"</span>);</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(StringBuilder builder)</span> </span>&#123;</span><br><span class="line">    builder = <span class="keyword">new</span> StringBuilder(<span class="string">"ipad"</span>);</span><br><span class="line">&#125;</span><br><span class="line">foo(sb); <span class="comment">// sb 没有被改变，还是 "iphone"。</span></span><br></pre></td></tr></table></figure>
+<p>同样的，前两个方法也没有什么好说的，原始值没有任何改变，Pass by value 没有任何问题。第三个例子，虽然sb被改变了，表面看是改变了原始对象，但是这种改变属于mutate（变动），而不是change（改变），也就是只改变了对象的属性，而没有把一个变量指向另一个对象。而第四个例子，虽然指向了新对象，但是不是这里改变的变量不是原始变量，而只是形参，也就是调用时产生的局部变量，所以归根结底，都属于Pass by value。</p>
+<p>其实综合C++引用传递的实现来看，Java没有引用和指针这两种语法，也就无法实现Pass by Reference（引用传递）。不过鉴于Java中还有引用的概念，像上面讲的，就把这种调用方式或者叫求职策略称为 Call by sharing（共享调用）好了。</p>
+<h3 id="分享传递是值传递的特殊情况"><a href="#分享传递是值传递的特殊情况" class="headerlink" title="分享传递是值传递的特殊情况"></a>分享传递是值传递的特殊情况</h3><p>刚才提到的，对于Java，Python、Ruby、JavaScript等语言使用的这种求值策略，还有一个更贴切名字，叫Call by sharing。by sharing（共享）策略在1974年为了<a href="https://en.wikipedia.org/wiki/CLU_(programming_language" target="_blank" rel="noopener">CLU</a>)编程语言被提出并被Barbara Liskov首次命名。这种策略也可以叫做”call by object（通过对象调用）” 或 “call by object-sharing（对象共享调用）“。</p>
+<p>这个策略的主要区别是函数接收对象引用的副本（即参数的值不是直接别名，而是地址的副本）。此引用副本与形式参数关联，并且成为它的值。在这种情况下，为参数赋值新值不会影响传递的外部（在传递的是一个引用的情况下）。但是，由于形式参数仍然接收到地址，因此它可以访问原始对象的字段，并对其进行变更（mutate）。该策略假定大多数语言使用对象而不是原始值进行操作。</p>
+<p>共享策略用于多种语言：Java，ECMAScript，Python，Ruby，Visual Basic等。</p>
+<p>此外，在Python社区中，确切地使用了这个术语 — 通过共享。但在其他语言中，例如在Java，ECMAScript和其他语言中，这种策略也被称为值传递，意思是特殊的值 — 引用的副本。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>支持多种求值策略可以给语言带来更高的灵活性，但是同时也需要一个“灵活”的人来良好地驾驭。Java通过牺牲这种价值不大还可能带来问题的灵活性，带来了语言自身语法一致性、逻辑鲁棒性及更容易学习等多个好处。</p>
+<p>不仅仅Java和C#，每个语言，在设计时都需要在这些特性间做出自己独特的取舍来体现自己的设计理念，并适应不同人，不同使用环境的要求。虽然说没有什么功能是一个语言可以做，而另一个语言做不了的。但是每个语言，都有它最适合的范畴与不适合的范畴。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.zhihu.com/question/20628016/answer/28970414" target="_blank" rel="noopener">为什么 Java 只有值传递，但 C# 既有值传递，又有引用传递，这种语言设计有哪些好处？</a></p>
+<p><a href="https://www.zhihu.com/question/31203609" target="_blank" rel="noopener">Java 到底是值传递还是引用传递？</a></p>
+<p><a href="http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/#call-by-sharing" target="_blank" rel="noopener">Evaluation strategy</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>赞赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Leo.Tian 微信">
+        <p>微信</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Leo.Tian 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Leo.Tian
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://leotian.cn/post/cju9rpg1l004kzx5oesxg31cd/" title="引用传递和值传递总结">https://leotian.cn/post/cju9rpg1l004kzx5oesxg31cd/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/编程基础/" rel="tag"><i class="fa fa-tag"></i> 编程基础</a>
+          
+            <a href="/tags/经典问题/" rel="tag"><i class="fa fa-tag"></i> 经典问题</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/cju9rpfxu001dzx5oxs1o3ljq/" rel="next" title="最近的一些思考">
+                <i class="fa fa-chevron-left"></i> 最近的一些思考
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/cju9rpg1c004dzx5oolbcfo66/" rel="prev" title="MongoDB联表查询">
+                MongoDB联表查询 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="vcomments"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Leo.Tian">
+          
+            <p class="site-author-name" itemprop="name">Leo.Tian</p>
+            <p class="site-description motion-element" itemprop="description">程序员、电影爱好者</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/leotian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/leo.tian" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>知乎</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#讨论之前先要搞清楚的问题"><span class="nav-number">1.</span> <span class="nav-text">讨论之前先要搞清楚的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本类型和引用类型的区别"><span class="nav-number">1.1.</span> <span class="nav-text">基本类型和引用类型的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#赋值运算符（-）的作用"><span class="nav-number">1.2.</span> <span class="nav-text">赋值运算符（=）的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本质上是求值策略问题"><span class="nav-number">1.3.</span> <span class="nav-text">本质上是求值策略问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#求值策略（以下参考Hugo-Gu在知乎的答案）"><span class="nav-number">1.3.1.</span> <span class="nav-text">求值策略（以下参考Hugo Gu在知乎的答案）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分语言讨论问题"><span class="nav-number">2.</span> <span class="nav-text">分语言讨论问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#C"><span class="nav-number">2.1.</span> <span class="nav-text">C++</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java"><span class="nav-number">2.2.</span> <span class="nav-text">Java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分享传递是值传递的特殊情况"><span class="nav-number">2.3.</span> <span class="nav-text">分享传递是值传递的特殊情况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">3.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2016 &mdash; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-coffee"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo.Tian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a></div>
+
+
+  <p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.1.4/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+    new Valine({
+        av: AV,
+        el: '#vcomments' ,
+        verify: false,
+        notify: false,
+        app_id: 'GxfYzf5roQxLdedcwOheEnWE-gzGzoHsz',
+        app_key: 'MomkTz6Tq1aBGWvzNDSv8o31',
+        placeholder: 'Comment input placeholder'
+    });
+  </script>
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("GxfYzf5roQxLdedcwOheEnWE-gzGzoHsz", "MomkTz6Tq1aBGWvzNDSv8o31");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
