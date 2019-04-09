@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+  <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-flash.min.css" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="工具,编译器,babel,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="前面说了那么多，现在让我们来实践一下怎样是正确的babel使用方式，当然也不一定绝对正确，肯定还有些不足的地方，如果你看到了欢迎补充。">
+<meta name="keywords" content="工具,编译器,babel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正确使用Babel（1）后端">
+<meta property="og:url" content="https://leotian.cn/posts/3b3f.html">
+<meta property="og:site_name" content="天生爱走神">
+<meta property="og:description" content="前面说了那么多，现在让我们来实践一下怎样是正确的babel使用方式，当然也不一定绝对正确，肯定还有些不足的地方，如果你看到了欢迎补充。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcly1g0qjk53lwcj30hx01hmxb.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1g13mwzs5rxj318g0a9763.jpg">
+<meta property="og:updated_time" content="2019-04-09T12:58:03.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="正确使用Babel（1）后端">
+<meta name="twitter:description" content="前面说了那么多，现在让我们来实践一下怎样是正确的babel使用方式，当然也不一定绝对正确，肯定还有些不足的地方，如果你看到了欢迎补充。">
+<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"right","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'MTRGWT9OKH',
+      apiKey: '83c0e99cb156fe27d37705002f709791',
+      indexName: 'blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leotian.cn/posts/3b3f.html">
+
+
+
+
+
+  <title>正确使用Babel（1）后端 | 天生爱走神</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">天生爱走神</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">其实，我是一个天真活泼、充满创意的年轻人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leotian.cn/posts/3b3f.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo.Tian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天生爱走神">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">正确使用Babel（1）后端</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-15T11:11:58+08:00">
+                2018-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/posts/3b3f.html" class="leancloud_visitors" data-flag-title="正确使用Babel（1）后端">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前面说了那么多，现在让我们来实践一下怎样是正确的babel使用方式，当然也不一定绝对正确，肯定还有些不足的地方，如果你看到了欢迎补充。</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"></p>
+<a id="more"></a>
+<p>我按照项目使用的目标环境分为了后端/library，前端/library，前后端都有的项目，这次我们先说后端/library。</p>
+<h2 id="后端项目"><a href="#后端项目" class="headerlink" title="后端项目"></a>后端项目</h2><p>刚写了一个纯后端服务，先从后端说起，该服务依赖如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "start": "nodemon ./src/index.js",</span><br><span class="line">  "build": "babel src -d dist -D -s true"</span><br><span class="line">&#125;,</span><br><span class="line">"dependencies": &#123;</span><br><span class="line">  "knex": "^0.15.2",</span><br><span class="line">  "koa": "^2.6.2",</span><br><span class="line">  "koa-bodyparser": "^4.2.1",</span><br><span class="line">  "koa-router": "^7.4.0",</span><br><span class="line">  "mysql2": "^1.6.4",</span><br><span class="line">  "superagent": "^4.0.0",</span><br><span class="line">  "uuid": "^3.3.2"</span><br><span class="line">&#125;,</span><br><span class="line">"devDependencies": &#123;</span><br><span class="line">  "@babel/cli": "^7.1.5",</span><br><span class="line">  "@babel/core": "^7.1.6",</span><br><span class="line">  "@babel/preset-env": "^7.1.6",</span><br><span class="line">  "@babel/register": "^7.0.0",</span><br><span class="line">  "babel-plugin-module-resolver": "^3.1.1"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，所有的babel包全在<code>devDependencies</code>下，因为线上我们运行的是build之后的代码，我们简述一下每个包的作用：</p>
+<ul>
+<li>@babel/cli：命令行运行babel，为了build（构建）</li>
+<li>@babel/core：各种包的Peer Dependencies ，在7版本下几乎是一个必装的包</li>
+<li>@babel/preset-env：preset选env，没毛病</li>
+<li>@babel/register：开发环境使用，实时编译</li>
+<li>babel-plugin-module-resolver：唯一单独装的plugin，目的是设置常用包的别名（非必须）</li>
+</ul>
+<p>再看下babel.config.js的配置（只看presets）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="string">"presets"</span>: [</span><br><span class="line">    [</span><br><span class="line">      <span class="string">"@babel/preset-env"</span>,					<span class="comment">// 使用preset-env</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">"targets"</span>: &#123;</span><br><span class="line">          <span class="string">"node"</span>: <span class="string">"current"</span>,				<span class="comment">// 目标版本</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"useBuiltIns"</span>: <span class="string">"usage"</span>,			<span class="comment">// 是否polyfill</span></span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"comments"</span>: <span class="literal">false</span>									<span class="comment">// 去掉注释</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>node版本配置为current，这个后端项目我使用的是最新的LTS——v10.13.0，编译后发现代码差的不多，没有面目全非，主要是因为node版本高，所以不支持的语法已经不多。然后我把node目标版本换成8，发现没什么区别，直到我换成6，出现了<code>_asyncToGenerator</code>，说明在6版本，node还不支持<code>async/await</code>的语法糖，但是我启动项目发现可以运行，最后，我把target的node选项置为空，直接使用default的配置，这次终于运行不起来了。错误如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReferenceError: regeneratorRuntime is not defined</span><br></pre></td></tr></table></figure>
+<p>可以看到是缺少regeneratorRuntime，要增加这个方法只能上<code>polyfill</code>了，参考我们上期写的，我们有三个选择，<code>@babel/runtime</code>、<code>@babel/runtime-corejs2</code>或者<code>@babel/polyfill</code>，任选其一即可，先试了一下<code>@babel/polyfill</code>，<code>useBuiltIns</code>选项配置成<code>entry</code>，终于运行没问题了（折腾完后在<code>targets</code> 为node 10/8环境运行正常，切换到node 6版本运行，发现<code>koa-bodyparser</code>这个包报错，查看源码，里面用了<code>async function</code>，而<code>node_modules</code>里的文件并没有转换，意味着这个包最低要求node 8版本了，实际上我们已经用10了，我们切换低版本只是为了检验<code>babel</code>中各个包的作用）。发现<code>require</code>了比较多的包进来，根据我们上次的总结，设置成<code>entry</code>会将<code>polyfills</code>拆分引入，仅引入不支持的<code>polyfill</code>，虽然相比不做任何处理已经有所优化，但这仍然不是我想要的，其实上次我们说过该配置还有一个选项是<code>usage</code>，可以做到检测代码中<code>ES6/7/8</code>等的使用情况，仅仅加载代码中用到的<code>polyfills</code>，这才是我们想要的，用上之后可以减少很大的代码量。我们可以看到配置了<code>useBuiltIns: usage</code>之后，真的实现了按需引用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">"core-js/modules/es6.promise"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">require</span>(<span class="string">"regenerator-runtime/runtime"</span>);</span><br></pre></td></tr></table></figure>
+<p>这时看到一条提示：</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tKfTcly1g0qjk53lwcj30hx01hmxb.jpg" alt="image-20190304101357553"></p>
+<p>说明使用了<code>useBuiltins: usage</code>已经不需要使用<code>import &#39;@babel/polyfill</code>了，删除这句引入后我又在想，是否可以干脆干掉<code>@babel/polyfill</code>这个包呢，我们上次说过这个包现在包括<code>corejs</code>和<code>regenerator</code>，而<code>@babel/register</code>带了<code>core-js</code>，那么还差<code>regenerator-runtime</code>，而升级到node10之后我们已经不需要<code>regenerator-runtime</code>，所以我觉得完全可以不再使用<code>@babel/polyfill</code>，而是直接使用 <code>present-env</code> 的<code>useBuiltIns: usage</code>进行按需加载。</p>
+<p>接下来我又尝试了更换<code>@babel/runtime</code>进行<code>polyfill</code>，<code>@babel/plugin-transform-runtime</code>负责转换语法，<code>@babel/runtime</code>/<code>@babel/runtime-corejs2</code>负责提供<code>polyfill</code>，<code>core-js</code>和<code>regenerator-runtime</code>的引入是日常操作，对比<code>@babel/polyfill</code>，我们发现多了<code>helper</code>，<code>helper</code>可以帮助我们减少重复定义。（同时我观察到，既有<code>polyfill（useBuiltIns）</code>，又有<code>@babel/plugin-transform-runtime</code> 的情况下，填充<code>built-ins</code>和<code>rgenerator</code>还是按照不污染全局的方式来的，而如果使用了实例的方法，结果还是污染了全局的变量，这部分对打包lib的转换影响大一些，这里不细说了，可以看下面lib的配置）</p>
+<p>针对使用<code>useBuiltIns</code>没有<code>helper</code>的问题，我们可以使用<code>@babel/plugin-external-helpers</code>进行<a href="https://babel.bootcss.com/docs/plugins/external-helpers/" target="_blank" rel="noopener">优化</a>：</p>
+<ol>
+<li>安装 plugin，执行 babel-external-helpers 生成 helpers.js 文件，</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev babel-plugin-external-helpers</span><br><span class="line"></span><br><span class="line">node_modules/.bin/babel-external-helpers &gt; helpers.js</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>然后在 babel 的配置文件加入</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"plugins"</span>: [<span class="string">"external-helpers"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>入口文件引入 helpers.js</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'./helpers.js'</span>);</span><br></pre></td></tr></table></figure>
+<p>实际上为了处理运行时问题，<code>polyfill（useBuiltIns）</code>和<code>@babel/plugin-transform-runtime</code> 我们只需选一个，区别在于<code>polyfill</code>会污染全局，这在我们自己项目里使用时是没有问题的，但是设计到开发一个<code>library</code>时就会导致污染使用者的全局变量，所以我们在自己的项目里使用<code>polyfill（useBuiltIns: usage）</code>（如果使用了<code>@babel/register</code>，那么就有了<code>core-js</code>，并且node版本在6以上，不再需要<code>regenerator-runtime</code>，可以直接不再使用<code>@babel/polyfill</code>，针对没有<code>helper</code>的问题，我们可以使用<code>@babel/plugin-external-helpers</code>进行优化），开发<code>library</code>时使用<code>@babel/plugin-transform-runtime</code> 。</p>
+<p>日常使用时，并没有必要折腾这么多，服务放docker里，上最新的LTS加适当的配置（配置参考上面，我觉得已经足够简洁）就够了，现在大部分语法已经不需要太多转换了，如果不是npm包项目，直接选择<code>present-env</code>按需加载<code>polyfill</code>就可以，污染全局变量的问题在除了开发npm包之外的地方并不存在，并且如果<code>corejs</code>由<code>@babel/register</code>提供的话，<code>@babel/polyfill</code>都不需要了。</p>
+<h2 id="后端library"><a href="#后端library" class="headerlink" title="后端library"></a>后端library</h2><p>如果是library包，我们就要考虑全局变量污染的问题。因为如果你的包污染了使用者的全局变量的话，</p>
+<p>babel-runtime：corejs2</p>
+<p>babel-cli</p>
+<h2 id="后端编译执行"><a href="#后端编译执行" class="headerlink" title="后端编译执行"></a>后端编译执行</h2><p>所谓后端编译执行就是在<strong>线上环境</strong>执行编译后的代码。</p>
+<h3 id="如何进行"><a href="#如何进行" class="headerlink" title="如何进行"></a>如何进行</h3><p><a href="https://juejin.im/entry/59f3e429518825295f5d3058" target="_blank" rel="noopener">https://juejin.im/entry/59f3e429518825295f5d3058</a></p>
+<h3 id="带来的好处"><a href="#带来的好处" class="headerlink" title="带来的好处"></a>带来的好处</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1g13mwzs5rxj318g0a9763.jpg" alt="1*uFKLXuq6bqU-7rgnOFdLlg.png">如上图所说，babel实时编译产生的代码会缓存在内存中，导致内存占用过高。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>赞赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Leo.Tian 微信">
+        <p>微信</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Leo.Tian 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Leo.Tian
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://leotian.cn/posts/3b3f.html" title="正确使用Babel（1）后端">https://leotian.cn/posts/3b3f.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag"><i class="fa fa-tag"></i> 工具</a>
+          
+            <a href="/tags/编译器/" rel="tag"><i class="fa fa-tag"></i> 编译器</a>
+          
+            <a href="/tags/babel/" rel="tag"><i class="fa fa-tag"></i> babel</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/a5bd.html" rel="next" title="升级Babel到7版本">
+                <i class="fa fa-chevron-left"></i> 升级Babel到7版本
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/7a8a.html" rel="prev" title="NodeJs包与模块机制">
+                NodeJs包与模块机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="vcomments"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Leo.Tian">
+          
+            <p class="site-author-name" itemprop="name">Leo.Tian</p>
+            <p class="site-description motion-element" itemprop="description">程序员、电影爱好者</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/leotian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/leo.tian" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>知乎</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#后端项目"><span class="nav-number">1.</span> <span class="nav-text">后端项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后端library"><span class="nav-number">2.</span> <span class="nav-text">后端library</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后端编译执行"><span class="nav-number">3.</span> <span class="nav-text">后端编译执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何进行"><span class="nav-number">3.1.</span> <span class="nav-text">如何进行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带来的好处"><span class="nav-number">3.2.</span> <span class="nav-text">带来的好处</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2016 &mdash; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-coffee"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo.Tian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a></div>
+
+
+  <p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.1.4/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+    new Valine({
+        av: AV,
+        el: '#vcomments' ,
+        verify: false,
+        notify: false,
+        app_id: 'GxfYzf5roQxLdedcwOheEnWE-gzGzoHsz',
+        app_key: 'MomkTz6Tq1aBGWvzNDSv8o31',
+        placeholder: 'Comment input placeholder'
+    });
+  </script>
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("GxfYzf5roQxLdedcwOheEnWE-gzGzoHsz", "MomkTz6Tq1aBGWvzNDSv8o31");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
