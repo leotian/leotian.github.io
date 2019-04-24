@@ -9,6 +9,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
 <link rel="manifest" href="/manifest.json">
@@ -92,14 +93,14 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="前面说了那么多，现在让我们来实践一下怎样是正确的babel使用方式，当然也不一定绝对正确，肯定还有些不足的地方，如果你看到了欢迎补充。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcly1g0qjk53lwcj30hx01hmxb.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1g13mwzs5rxj318g0a9763.jpg">
-<meta property="og:updated_time" content="2019-04-09T12:58:03.271Z">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq77u2h4j31kw0pu7av.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq7a8rfxj30hx01h0sq.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq7e3dvjj318g0a975l.jpg">
+<meta property="og:updated_time" content="2019-04-24T06:54:28.907Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="正确使用Babel（1）后端">
 <meta name="twitter:description" content="前面说了那么多，现在让我们来实践一下怎样是正确的babel使用方式，当然也不一定绝对正确，肯定还有些不足的地方，如果你看到了欢迎补充。">
-<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg">
+<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq77u2h4j31kw0pu7av.jpg">
 
 
 
@@ -389,7 +390,7 @@
 
       
         <p>前面说了那么多，现在让我们来实践一下怎样是正确的babel使用方式，当然也不一定绝对正确，肯定还有些不足的地方，如果你看到了欢迎补充。</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq77u2h4j31kw0pu7av.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"></p>
 <a id="more"></a>
 <p>我按照项目使用的目标环境分为了后端/library，前端/library，前后端都有的项目，这次我们先说后端/library。</p>
 <h2 id="后端项目"><a href="#后端项目" class="headerlink" title="后端项目"></a>后端项目</h2><p>刚写了一个纯后端服务，先从后端说起，该服务依赖如下：</p>
@@ -409,7 +410,7 @@
 <p>可以看到是缺少regeneratorRuntime，要增加这个方法只能上<code>polyfill</code>了，参考我们上期写的，我们有三个选择，<code>@babel/runtime</code>、<code>@babel/runtime-corejs2</code>或者<code>@babel/polyfill</code>，任选其一即可，先试了一下<code>@babel/polyfill</code>，<code>useBuiltIns</code>选项配置成<code>entry</code>，终于运行没问题了（折腾完后在<code>targets</code> 为node 10/8环境运行正常，切换到node 6版本运行，发现<code>koa-bodyparser</code>这个包报错，查看源码，里面用了<code>async function</code>，而<code>node_modules</code>里的文件并没有转换，意味着这个包最低要求node 8版本了，实际上我们已经用10了，我们切换低版本只是为了检验<code>babel</code>中各个包的作用）。发现<code>require</code>了比较多的包进来，根据我们上次的总结，设置成<code>entry</code>会将<code>polyfills</code>拆分引入，仅引入不支持的<code>polyfill</code>，虽然相比不做任何处理已经有所优化，但这仍然不是我想要的，其实上次我们说过该配置还有一个选项是<code>usage</code>，可以做到检测代码中<code>ES6/7/8</code>等的使用情况，仅仅加载代码中用到的<code>polyfills</code>，这才是我们想要的，用上之后可以减少很大的代码量。我们可以看到配置了<code>useBuiltIns: usage</code>之后，真的实现了按需引用：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">"core-js/modules/es6.promise"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">require</span>(<span class="string">"regenerator-runtime/runtime"</span>);</span><br></pre></td></tr></table></figure>
 <p>这时看到一条提示：</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tKfTcly1g0qjk53lwcj30hx01hmxb.jpg" alt="image-20190304101357553"></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq7a8rfxj30hx01h0sq.jpg" alt="image-20190304101357553"></p>
 <p>说明使用了<code>useBuiltins: usage</code>已经不需要使用<code>import &#39;@babel/polyfill</code>了，删除这句引入后我又在想，是否可以干脆干掉<code>@babel/polyfill</code>这个包呢，我们上次说过这个包现在包括<code>corejs</code>和<code>regenerator</code>，而<code>@babel/register</code>带了<code>core-js</code>，那么还差<code>regenerator-runtime</code>，而升级到node10之后我们已经不需要<code>regenerator-runtime</code>，所以我觉得完全可以不再使用<code>@babel/polyfill</code>，而是直接使用 <code>present-env</code> 的<code>useBuiltIns: usage</code>进行按需加载。</p>
 <p>接下来我又尝试了更换<code>@babel/runtime</code>进行<code>polyfill</code>，<code>@babel/plugin-transform-runtime</code>负责转换语法，<code>@babel/runtime</code>/<code>@babel/runtime-corejs2</code>负责提供<code>polyfill</code>，<code>core-js</code>和<code>regenerator-runtime</code>的引入是日常操作，对比<code>@babel/polyfill</code>，我们发现多了<code>helper</code>，<code>helper</code>可以帮助我们减少重复定义。（同时我观察到，既有<code>polyfill（useBuiltIns）</code>，又有<code>@babel/plugin-transform-runtime</code> 的情况下，填充<code>built-ins</code>和<code>rgenerator</code>还是按照不污染全局的方式来的，而如果使用了实例的方法，结果还是污染了全局的变量，这部分对打包lib的转换影响大一些，这里不细说了，可以看下面lib的配置）</p>
 <p>针对使用<code>useBuiltIns</code>没有<code>helper</code>的问题，我们可以使用<code>@babel/plugin-external-helpers</code>进行<a href="https://babel.bootcss.com/docs/plugins/external-helpers/" target="_blank" rel="noopener">优化</a>：</p>
@@ -432,7 +433,7 @@
 <p>babel-cli</p>
 <h2 id="后端编译执行"><a href="#后端编译执行" class="headerlink" title="后端编译执行"></a>后端编译执行</h2><p>所谓后端编译执行就是在<strong>线上环境</strong>执行编译后的代码。</p>
 <h3 id="如何进行"><a href="#如何进行" class="headerlink" title="如何进行"></a>如何进行</h3><p><a href="https://juejin.im/entry/59f3e429518825295f5d3058" target="_blank" rel="noopener">https://juejin.im/entry/59f3e429518825295f5d3058</a></p>
-<h3 id="带来的好处"><a href="#带来的好处" class="headerlink" title="带来的好处"></a>带来的好处</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1g13mwzs5rxj318g0a9763.jpg" alt="1*uFKLXuq6bqU-7rgnOFdLlg.png">如上图所说，babel实时编译产生的代码会缓存在内存中，导致内存占用过高。</p>
+<h3 id="带来的好处"><a href="#带来的好处" class="headerlink" title="带来的好处"></a>带来的好处</h3><p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq7e3dvjj318g0a975l.jpg" alt="1*uFKLXuq6bqU-7rgnOFdLlg.png">如上图所说，babel实时编译产生的代码会缓存在内存中，导致内存占用过高。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
       
     </div>
@@ -606,7 +607,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -617,7 +618,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -628,7 +629,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">61</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

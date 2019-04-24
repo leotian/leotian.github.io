@@ -9,6 +9,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
 <link rel="manifest" href="/manifest.json">
@@ -92,17 +93,17 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="最近一直在写应用里的webview项目，使用webpack打包前端代码时遇到了一个小问题，具体来讲是autoprefixer的问题，记录一下。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1fovb171x4vj30fd03cdg6.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1fovblrs9khj30hu04h74r.jpg">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1fovbxilax9j30lx0b5jt4.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1fow08draguj31fu0e478q.jpg">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1fowg8grw4xj30c504m3z1.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1fox485sqt8j30ep03v3ys.jpg">
-<meta property="og:updated_time" content="2019-04-09T12:58:03.178Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq5sv8cxj30fd03cjro.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq5usri4j30hu04hmxl.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq605ytbj30lx0b5mzh.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq62nn76j31fu0e4wn7.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq652wt1j30c504m3z7.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq681pz2j30ep03vdg2.jpg">
+<meta property="og:updated_time" content="2019-04-24T06:54:28.838Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从使用autoprefixer遇到的一个小问题说起">
 <meta name="twitter:description" content="最近一直在写应用里的webview项目，使用webpack打包前端代码时遇到了一个小问题，具体来讲是autoprefixer的问题，记录一下。">
-<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1fovb171x4vj30fd03cdg6.jpg">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq5sv8cxj30fd03cjro.jpg">
 
 
 
@@ -407,22 +408,22 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">overflow</span> : <span class="selector-tag">hidden</span>;</span><br><span class="line"><span class="selector-tag">text-overflow</span>: <span class="selector-tag">ellipsis</span>;</span><br><span class="line"><span class="selector-tag">display</span>: <span class="selector-tag">-webkit-box</span>;</span><br><span class="line"><span class="selector-tag">-webkit-line-clamp</span>: 2;</span><br><span class="line"><span class="selector-tag">-webkit-box-orient</span>: <span class="selector-tag">vertical</span>;</span><br></pre></td></tr></table></figure>
 <p>但是发现webpack编译以后，<code>-webkit-box-orient: vertical</code>检查元素样式并没有这个属性，其他的几个属性都有，现在只有把这个属性放入内联样式才行。</p>
 <h2 id="关于autoprefixer"><a href="#关于autoprefixer" class="headerlink" title="关于autoprefixer"></a>关于autoprefixer</h2><p>查了查发现这个样式会被干掉，干掉他的是正是<code>autoprefixer</code>，而干掉的理由也是李菊福的，以下是<code>autoprefixer</code>作者Andrey Sitnik（同时创作了<code>PostCSS</code>）给出的解释：</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1fovb171x4vj30fd03cdg6.jpg" alt="27F3AD95-3C53-4045-97C9-05B732BC45D5"></p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq5sv8cxj30fd03cjro.jpg" alt="27F3AD95-3C53-4045-97C9-05B732BC45D5"></p>
 <p>按照这位大神接下来的说法，最好的解决方法是：</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fovblrs9khj30hu04h74r.jpg" alt="2FA6FCEC-BA24-4B84-A732-50CCE5B10FA2"></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq5usri4j30hu04hmxl.jpg" alt="2FA6FCEC-BA24-4B84-A732-50CCE5B10FA2"></p>
 <p>然鹅我并不想因为一个属性增加太多复杂性，所以找了一种简单的方法hack了这个问题：</p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* autoprefixer: off */</span></span><br><span class="line"><span class="comment">/* stylelint-disable */</span></span><br><span class="line">-webkit-box-orient: vertical;</span><br><span class="line"><span class="attribute">display</span>: -webkit-box;</span><br><span class="line"><span class="comment">/* autoprefixer: on */</span></span><br><span class="line"><span class="comment">/* stylelint-enable */</span></span><br></pre></td></tr></table></figure>
 <p>是的，我直接用注释把<code>autoprefixer</code>关了，然后<code>stylelint</code>又报错，我又不得不把他也关了，大神不太推荐这种做法，不过我感觉还OK，而且挺多人这么搞的🤣。</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1fovbxilax9j30lx0b5jt4.jpg" alt="0A16AE75-137F-4B0C-A0DA-88A496484EDE"></p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq605ytbj30lx0b5mzh.jpg" alt="0A16AE75-137F-4B0C-A0DA-88A496484EDE"></p>
 <h2 id="疑惑之处"><a href="#疑惑之处" class="headerlink" title="疑惑之处"></a>疑惑之处</h2><p>最后在此位置关闭<code>autoprefixer</code>发现确实有效，但是还有个让我困惑的地方，那就是为什么我本地的dev环境没有问题，到了qa就有问题了呢？也就是经过build的代码是有问题的，这显然应该跟qa环境的webpack配置有关，经过对比我把目标锁定在了<code>optimize-css-assets-webpack-plugin</code>这个插件。</p>
 <p>查阅 <a href="https://github.com/NMFR/optimize-css-assets-webpack-plugin" target="_blank" rel="noopener">optimize-css-assets-webpack-plugin</a> 文档：</p>
-<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1fow08draguj31fu0e478q.jpg" alt="7FF418BC-23E0-4EA1-85D2-98EFCDAE48FC"></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq62nn76j31fu0e4wn7.jpg" alt="7FF418BC-23E0-4EA1-85D2-98EFCDAE48FC"></p>
 <p>意思是说，啥都没做，只是把 <code>cssProcessorOptions</code> 的配置传给处理器 <code>cssProcessor</code> ，默认为<code>cssnano</code>来优化css，而<code>cssnano</code>内部自然又调用了<code>autoprefixer</code>。</p>
 <p>再查阅 <a href="http://cssnano.co/guides/optimisations/" target="_blank" rel="noopener">cssnano</a> 文档，可以看到，默认情况下，<code>autoprefixer</code> 是不开启的，但是在项目中莫名其妙默认开启了。仔细检查了下，项目中使用的 <code>cssnano</code> 是 3.10.0 版本。也就是说，v3 系列默认都是开启的，文档看的是 v4 的。可以参考这个 <a href="https://github.com/ben-eb/cssnano/issues/358" target="_blank" rel="noopener">issue</a>。如果在参数里面加上 <code>safe/isSafe</code> 字段，也可以解决此问题。</p>
 <p>但是，等等。我明明已经加了safe了好吗？所以说不应该啊，难道我误会了这个插件？然后继续看还有哪些包引用了<code>autoprefixer</code>，结果如下：</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1fowg8grw4xj30c504m3z1.jpg" alt="FD571AC2-EAB0-40DF-9293-F5260F986DA5"></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq652wt1j30c504m3z7.jpg" alt="FD571AC2-EAB0-40DF-9293-F5260F986DA5"></p>
 <p>看来就是<code>css-loader</code>无疑了，看了下<code>.postcssrc.js</code>确实引用了<code>autoprefixer</code>作为插件，遂删除重新构建，属性正常了，没有被删除，果然是这个浓眉大眼的家伙叛变了革命。但是为什么本地环境没有问题，到了qa就有问题了呢，我试了下把<code>autoprefixer</code>的<code>remove</code>属性配置为false，果然没有再删除我的属性了。</p>
-<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1fox485sqt8j30ep03v3ys.jpg" alt="D5C61F5C-5C5C-4B1A-9B00-30780D5176A8"></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq681pz2j30ep03vdg2.jpg" alt="D5C61F5C-5C5C-4B1A-9B00-30780D5176A8"></p>
 <p>我又分别看了下本地和qa环境<code>autoprefixer</code>的版本，发现一致，并且自动添加前缀，兼容浏览器的功能是生效的，但在qa环境build和在本地使用<code>webpack-dev-middleware</code>或build产生的结果就是不同的，我想还是可能跟某个依赖版本有关系吧，于是我生成了<code>shrinkwrap.json</code>，在qa上又了一版，果然跟本地表现一致了，所以还是跟某个依赖的版本有关，具体哪个不细究了，侧面证明了版本锁的重要性，npm 5大法好，问题暂时告一段落。</p>
 <h2 id="关于loader和plugin"><a href="#关于loader和plugin" class="headerlink" title="关于loader和plugin"></a>关于loader和plugin</h2><p><code>autoprefixer</code>的作用，官方解释：<code>Parse CSS and add vendor prefixes to CSS rules using values from the Can I Use website</code>，也就是说它是一个自动检测兼容性给各个浏览器加个内核前缀的插件。<code>autoprefixer</code>算是<code>PostCSS</code>的插件，但不是webpack的。</p>
 <p>恰逢组里webpack分享，简单学习了一些webpack中lodaer和plugin的知识，对于lodaer和plugin的区别，简单版本：</p>
@@ -607,7 +608,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -618,7 +619,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -629,7 +630,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">61</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

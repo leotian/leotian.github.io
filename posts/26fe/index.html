@@ -9,6 +9,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
 <link rel="manifest" href="/manifest.json">
@@ -92,18 +93,18 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="Progressive Web Apps 是 Google 提出的，用前沿的 Web 技术在网页中实现和原生应用相近的用户体验的一系列方案。网上的介绍已经够多了，贴了几个链接可以先自己了解下。这篇文章通过改造我的博客来介绍其中的关键技术。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcly1fmwhhfnpenj310n0bw0xp.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fnbtfwufz6j306r0bsgpk.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fncqarc1buj30mr0gzq77.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1fncry9mzymj30gh07fgma.jpg">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1fncs0fqpf2j30n80aujth.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1fncso23l98j30k505djss.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1fncy63tr5kj30uy0d876z.jpg">
-<meta property="og:updated_time" content="2019-04-09T12:58:03.131Z">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq89y8fbj310n0bw40v.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq8dkjzqj306r0bsaay.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq8hi6irj30mr0gz767.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq8ni0hzj30gh07faam.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq8phpv6j30n80auace.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq8rbuv0j30k505dwgx.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq9cok6aj30uy0d8q6e.jpg">
+<meta property="og:updated_time" content="2019-04-24T06:54:28.942Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PWA入门实践">
 <meta name="twitter:description" content="Progressive Web Apps 是 Google 提出的，用前沿的 Web 技术在网页中实现和原生应用相近的用户体验的一系列方案。网上的介绍已经够多了，贴了几个链接可以先自己了解下。这篇文章通过改造我的博客来介绍其中的关键技术。">
-<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tKfTcly1fmwhhfnpenj310n0bw0xp.jpg">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq89y8fbj310n0bw40v.jpg">
 
 
 
@@ -393,7 +394,7 @@
 
       
         <p>Progressive Web Apps 是 Google 提出的，用前沿的 Web 技术在网页中实现和原生应用相近的用户体验的一系列方案。网上的介绍已经够多了，贴了几个链接可以先自己了解下。这篇文章通过改造我的博客来介绍其中的关键技术。</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tKfTcly1fmwhhfnpenj310n0bw0xp.jpg" alt="6BC9FE87-7F63-4971-81D7-197E7FFBCF95"></p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq89y8fbj310n0bw40v.jpg" alt="6BC9FE87-7F63-4971-81D7-197E7FFBCF95"></p>
 <a id="more"></a>
 <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>网上的介绍已经够多了，这里放两个链接可以自己了解下。</p>
 <p><a href="https://zhuanlan.zhihu.com/p/22578965" target="_blank" rel="noopener">PWA是什么和PWA的优势</a></p>
@@ -406,23 +407,23 @@
 <p>Manifest.json文件需要在head标签里引用，我使用的是next主题，所以我在<strong>layout/_partials/head.swing</strong>文件中添加一句代码：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"manifest"</span> <span class="attr">href</span>=<span class="string">"/manifest.json"</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>如果不是next主题，就自己找下位置吧。配置好manifest后，我用hexo进行了部署，并从豌豆荚下载了最新的移动版Chrome，然后使用添加到主屏幕功能，成功的将我的网站添加到了桌面，效果如下：</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fnbtfwufz6j306r0bsgpk.jpg" alt="ADDD97FE-A10B-47C4-A816-3EA0296E9895"></p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq8dkjzqj306r0bsaay.jpg" alt="ADDD97FE-A10B-47C4-A816-3EA0296E9895"></p>
 <h2 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h2><p>现在我们来考虑实现一个Service Worker，Google官方提供了一个Service Worker的<a href="https://github.com/GoogleChrome/samples/tree/gh-pages/service-worker/basic" target="_blank" rel="noopener">示例项目</a>，这是一个手动实现的基础例子。借助工具我们有sw-toolbox和sw-precache，配合gulp和webpack我们可以定制缓存策略并生成ServiceWorker。而对于Hexo，最简单的方法是借助插件<a href="https://github.com/JLHwung/hexo-offline" target="_blank" rel="noopener">hexo-offline</a>，该插件可以帮助我们生成ServiceWoker，据了解<a href="https://github.com/vuejs/vuejs.org" target="_blank" rel="noopener">vuejs官网</a>也用的这个。安装很简单：</p>
 <p><code>npm i hexo-offline --save</code></p>
 <p>关于它的使用及配置，参考文档即可。需要注意的一点是，出于安全考虑，注册 Service Worker 要求你的 web 应用部署于 HTTPS 协议下，以免利用 Service Worker 的中间人攻击，所以我把网站升级了https。接下来我主要说下加上Service Worker之后的效果。</p>
 <ol>
 <li><p>最直观就是可以离线打开页面了，同样关闭WiFi的情况下，对比如下图：</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fncqarc1buj30mr0gzq77.jpg" alt="未标题-1">可以看到左边的会提示离线状态，但是会提示联网时下载，右边还可以正常浏览，其实浏览的是在线时下载的离线版。</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq8hi6irj30mr0gz767.jpg" alt="未标题-1">可以看到左边的会提示离线状态，但是会提示联网时下载，右边还可以正常浏览，其实浏览的是在线时下载的离线版。</p>
 </li>
 <li><p>除了将浏览器离线我们还可以通过其他方法知道Service Worker生效，打开chrome://inspect/#service-workers可以查看到当前运行的Service Worker：</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1fncry9mzymj30gh07fgma.jpg" alt="4053FC97-F771-4F14-89F3-BFF723843E34"></p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq8ni0hzj30gh07faam.jpg" alt="4053FC97-F771-4F14-89F3-BFF723843E34"></p>
 <p>通过chrome的开发者工具我们也可以观测到serverwork的运行：</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1fncs0fqpf2j30n80aujth.jpg" alt="1C50E55B-388B-4AEC-9A9A-52A109DD8E30"></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq8phpv6j30n80auace.jpg" alt="1C50E55B-388B-4AEC-9A9A-52A109DD8E30"></p>
 <p>通过这两张图，我们可以清楚地知道ServiceWorker确实在后台工作着，而Cache Storage确实对博客内的静态资源做了缓存处理。事实上对Hexo这样的静态博客而言，整个博客都是静态资源，所以在实际运行中它会对所有内容进行缓存，我们在本地启动hexo s，可以看到资源缓存的情况：</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1fncso23l98j30k505djss.jpg" alt="98E9EB0B-4B00-4068-88E4-8B677882F4CB"></p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq8rbuv0j30k505dwgx.jpg" alt="98E9EB0B-4B00-4068-88E4-8B677882F4CB"></p>
 </li>
 <li><p>用Lighthouse测了下评分，Lighthouse目前非常关注PWA的特性，例如添加到主屏幕和离线支持，结果如下：</p>
-<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1fncy63tr5kj30uy0d876z.jpg" alt="EBBD27DF-2BBD-494D-84CF-50D763291020"></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq9cok6aj30uy0d8q6e.jpg" alt="EBBD27DF-2BBD-494D-84CF-50D763291020"></p>
 <p>可以看到评分还是不错的，不足的地方主要在首屏的加载，css文件请求时间较长，这个可以通过增加一些CDN解决，首屏优化可以通过添加骨架图改进体验，具体可以看<a href="https://tianxiaobo.cn/2017/10/25/%E4%BD%BF%E7%94%A8Skeleton-Screen%E4%BC%98%E5%8C%96%E9%A6%96%E5%B1%8F%E5%8A%A0%E8%BD%BD/" target="_blank" rel="noopener">《使用Skeleton Screen优化首屏加载》</a>这篇文章。</p>
 </li>
 </ol>
@@ -606,7 +607,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -617,7 +618,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -628,7 +629,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">61</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

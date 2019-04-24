@@ -9,6 +9,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
 <link rel="manifest" href="/manifest.json">
@@ -92,16 +93,16 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="最近遇到一个需要合并两个域名到一个域名下的需求，记录一下解决过程。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1g1v28ib4ujj30id0fstbv.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1g1v2gnx2urj30i002rgmt.jpg">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1g1v2ght1bsj30ft0cumzh.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1g1v8amdvr9j30r60c1t9u.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1g1o9rfq6mtj30hk0gzad5.jpg">
-<meta property="og:updated_time" content="2019-04-09T12:58:03.289Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1g2dqtisgubj30id0fs0v6.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1g2dqtj8lc9j30i002raaz.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1g2dqtk6qxgj30ft0cuabh.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1g2dqtl9jhmj30r60c1gm7.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1g2dqtm712gj30hk0gztan.jpg">
+<meta property="og:updated_time" content="2019-04-24T07:13:39.170Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次网站代理配置">
 <meta name="twitter:description" content="最近遇到一个需要合并两个域名到一个域名下的需求，记录一下解决过程。">
-<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1g1v28ib4ujj30id0fstbv.jpg">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1g2dqtisgubj30id0fs0v6.jpg">
 
 
 
@@ -424,17 +425,17 @@
 <h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><h3 id="配置Nginx"><a href="#配置Nginx" class="headerlink" title="配置Nginx"></a>配置Nginx</h3><p>做之前就想起之前遇到过一次类似的需求，是把 <code>blog.xingshulin.com</code> 合并到了 <code>www.xingshulin.com/blog</code> 下，是运维帮忙配置的Nginx，参考当时的配置自己配了一下：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span> com_qa-weather &#123;</span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8080</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30s</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>              <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>         nginx.leotian.cn;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">server_name_in_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> REMOTE-HOST <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /wxpage/ &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://com_qa-weather/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上次只简单配置了 location 的 proxy_pass（location 和proxy_pass的绝对路径相对路径也是要注意的一个点，具体请看<a href="https://www.jianshu.com/p/b113bd14f584" target="_blank" rel="noopener">这里</a>），也就是访问 nginx.leotian.cn 时对 localhost:8080 做反向代理，透明传输，这样配置的话，我们看下访问 nginx.leotian.cn/weather/ 请求到的是什么：</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g1v28ib4ujj30id0fstbv.jpg" alt="image-20190408112243555"></p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g2dqtisgubj30id0fs0v6.jpg" alt="image-20190408112243555"></p>
 <p>可以看到，服务的根页面正常返回，但是根页面上请求的资源文件都是 404，因为资源文件并没有被反向代理，而我们域名的根目录下也没有 <code>static/xx</code> 这些资源文件，自然就404了，如果要解决这个问题，我们需要把 weather 服务的所有资源文件都放在 /weather/ 下，上次把 <code>www.xingshulin.com/blog</code> 代理到 <code>blog.xingshulin.com</code> 服务时就是这么做的，把 blog 服务的所有的资源文件都放在了一级目录 /blog 下：</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g1v2gnx2urj30i002rgmt.jpg" alt="image-20190408113037629"></p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g1v2ght1bsj30ft0cumzh.jpg" alt="image-20190408113028325"></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g2dqtj8lc9j30i002raaz.jpg" alt="image-20190408113037629"></p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1g2dqtk6qxgj30ft0cuabh.jpg" alt="image-20190408113028325"></p>
 <p>那么如何不挪动资源文件的进行修改呢？我们增加一个 location 配置：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">set</span> <span class="variable">$r_location</span>  <span class="string">""</span>;</span><br><span class="line">    <span class="attribute">if</span> (<span class="variable">$http_referer</span> <span class="regexp">~* ^http?:\/\/nginx.leotian.cn\/(weather)\/)</span> &#123;</span><br><span class="line">      <span class="attribute">set</span> <span class="variable">$r_location</span> <span class="variable">$1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">if</span> (<span class="variable">$r_location</span>) &#123;</span><br><span class="line">      <span class="attribute">rewrite</span><span class="regexp"> ^/(.*)</span> /<span class="variable">$r_location</span>/<span class="variable">$1</span> <span class="literal">last</span>;</span><br><span class="line">      <span class="comment">#rewrite ^/(.*) /$r_location/$request_uri last;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">rewrite_log</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">error_log</span> /logs/error.log ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们看一下上面这段配置的逻辑（上面用到了 rewrite 模块的一些功能，具体使用请参考<a href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html" target="_blank" rel="noopener">文档</a>和<a href="https://segmentfault.com/a/1190000008102599" target="_blank" rel="noopener">文章</a>）：</p>
 <p>如果请求的 referer 包含 weather，我们就能知道这个请求应该是指向 weather 服务的，那么 rewrite URL 为 <code>/weather/原请求地址</code>，然后再经过第一个 location 进行反向代理，页面请求的资源文件就也可以拿到了，就不用再要求服务去把页面请求的资源文件挪动到 /weather 目录下了。配置好后我们实验一下：</p>
-<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1g1v8amdvr9j30r60c1t9u.jpg" alt="image-20190408145225734"></p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g2dqtl9jhmj30r60c1gm7.jpg" alt="image-20190408145225734"></p>
 <p>恩，页面终于正常打开了。但对 wxpage 做相同的配置：即 open.xingshulin.com/wxpage 代理到 wxpage.xingshulin.com 之后。我们再次请求，发现所有资源文件都返回200，内容也正常返回，但是页面并没有渲染出来：</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1g1o9rfq6mtj30hk0gzad5.jpg" alt="image-20190402142414525"></p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1g2dqtm712gj30hk0gztan.jpg" alt="image-20190402142414525"></p>
 <p>这又是什么原因呢？思考之后，我们想到应该是前端路由的问题，因为服务已经返回了全部的资源，除了ajax请求，和后端的交互应该到此为止了。接下来我们看一下前端路由出了什么问题。</p>
 <h3 id="路由配置"><a href="#路由配置" class="headerlink" title="路由配置"></a>路由配置</h3><p>如果是后端路由，那么以上的配置应该是没有问题的，以上两个 location 已经保证我们所有请求都可以正确导向：</p>
 <ul>
@@ -545,6 +546,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/posts/9d8a/" rel="prev" title="修改短链及浏览量恢复">
+                修改短链及浏览量恢复 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -623,7 +628,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -634,7 +639,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -645,7 +650,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">61</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -9,6 +9,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
 <link rel="manifest" href="/manifest.json">
@@ -91,12 +92,12 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="最近看到诊疗圈有这个功能，一直不知道怎么称呼它，查了才知道，原来这个叫Skeleton Screen，中文叫加载占位图，或者也有叫骨架图的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1fn4vbr4ksqj30mx0bs3yt.jpg">
-<meta property="og:updated_time" content="2019-04-09T12:58:03.194Z">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq7gsqqzj30mx0bs0sr.jpg">
+<meta property="og:updated_time" content="2019-04-24T06:54:28.908Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Skeleton Screen优化首屏加载">
 <meta name="twitter:description" content="最近看到诊疗圈有这个功能，一直不知道怎么称呼它，查了才知道，原来这个叫Skeleton Screen，中文叫加载占位图，或者也有叫骨架图的。">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1fn4vbr4ksqj30mx0bs3yt.jpg">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq7gsqqzj30mx0bs0sr.jpg">
 
 
 
@@ -386,7 +387,7 @@
 
       
         <p>最近看到诊疗圈有这个功能，一直不知道怎么称呼它，查了才知道，原来这个叫Skeleton Screen，中文叫加载占位图，或者也有叫骨架图的。</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fn4vbr4ksqj30mx0bs3yt.jpg" alt="B8BC8F8B-A510-4096-9205-267441769C55"><a id="more"></a></p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq7gsqqzj30mx0bs0sr.jpg" alt="B8BC8F8B-A510-4096-9205-267441769C55"><a id="more"></a></p>
 <p>Skeleton Screen（加载占位图）是近年流行的加载控件，通常表现形式是在界面上待加载区域填充灰色的占位图，与线框图的效果非常相似。Skeleton Screen本质上是界面加载过程中的过渡效果。</p>
 <h2 id="由来"><a href="#由来" class="headerlink" title="由来"></a>由来</h2><p>这部分安利一个知乎专栏<a href="https://zhuanlan.zhihu.com/c_87416856" target="_blank" rel="noopener">这个控件叫什么</a>，里面专门科普一些前端控件的名称和使用事项。里面的《<a href="https://zhuanlan.zhihu.com/p/26014116" target="_blank" rel="noopener">这个控件叫：Skeleton Screen/加载占位图</a>》讲得很好，可以直接看这个。</p>
 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="使用静态图片"><a href="#使用静态图片" class="headerlink" title="使用静态图片"></a>使用静态图片</h3><p>诊疗圈采用 SPA，即单页面应用模型（Single-page App）来组织整个 web 应用，所以首屏渲染是一大短板，很适合使用占位图来优化使用体验，看了下诊疗圈的实现方式，就是把界面控件框架的轮廓做成静态图片用于Launch Screen（启动屏幕），这是最简单也是最普遍的一种做法。这种做法跟具体框架无关，在react和vue中可以直接在index.hmtl中放置静态图片覆盖首屏，然后分别在componentDidMount和mounted阶段把图片隐藏掉，总之在页面内容加载前放置图片，确认加载完毕后隐藏图片即可</p>
@@ -555,7 +556,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -566,7 +567,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -577,7 +578,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">61</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -9,6 +9,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
 <link rel="manifest" href="/manifest.json">
@@ -92,13 +93,13 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="Babel 包含编译和polyfill两部分，这次我们专门来说一下polyfill部分（感觉很容易搞混）。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fx8o0c97gtj30bw02m74i.jpg">
-<meta property="og:updated_time" content="2019-04-09T12:58:03.351Z">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq80nrigj31kw0pu7av.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq82xs6bj30bw02m74f.jpg">
+<meta property="og:updated_time" content="2019-04-24T06:54:28.923Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="再谈Babel-polyfill">
 <meta name="twitter:description" content="Babel 包含编译和polyfill两部分，这次我们专门来说一下polyfill部分（感觉很容易搞混）。">
-<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq80nrigj31kw0pu7av.jpg">
 
 
 
@@ -388,7 +389,7 @@
 
       
         <p>Babel 包含编译和polyfill两部分，这次我们专门来说一下polyfill部分（感觉很容易搞混）。</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fwsx8uv4dij31kw0pudmz.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"></p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq80nrigj31kw0pu7av.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"></p>
 <a id="more"></a>
 <h1 id="Polyfill"><a href="#Polyfill" class="headerlink" title="Polyfill"></a>Polyfill</h1><p>直接说结论，Polyfill 的准确意思为：<strong>用于实现低版本浏览器还不支持的原生API的代码。</strong></p>
 <p>例如，<code>querySelectorAll</code>是很多现代浏览器都支持的原生Web API，但是有些古老的浏览器并不支持，那么假设有人写了库，只要用了这个库，你就可以在古老的浏览器里面使用<code>document.querySelectorAll</code>，使用方法跟现代浏览器原生API无异。那么这个库就可以称为<code>Polyfill</code>或者<code>Polyfiller</code>。</p>
@@ -427,7 +428,7 @@
 <p>那么什么是 prototype 污染呢，这就要说到 ES6 的 Array、String 等内建类型扩展了很多新方法，<strong>如 Array 原型上的 includes()、filter() 等新方法（实例方法），babel-plugin-transform-runtime 插件是不会进行扩展修改的，很多人往往忽略了这一点。要区分的是，Array.from 等静态方法（或者叫类方法）还是会被插件 polyfill 的。因此，babel-plugin-transform-runtime 这个插件更适合于开发类库（library）时去使用，而不适合直接用在独立的前端工程中。另外，它可以按需polyfill，所以从一定程度上控制了polyfill 文件的大小。</strong></p>
 <h2 id="babel-polyfill-1"><a href="#babel-polyfill-1" class="headerlink" title="babel-polyfill"></a>babel-polyfill</h2><p>最后回到 babel-polyfill，它的初衷是emulate（模拟）一整套 ES2015+ 运行时环境，所以它的确会以全局变量的形式 polyfill Map、Set、Promise 之类的类型，也的确会以类似 Array.prototype.includes() 的方式去注入污染原型，这也是官网中提到最适合应用级开发的 polyfill，再次提醒如果你在开发 library 的话，不推荐使用（或者说绝对不要使用）。</p>
 <p><strong>不同于插件（babel-plugin-transform-runtime 就是一个插件，需要配置在<code>.babelrc</code>中）</strong>，你所要做的事情很简单，就是将<code>babel-polyfill</code>一次性的引入到你的工程中，通常是和其他的第三方类库（如 jQuery、React 等）一同打包在 vendor.js（vendor中文翻译为厂商，即第三方， webpack 中通常用vendor来命名我们项目中使用的第三方库，俗称三方库）中即可。在你写程序的时候，你完全不会感知 babel-polyfill 的存在，如果你的浏览器已经支持 Promise，它会优先使用 native 的 Promise，如果没有的话，则会采用 polyfill 的版本（这个行为与 babel-plugin-transform-runtime 一致），在使用 babel-polyfill 后，你不需要引入 babel-plugin-transform-runtime 插件和其他依赖的类库。它的缺点也显而易见，那就是占文件空间并且无法按需定制。</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fx8o0c97gtj30bw02m74i.jpg" alt="image-20181115130650463"></p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq82xs6bj30bw02m74f.jpg" alt="image-20181115130650463"></p>
 <p>tip：babel-polyfill 并不是一定会污染全局环境，在引入这个 js，并运行的时候，它会先判断当前有没有这个方法，在看要不要重写，如上图，是对<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math/sign" target="_blank" rel="noopener"><code></code>Math.sign()`</a>方法的替换。</p>
 <h2 id="对比babel-polyfill和babel-plugin-transform-runtime"><a href="#对比babel-polyfill和babel-plugin-transform-runtime" class="headerlink" title="对比babel-polyfill和babel-plugin-transform-runtime"></a>对比babel-polyfill和babel-plugin-transform-runtime</h2><table>
 <thead>
@@ -652,7 +653,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -663,7 +664,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -674,7 +675,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">61</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
