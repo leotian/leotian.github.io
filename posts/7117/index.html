@@ -92,12 +92,12 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="循环是一种很重要的控制结构，它很难被重用，也很难插入到其他操作之中。另外，它意味着随着每次迭代，代码也在不断的变化之中。——Luis Atencio">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq9fq4ehj30k023dgqr.jpg">
-<meta property="og:updated_time" content="2019-04-24T06:54:28.943Z">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102058.jpg">
+<meta property="og:updated_time" content="2019-04-29T10:21:08.125Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="比较JavaScript中的几种循环">
 <meta name="twitter:description" content="循环是一种很重要的控制结构，它很难被重用，也很难插入到其他操作之中。另外，它意味着随着每次迭代，代码也在不断的变化之中。——Luis Atencio">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq9fq4ehj30k023dgqr.jpg">
+<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-29-102058.jpg">
 
 
 
@@ -434,7 +434,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> bandoodle     = band.map(doodlify);</span><br><span class="line"><span class="keyword">let</span> bandoodle2    = band2.map(doodlify);</span><br><span class="line"><span class="keyword">let</span> bandcode      = band.map(codify);</span><br><span class="line"><span class="keyword">let</span> bandcode2     = band2.map(codify);</span><br></pre></td></tr></table></figure>
 <p>有两个处理字符串的函数：doodlify 和 codefy，这些函数并不需要知道关于数组或者循环的任何事情。同时，有另外一个函数：map ，它来处理数组，它不需要知道数组中元素是什么类型的，甚至你想对数组做什么也不用关心。它只需要执行我们所传递的函数就可以了。现在我们把问题分离了，对数组的处理和对字符串的处理分开，并且用高阶函数（可以接受函数作为参数的函数）的方式把处理函数传递进去，可以注意到，缩进消失，循环消失。当然循环可能转移到了其他地方，但是我们已经不需要去关心它们了。现在的代码简洁有力，完美。</p>
 <p>但是现在我要是只想让数组的元素挨个执行某个函数而不想返回一个新数组呢，其实array对象也已经有方法实现，那就是forEach，类似的还有filter和reduce，他们的区别可以看下面图：</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq9fq4ehj30k023dgqr.jpg" alt="1"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-102058.jpg" alt="1"></p>
 <p>至此我们尝试了不用任何循环来处理 JavaScript 数组，为了实现这一点，我们借助了高阶函数，其实给代码增加一点点函数式编程的特性，最终得出的效果是可以降低代码复杂性。</p>
 <p>引入函数式编程可能带来<a href="https://www.zhihu.com/question/263645361" target="_blank" rel="noopener">性能问题</a>，但是作为普通开发者，<strong>过早优化是万恶之源</strong>。应该把可读性，可维护性，可测试性放到首位。</p>
 <h2 id="概念整理"><a href="#概念整理" class="headerlink" title="概念整理"></a>概念整理</h2><p>其实表示“重复”这个含义的词有很多，比如循环(loop)，递归(recursion)，遍历(traversal)， 迭代(iterate)，让我们梳理一下他们各自的概念和之间的关系。</p>
@@ -633,7 +633,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -655,7 +655,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

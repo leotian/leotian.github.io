@@ -92,12 +92,12 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="最近使用博客的时候发现，复制出来的文章URL都太长了，所以想启用短链，记录一下修改过程。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-25-085256.jpg">
-<meta property="og:updated_time" content="2019-04-29T07:21:55.732Z">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101851.jpg">
+<meta property="og:updated_time" content="2019-04-29T10:21:07.866Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo修改短链及浏览量恢复">
 <meta name="twitter:description" content="最近使用博客的时候发现，复制出来的文章URL都太长了，所以想启用短链，记录一下修改过程。">
-<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-25-085256.jpg">
+<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-29-101851.jpg">
 
 
 
@@ -422,7 +422,7 @@
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">permalink:</span> <span class="string">post/:abbrlink/</span></span><br><span class="line"><span class="comment"># 结尾的"/"如果去掉，在我本地点开文章时会有问题，所以加了"/"</span></span><br><span class="line"><span class="comment"># 还可以使用类似 post/:abbrlink.html 这种链接</span></span><br><span class="line"></span><br><span class="line"><span class="attr">abbrlink:</span></span><br><span class="line"><span class="attr">  alg:</span> <span class="string">crc16</span>  <span class="comment"># 算法：crc16(default) and crc32</span></span><br><span class="line"><span class="attr">  rep:</span> <span class="string">hex</span>    <span class="comment"># 进制：dec(default) and hex</span></span><br><span class="line"><span class="comment"># 使用crc16已经能生成65535篇文章了，对于个人博客感觉已经够用了</span></span><br><span class="line"><span class="comment"># 使用hex是因为我觉得带字母好看一点</span></span><br></pre></td></tr></table></figure>
 <p>成功修改短链后我发现一个问题，那就是文章的浏览量没了，访问量我们使用的是leancloud来记录的（使用next只需要简单的<a href="https://notes.doublemine.me/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html" target="_blank" rel="noopener">配置</a>就可以使用leancloud记录访问量），而访问量的消失主要是因为文章的链接都改了，接下来我们尝试恢复一下每篇文章的访问量。</p>
 <h2 id="浏览量恢复"><a href="#浏览量恢复" class="headerlink" title="浏览量恢复"></a>浏览量恢复</h2><p>我们先看一下leancloud是如何存储我们的浏览记录的：</p>
-<p><img src="https://images.leotian.cn/blog/2019-04-25-085256.jpg" alt="img"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101851.jpg" alt="img"></p>
 <p>可以看到主要有title（标题）、url和time（次数），我们的主要问题是记录的url变了，所以对应关系丢失了，只要恢复正确的url，对应关系就可以重建了，而time对我们恢复关系没有用，只有根据title恢复了。</p>
 <p>所以我们要先查到每篇文章的标题，然后从库里找出对应的记录，修改url为正确的地址，这样对应关系就能回来了，获取每篇文章的内容我想到了两种方法：一种是遍历本地生成的html文件获取title，另一种是写个爬虫爬自己的网站。</p>
 <h3 id="遍历本地文件实现"><a href="#遍历本地文件实现" class="headerlink" title="遍历本地文件实现"></a>遍历本地文件实现</h3><p>本地hexo目录的<code>public/posts</code>文件夹下存放了生成的静态文件，我们遍历这个文件夹拿到每篇文章：</p>
@@ -526,6 +526,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/posts/f37e/" rel="prev" title="hexo更换图床和全站CDN">
+                hexo更换图床和全站CDN <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -604,7 +608,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -626,7 +630,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -92,19 +92,19 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="最近在小伙伴的推动下进行了一波工具的升级，包括webpack、babel。这两大工具都是前端工程化的常用工具，我准备依次总结一下这两样工具的使用。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6dwfewj31kw0pu7av.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq6fwes6j307q02tweh.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq6k18ulj307h024dfu.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6oebf5j307s02974a.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6q5ev1j307e01njrb.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq6rxu36j308u01awef.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6tfcykj3070058mxd.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq6v7zrvj305j01mjr7.jpg">
-<meta property="og:updated_time" content="2019-04-24T06:54:28.862Z">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102001.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102002.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102003.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102004.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102005.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102006.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102007.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102008.jpg">
+<meta property="og:updated_time" content="2019-04-29T10:21:08.060Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Babel第一讲">
 <meta name="twitter:description" content="最近在小伙伴的推动下进行了一波工具的升级，包括webpack、babel。这两大工具都是前端工程化的常用工具，我准备依次总结一下这两样工具的使用。">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6dwfewj31kw0pu7av.jpg">
+<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-29-102001.jpg">
 
 
 
@@ -394,7 +394,7 @@
 
       
         <p>最近在小伙伴的推动下进行了一波工具的升级，包括webpack、babel。这两大工具都是前端工程化的常用工具，我准备依次总结一下这两样工具的使用。</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6dwfewj31kw0pu7av.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-102001.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"></p>
 <a id="more"></a>
 <h1 id="what’s-babel"><a href="#what’s-babel" class="headerlink" title="what’s babel"></a>what’s babel</h1><p><a href="https://babeljs.io/" target="_blank" rel="noopener">Babel</a>是一个广泛使用的转码器，可以将使用了ES6、ES7或更新的仍然在proposal（提案）阶段语法的代码转为ES5代码，从而使低端运行环境（如浏览器和node）能够认识并执行。严格来说，babel 也可以转化为更低的规范。但以目前情况来说，es5 规范已经足以覆盖绝大部分浏览器，因此常规来说转到 es5 是一个安全且流行的做法。</p>
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>一般存在一下几种方式：</p>
@@ -532,7 +532,7 @@
 <tr>
 <td style="text-align:center">babel-cli</td>
 <td style="text-align:center">命令行使用bable命令</td>
-<td style="text-align:center"><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq6fwes6j307q02tweh.jpg" alt="img"></td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-102002.jpg" alt="img"></td>
 </tr>
 <tr>
 <td style="text-align:center">babel-node</td>
@@ -542,27 +542,27 @@
 <tr>
 <td style="text-align:center">babel-register</td>
 <td style="text-align:center">改写require命令，为其加载的文件进行转码，但是不会对当前文件转码</td>
-<td style="text-align:center"><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq6k18ulj307h024dfu.jpg" alt="image-20181113224837212"><br>只适用于开发环境</td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-102003.jpg" alt="image-20181113224837212"><br>只适用于开发环境</td>
 </tr>
 <tr>
 <td style="text-align:center">babel-polyfill</td>
 <td style="text-align:center">填充内建对象，缺失的为所有API增加兼容方法</td>
-<td style="text-align:center"><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6oebf5j307s02974a.jpg" alt="image-20181113224808773"><br>需要在所有代码之前<code>require</code>，而且体积较大</td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-102004.jpg" alt="image-20181113224808773"><br>需要在所有代码之前<code>require</code>，而且体积较大</td>
 </tr>
 <tr>
 <td style="text-align:center">babel-runtime 和 babel-plugin-transform-runtime</td>
 <td style="text-align:center">让 babel 自动且按需的进行 polyfill（不污染全局变量和prototype）</td>
-<td style="text-align:center"><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6q5ev1j307e01njrb.jpg" alt="image-20181113230350432"><br><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq6rxu36j308u01awef.jpg" alt="image-20181113224911651"></td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-102005.jpg" alt="image-20181113230350432"><br><img src="https://images.leotian.cn/blog/2019-04-29-102006.jpg" alt="image-20181113224911651"></td>
 </tr>
 <tr>
 <td style="text-align:center">babel-core</td>
 <td style="text-align:center">在代码里使用 babel</td>
-<td style="text-align:center"><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6tfcykj3070058mxd.jpg" alt="img"></td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-102007.jpg" alt="img"></td>
 </tr>
 <tr>
 <td style="text-align:center">babel-preset-env</td>
 <td style="text-align:center">整合了 es201x，并自动根据目标平台分析需要用哪些插件</td>
-<td style="text-align:center">plugin太多，不截图了，把除了babel开头的截一下<br><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq6v7zrvj305j01mjr7.jpg" alt="image-20181120224948380"></td>
+<td style="text-align:center">plugin太多，不截图了，把除了babel开头的截一下<br><img src="https://images.leotian.cn/blog/2019-04-29-102008.jpg" alt="image-20181120224948380"></td>
 </tr>
 <tr>
 <td style="text-align:center">babel-loader</td>
@@ -751,7 +751,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -773,7 +773,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

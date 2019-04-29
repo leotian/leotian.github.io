@@ -92,17 +92,17 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="上次写删除文件夹的时候用到了fs模块，也集中用到了很多种路径，当时就想写一下，在Node中使用各种路径的问题，于是就简单写了一下，可以从 这里 获取demo源代码。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq2l7933j305i02v3yh.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq2msu2uj30dp02tgmb.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq2o3oiaj30d202q0tf.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq2q0icnj307l03cdfu.jpg">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq2rvw77j30my046gmz.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq2u8d3gj30cs05vt9u.jpg">
-<meta property="og:updated_time" content="2019-04-24T06:54:28.750Z">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101852.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101854.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101855.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101856.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101857.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101858.jpg">
+<meta property="og:updated_time" content="2019-04-29T10:21:07.879Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NodeJs的几种文件路径">
 <meta name="twitter:description" content="上次写删除文件夹的时候用到了fs模块，也集中用到了很多种路径，当时就想写一下，在Node中使用各种路径的问题，于是就简单写了一下，可以从 这里 获取demo源代码。">
-<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq2l7933j305i02v3yh.jpg">
+<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-29-101852.jpg">
 
 
 
@@ -396,24 +396,24 @@
 <p>刚写Node的时候经常会遇到这种情况：比如项目入口是<code>app.js</code>，而<code>app.js</code>并不一定在根目录下，比如他在<code>bin</code>目录下，到了启动项目时，使用<code>node /bin/app.js</code>和进入<code>bin</code>文件夹直接<code>node app.js</code>总会有一个起不起来，都是些路径找不到的错误，究其原因就是启动应用时执行的目录不同了，不过为什么启动脚本的位置会有这么多影响呢，让我们来总结一下。</p>
 <h2 id="对比常用的几种路径"><a href="#对比常用的几种路径" class="headerlink" title="对比常用的几种路径"></a>对比常用的几种路径</h2><p>Node 中的文件路径大概有 <code>__dirname</code>，<code>__filename</code>，<code>process.cwd()</code>，<code>./</code> 或者 <code>../</code>。前三个都是绝对路径，为了便于比较，<code>./</code> 和 <code>../</code> 我们通过 <code>path.resolve(&#39;./&#39;)</code>来转换为绝对路径。先看一个简单的例子。</p>
 <p>假如我们有这样的文件结构：</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq2l7933j305i02v3yh.jpg" alt="B0903800-AC17-4F20-961B-7A07D13942F9"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101852.jpg" alt="B0903800-AC17-4F20-961B-7A07D13942F9"></p>
 <p>在 <code>server.js</code> 里编写如下的代码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(__dirname);</span><br><span class="line"><span class="built_in">console</span>.log(__filename);</span><br><span class="line"><span class="built_in">console</span>.log(process.cwd());</span><br><span class="line"><span class="built_in">console</span>.log(path.resolve(<span class="string">'./'</span>));</span><br></pre></td></tr></table></figure>
 <p>在 <code>path-test</code> 目录下运行 <code>node bin/server.js</code> 得到的结果：</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq2msu2uj30dp02tgmb.jpg" alt="A384F0C7-7DCF-49C9-9F35-4C5973245C62"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101854.jpg" alt="A384F0C7-7DCF-49C9-9F35-4C5973245C62"></p>
 <p>进入 <code>bin</code> 目录下运行 <code>node server.js</code> 得到的结果：</p>
-<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq2o3oiaj30d202q0tf.jpg" alt="B3CDC14D-1B0A-430C-A8F0-1C447A8E8981"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101855.jpg" alt="B3CDC14D-1B0A-430C-A8F0-1C447A8E8981"></p>
 <p>现在我们可以总结下这几个路径的意思：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__dirname：    Nodejs的一个全局变量，获得当前执行文件所在目录的完整目录名</span><br><span class="line">__filename：   Nodejs的一个全局变量，获得当前执行文件的带有完整绝对路径的文件名</span><br><span class="line">process.cwd()：Nodejs的全局变量process的一个方法，返回当前进程的工作目录</span><br><span class="line">./：           一般情况跟 process.cwd() 一样，返回 node 命令运行时所在的文件夹的绝对路径</span><br></pre></td></tr></table></figure>
 <p>注意<code>__dirname</code>得到的目录和命令执行所在的目录、<code>__filename</code>得到的文件名和参数指定的文件名都不一定相同，因为可能在一个文件中调用了另一个目录中的另一个文件。</p>
 <h2 id="更复杂的情况"><a href="#更复杂的情况" class="headerlink" title="更复杂的情况"></a>更复杂的情况</h2><p>我们把例子升级一下，在<code>bin</code>目录下新建一个<code>test.js</code>：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">'./server.js'</span>);</span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">'./server.js'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="keyword">return</span> <span class="built_in">console</span>.log(err);</span><br><span class="line">  <span class="built_in">console</span>.log(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>现在目录结构如下：</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq2q0icnj307l03cdfu.jpg" alt="F8DE8DD3-DA17-4144-99B5-8012BF83ADC8"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101856.jpg" alt="F8DE8DD3-DA17-4144-99B5-8012BF83ADC8"></p>
 <p>我们这次先进入<code>bin</code>目录执行<code>node test.js</code>，得到的结果：</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq2rvw77j30my046gmz.jpg" alt="6D160866-8F82-4F81-B05C-AB3B34F3CF86"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101857.jpg" alt="6D160866-8F82-4F81-B05C-AB3B34F3CF86"></p>
 <p>可以看到是正常的，然后我们退出<code>bin</code>目录，在上一级执行<code>node bin/test.js</code>，得到结果：</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq2u8d3gj30cs05vt9u.jpg" alt="54CF6CF2-BA04-4103-968A-1838AACD40F3"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101858.jpg" alt="54CF6CF2-BA04-4103-968A-1838AACD40F3"></p>
 <p>我们可以看到报错了，但是<code>require</code>是OK的，只是<code>fs.readFile</code>时路径出现了错误。从第一个例子我们可以知道，使用相对路径出现错误是预期之内的，因为在<code>bin</code>目录外执行时目录下已经没有<code>server.js</code>这个文件了，但是为什么在<code>require</code>中使用相对路径，就不受启动应用时执行命令目录不同的影响呢？实际上是<code>require</code>有自己的搜索机制，具体可以看<a href="http://www.ruanyifeng.com/blog/2015/05/require.html" target="_blank" rel="noopener">require() 源码解读</a>。</p>
 <h2 id="使用path模块处理文件路径"><a href="#使用path模块处理文件路径" class="headerlink" title="使用path模块处理文件路径"></a>使用path模块处理文件路径</h2><p>面对复杂的路径问题，path模块可以帮你规范化连接和解析路径，还可以用于绝对路径到对路径的转换、提取路径的组成部分及判断路径是否存在等。常用的两个命令：</p>
 <h3 id="path-join"><a href="#path-join" class="headerlink" title="path.join"></a>path.join</h3><p>path.join()方法可以连接任意多个路径字符串，只是简单的连接，不会看是否真的存在。</p>
@@ -611,7 +611,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -633,7 +633,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

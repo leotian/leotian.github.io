@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="RxJs,observable,入门,">
+  <meta name="keywords" content="入门,RxJs,observable,">
 
 
 
@@ -85,20 +85,20 @@
 
 
 <meta name="description" content="上次我们把 Observable 和函数进行类比，从函数的角度分析了 Observable 的一些特性，这次我们换一个角度，从流的角度理解 Observable。">
-<meta name="keywords" content="RxJs,observable,入门">
+<meta name="keywords" content="入门,RxJs,observable">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rx学习—理解Observable（2）">
 <meta property="og:url" content="https://leotian.cn/posts/25f4/index.html">
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="上次我们把 Observable 和函数进行类比，从函数的角度分析了 Observable 的一些特性，这次我们换一个角度，从流的角度理解 Observable。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6a5emkj30ii01qglk.jpg">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq6boj34g30go0dxt9l.gif">
-<meta property="og:updated_time" content="2019-04-24T06:54:28.852Z">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101958.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102000.gif">
+<meta property="og:updated_time" content="2019-04-29T10:21:08.043Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Rx学习—理解Observable（2）">
 <meta name="twitter:description" content="上次我们把 Observable 和函数进行类比，从函数的角度分析了 Observable 的一些特性，这次我们换一个角度，从流的角度理解 Observable。">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6a5emkj30ii01qglk.jpg">
+<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-29-101958.jpg">
 
 
 
@@ -413,7 +413,7 @@
 <a id="more"></a>
 <h2 id="从事件机制说起"><a href="#从事件机制说起" class="headerlink" title="从事件机制说起"></a>从事件机制说起</h2><h3 id="Event"><a href="#Event" class="headerlink" title="Event"></a>Event</h3><p>在浏览器中，事件机制是用户交互的基础，本质是程序各个组成部分之间的一种通信方式（或者叫观察者模式）。当事件源被触发，会调用相应的事件处理函数执行，并把事件对象（Event 对象，持有事件源的一些信息）传递给事件处理函数。没有Rx之前，事件一般是互相独立，各自调用的。</p>
 <h3 id="增加时间的维度"><a href="#增加时间的维度" class="headerlink" title="增加时间的维度"></a>增加时间的维度</h3><p>现在我们增加一个时间维度，在时间坐标上把同一个按钮上的单个事件点连成一条线：</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6a5emkj30ii01qglk.jpg" alt="image-20190329105443416"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101958.jpg" alt="image-20190329105443416"></p>
 <p>有了时间维度，这条线看起来会是流动的，所以把他叫做一个流，接下来我们具体了解一下关于流的概念。</p>
 <h2 id="流stream"><a href="#流stream" class="headerlink" title="流stream"></a>流stream</h2><h3 id="创建数据流"><a href="#创建数据流" class="headerlink" title="创建数据流"></a>创建数据流</h3><p>RxJS提供了各种API来创建数据流，我们先使用 create 进行自定义创建：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = Rx.Observable.create(<span class="function">(<span class="params">observer</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">  setInterval(<span class="function"><span class="params">()</span> =&gt;</span> observer.next(i++), <span class="number">1000</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">foo.subscribe(<span class="function"><span class="params">i</span> =&gt;</span> <span class="built_in">console</span>.log(i))</span><br></pre></td></tr></table></figure>
@@ -434,7 +434,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Rx.Observable.fromEvent(<span class="built_in">window</span>, <span class="string">'click'</span>)</span><br><span class="line">  .map(<span class="function"><span class="params">e</span> =&gt;</span> <span class="number">1</span>)</span><br><span class="line">  .scan(<span class="function">(<span class="params">total, now</span>) =&gt;</span> total + now)</span><br><span class="line">  .subscribe(<span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
 <p><code>map</code> 把流转换成了一个每次产生1的新流，然后 <code>scan</code> 类似 <code>reduce</code>，也会产生一个新流，最后这个流被订阅。最终实现了每次点击累加1的效果。</p>
 <p>可以用一个效果图来表示该过程：</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq6boj34g30go0dxt9l.gif" alt="img"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-102000.gif" alt="img"></p>
 <h3 id="lodash-for-stream"><a href="#lodash-for-stream" class="headerlink" title="lodash for stream"></a>lodash for stream</h3><blockquote>
 <p>这时候回头看，其实RxJS在事件处理的路上已经走得太远了，从事件到流，它被称为lodash for events，倒不如说是lodash for stream更贴切，它提供的这些操作符也确实可以跟lodash媲美。</p>
 </blockquote>
@@ -507,11 +507,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/入门/" rel="tag"><i class="fa fa-tag"></i> 入门</a>
+          
             <a href="/tags/RxJs/" rel="tag"><i class="fa fa-tag"></i> RxJs</a>
           
             <a href="/tags/observable/" rel="tag"><i class="fa fa-tag"></i> observable</a>
-          
-            <a href="/tags/入门/" rel="tag"><i class="fa fa-tag"></i> 入门</a>
           
         </div>
       
@@ -616,7 +616,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -638,7 +638,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -92,15 +92,15 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="上次说的 node_modules 的目录结构和依赖树取决于安装顺序只是 npm 非确定性（Non-Determinism）的一部分，这种不确定是不会影响使用的，所以我觉得更大的坑来自于语义化版本（semantic versioning, semver）带来的包升级的不确定性。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq4bkk8lj31240ci0tq.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq4fghngj30dw0ae75m.jpg">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq4jmzwpj30gy0aj76s.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq4spgboj31fo0u0nlr.jpg">
-<meta property="og:updated_time" content="2019-04-24T06:54:28.808Z">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101921.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101922.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101924.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101925.jpg">
+<meta property="og:updated_time" content="2019-04-29T10:21:07.989Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="npm使用总结（2）探究版本锁">
 <meta name="twitter:description" content="上次说的 node_modules 的目录结构和依赖树取决于安装顺序只是 npm 非确定性（Non-Determinism）的一部分，这种不确定是不会影响使用的，所以我觉得更大的坑来自于语义化版本（semantic versioning, semver）带来的包升级的不确定性。">
-<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq4bkk8lj31240ci0tq.jpg">
+<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-29-101921.jpg">
 
 
 
@@ -389,7 +389,7 @@
       
 
       
-        <p>上次说的 <code>node_modules</code> 的目录结构和依赖树取决于安装顺序只是 npm 非确定性（Non-Determinism）的一部分，这种不确定是不会影响使用的，所以我觉得更大的坑来自于语义化版本（semantic versioning, semver）带来的包升级的不确定性。<img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq4bkk8lj31240ci0tq.jpg" alt="34648639-2cb71c5e-f3d8-11e7-9a1c-6ad418fce6ed副本"><a id="more"></a></p>
+        <p>上次说的 <code>node_modules</code> 的目录结构和依赖树取决于安装顺序只是 npm 非确定性（Non-Determinism）的一部分，这种不确定是不会影响使用的，所以我觉得更大的坑来自于语义化版本（semantic versioning, semver）带来的包升级的不确定性。<img src="https://images.leotian.cn/blog/2019-04-29-101921.jpg" alt="34648639-2cb71c5e-f3d8-11e7-9a1c-6ad418fce6ed副本"><a id="more"></a></p>
 <p>在我的加班生涯中有一次印象深刻的经历，那次是晚上上线出了问题，但是代码在我的电脑上工作的很好，在测试环境也测试通过，偏偏在上线后出现了严重的问题，原因就是一个包在我电脑上的版本和线上的版本不同了，这个不兼容的升级搞出了这次事故。自此后我开始使用 npm shrinkwrap 来手动锁定版本。接下来我们讨论一下这个功能的必要性和使用。</p>
 <h2 id="首先：什么是语义化版本"><a href="#首先：什么是语义化版本" class="headerlink" title="首先：什么是语义化版本"></a>首先：什么是语义化版本</h2><blockquote>
 <p>一旦你定义了公共 API，你就可以透过修改相应的版本号来向大家说明你的修改。考虑使用这样的版本号格式：XYZ （主版本号.次版本号.修订号）修复问题但不影响API 时，递增修订号；API 保持向下兼容的新增及修改时，递增次版本号；进行不向下兼容的修改时，递增主版本号。</p>
@@ -404,11 +404,11 @@
 <li>另一个问题的出现是由于 npm 安装依赖的机制。npm 的安装包是有层次结构的，手动控制要安装的软件包的版本号可以实现，但是你只能在 package.json 使用精确的版本号控制你的直接依赖包，但那些多层以上的依赖就没办法控制了；一个第三方包不严谨的版本依赖生命可能破坏你的依赖管理。</li>
 <li>在开发阶段执行得到的版本，和后续部署时得到的可能是不一致的，更不可控的是，你依赖的第三方包也有这样的情况会导致潜在的上线风险。</li>
 </ol>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq4fghngj30dw0ae75m.jpg" alt="6022D8B3-32AD-406C-A874-FD9C96C51167"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101922.jpg" alt="6022D8B3-32AD-406C-A874-FD9C96C51167"></p>
 <p>如果要控制上线的风险，我们就必需要解决这些问题，这时候就需要使用到版本锁。当然，对于是否应该使用版本锁还有一些不同的意见：<a href="https://zhuanlan.zhihu.com/p/22934066" target="_blank" rel="noopener">为什么我不使用 shrinkwrap（lock）</a>。但我觉得对于我来说还是很有必要的，至少可以少踩一些上线的坑，不是吗哈哈。</p>
 <h3 id="使用npm-5"><a href="#使用npm-5" class="headerlink" title="使用npm 5"></a>使用npm 5</h3><p>之前一直在使用shrinkwrap控制这个问题，对于shrinkwrap这里有一篇美团的教程：<a href="https://tech.meituan.com/npm-shrinkwrap.html" target="_blank" rel="noopener">使用 npm shrinkwrap 来管理项目依赖</a>。上次说到npm依赖管理的三次重要变化，依赖树的变化属于v1—v3版本的变化，而v3—v5的变化主要是安装时默认产生 lock 文件。也就是说，npm 在 v3 版本中是没有默认的版本锁的，如果想进行锁定需要使用 shrinkwrap，而 npm v5 版本是默认带版本锁功能的。</p>
 <p>所以现在我们可以直接使用 npm v5 来进行最保险的版本控制了，还是上次的demo，这次我们用npm 5进行安装：</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq4jmzwpj30gy0aj76s.jpg" alt="7DF1047F-FA6C-4F72-97D4-C354867F0561"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101924.jpg" alt="7DF1047F-FA6C-4F72-97D4-C354867F0561"></p>
 <p>可以看到，用 npm v5 进行安装会显示安装时间，这点和 yarn 一样，并且默认产生了 lock 文件，npm ls 显示的依赖树也不太一样，deduped（重复数据删除，也就是顶级目录已经有了）的包也做了标记。</p>
 <p>总结npm v5 的一些变化：</p>
 <ol>
@@ -420,7 +420,7 @@
 <li>使用 <code>npm install xxx</code> 命令安装模块时，不再需要 <code>--save</code> 选项，会自动将模块依赖信息保存到 <code>package.json</code> 文件，除非加上 <code>--no-save</code></li>
 </ol>
 <h2 id="最后：不同包管理器的版本锁比较"><a href="#最后：不同包管理器的版本锁比较" class="headerlink" title="最后：不同包管理器的版本锁比较"></a>最后：不同包管理器的版本锁比较</h2><h3 id="npm-5对比npm-3"><a href="#npm-5对比npm-3" class="headerlink" title="npm 5对比npm 3"></a>npm 5对比npm 3</h3><p>npm 5 使用新的 shrinkwrap 格式，对比npm 3 的格式如下图：</p>
-<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq4spgboj31fo0u0nlr.jpg" alt="17C1FF1F-725A-4362-9B09-D32B6CA74FF4"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101925.jpg" alt="17C1FF1F-725A-4362-9B09-D32B6CA74FF4"></p>
 <p>npm 5 如果使用的<code>npm shrinkwrap</code>命令仍会产生名为<code>npm-shrinkwrap.json</code>的文件，不过产生的<code>npm-shrinkwrap.json</code>和<code>package-lock.json</code>是一模一样的（指其格式也是npm 5的新shrinkwrap格式），而如果已经存在<code>package-lock.json</code>会自动将<code>package-lock.json</code>重命名为<code>npm-shrinkwrap.json</code>。</p>
 <h3 id="对比yarn"><a href="#对比yarn" class="headerlink" title="对比yarn"></a>对比yarn</h3><p>本来 yarn 相对于 npm@4 的区别主要就是：</p>
 <ol>
@@ -609,7 +609,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -631,7 +631,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

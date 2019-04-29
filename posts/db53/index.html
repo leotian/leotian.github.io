@@ -92,13 +92,13 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="当你准备写一个logo的时候，第一反正是Img还是div？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6wq626j30l0083myd.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq6y0o8oj307u03njrc.jpg">
-<meta property="og:updated_time" content="2019-04-24T06:54:28.884Z">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102011.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-102012.jpg">
+<meta property="og:updated_time" content="2019-04-29T10:21:08.075Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网站的logo图片用img标签还是背景图片?">
 <meta name="twitter:description" content="当你准备写一个logo的时候，第一反正是Img还是div？">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6wq626j30l0083myd.jpg">
+<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-29-102011.jpg">
 
 
 
@@ -390,7 +390,7 @@
         <p>当你准备写一个logo的时候，第一反正是Img还是div？</p>
 <a id="more"></a>
 <p>之前写都是在混乱用，临时想到用哪个就用哪个，但是用哪种是正确的呢？让我们先看看SO上面这个问题的讨论：<a href="https://stackoverflow.com/questions/492809/when-to-use-img-vs-css-background-image" target="_blank" rel="noopener">html - When to use IMG vs. CSS background-image?</a></p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq6wq626j30l0083myd.jpg" alt="img"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-102011.jpg" alt="img"></p>
 <p>下面是支持最多的答案（带翻译）：</p>
 <p>Proper uses of IMG     //img的合适使用</p>
 <ol>
@@ -461,7 +461,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"logo"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">!–</span> 注意 <span class="attr">a</span> 标签不要加 <span class="attr">title</span>，会造成部分读屏软件重复读取 –&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">tabindex</span>=<span class="string">"2"</span> <span class="attr">accesskey</span>=<span class="string">”1″</span> <span class="attr">href</span>=<span class="string">“#”</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://www.w3.org/2008/site/images/logo-w3c-screen-lg"</span> <span class="attr">alt</span>=<span class="string">“W3C”</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">”alt-logo”</span>&gt;</span>W3C<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.logo</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(http://www.w3.org/2008/site/images/logo-w3c-screen-lg) no-repeat <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">249px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">107px</span>;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.logo</span> <span class="selector-tag">img</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.logo</span> <span class="selector-class">.alt-logo</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">z-index</span>: -<span class="number">1</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding-left</span>: <span class="number">22px</span>;</span><br><span class="line">  <span class="attribute">padding-top</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#075F9F</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>.alt-logo 的作用是当图片加载失败的时候可以显示一个替代文本，如果只用兼容 IE8 以上，可以用 ::after 伪元素代替。<br>图片加载失败时的展现（Chrome）：</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq6y0o8oj307u03njrc.jpg" alt="img"><br>好吧，我觉得最后这种方法是照顾的比较全面的，不过貌似复制图片和图片链接的需求很小，所以我觉得一般A标签+CSS定义背景图就够了。</p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-102012.jpg" alt="img"><br>好吧，我觉得最后这种方法是照顾的比较全面的，不过貌似复制图片和图片链接的需求很小，所以我觉得一般A标签+CSS定义背景图就够了。</p>
 
       
     </div>
@@ -624,7 +624,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -646,7 +646,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

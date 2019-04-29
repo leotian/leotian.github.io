@@ -92,20 +92,20 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="8月底Babel官方宣布正式推出 Babel 7.0。这次 Babel 7 的发布，距离上次 Babel 6 的发布差不多过去了整整 3 年的时间。之前的两篇文章都是基于Babel 6，最近我们升级了Babel 7，总结一下变化。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq2z56h4j31kw0pu7av.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq32mx4bj307r01sglh.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq379xlaj30640133yb.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq3awvu9j307401ljr8.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq3crgglj3079016glf.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq3f94okj307i01pdfp.jpg">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq3hhaftj308d01s0sn.jpg">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq3kaqy7j3071049q2z.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq3o4ncfj305w022glh.jpg">
-<meta property="og:updated_time" content="2019-04-24T06:54:28.797Z">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101907.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101908.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101909.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101910.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101911.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101912.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101913.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101914.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101915.jpg">
+<meta property="og:updated_time" content="2019-04-29T10:21:07.962Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="升级Babel到7版本">
 <meta name="twitter:description" content="8月底Babel官方宣布正式推出 Babel 7.0。这次 Babel 7 的发布，距离上次 Babel 6 的发布差不多过去了整整 3 年的时间。之前的两篇文章都是基于Babel 6，最近我们升级了Babel 7，总结一下变化。">
-<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq2z56h4j31kw0pu7av.jpg">
+<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-29-101907.jpg">
 
 
 
@@ -395,7 +395,7 @@
 
       
         <p>8月底Babel官方宣布正式推出 Babel 7.0。这次 Babel 7 的发布，距离上次 Babel 6 的发布差不多过去了整整 3 年的时间。之前的两篇文章都是基于Babel 6，最近我们升级了Babel 7，总结一下变化。</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq2z56h4j31kw0pu7av.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"><a id="more"></a></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101907.jpg" alt="âbabel 7âçå¾çæç´¢ç&quot;æ"><a id="more"></a></p>
 <h1 id="主要变化"><a href="#主要变化" class="headerlink" title="主要变化"></a>主要变化</h1><p>这次更新号称断崖式变更，更新内容较多，我会挑选一些我注意到的重要变化，完整的列表可以参考<a href="https://babeljs.io/docs/en/v7-migration" target="_blank" rel="noopener">官网</a>，并且肯定还有很多东西需要动态调整，所以大家有什么觉得不对的地方建议去官网验证并且回来留言告诉我。</p>
 <h2 id="Renames（命名变化）"><a href="#Renames（命名变化）" class="headerlink" title="Renames（命名变化）"></a>Renames（命名变化）</h2><h3 id="Scoped-Packages"><a href="#Scoped-Packages" class="headerlink" title="Scoped Packages"></a>Scoped Packages</h3><p>Babel 团队会从7版本开始通过使用 “scoped” packages 的方式，来给自己的 babel package name 加上 @babel 命名空间（<a href="http://babeljs.io/blog/2017/12/27/nearing-the-7.0-release#renames-scoped-packages-babel-x" target="_blank" rel="noopener">详情</a>），这样以便于区分官方 package 以及 非官方 package，所以 babel-core 会变成 @babel/core。至于选择scoped packages更多的好处可以看<a href="https://babeljs.io/blog/2017/12/27/nearing-the-7.0-release#renames-scoped-packages-babel-x" target="_blank" rel="noopener">这里</a>。</p>
 <h3 id="plugin统一使用proposal"><a href="#plugin统一使用proposal" class="headerlink" title="plugin统一使用proposal"></a>plugin统一使用proposal</h3><p>放弃 <code>Stage</code> presets（<code>@babel/preset-stage-0</code> 等），选择支持单个 proposal。相似的地方还有，会默认移除 <code>@babel/polyfill</code>对 proposals 支持（<a href="https://github.com/babel/babel/pull/8440" target="_blank" rel="noopener">详情</a>）。想知道更多相关的细节，可以考虑阅读整篇<a href="https://babeljs.io/blog/2018/07/27/removing-babels-stage-presets" target="_blank" rel="noopener">博文</a>。</p>
@@ -469,42 +469,42 @@
 <tr>
 <td style="text-align:center">@babel/node（babel-node）</td>
 <td style="text-align:center">命令行直接转译 + 执行node文件</td>
-<td style="text-align:center"><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq32mx4bj307r01sglh.jpg" alt="image-20181116171602076"><br>依然是babel-polyfill<code>+</code>babel-register，同样把@babel/core作为了peerDependencies</td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-101908.jpg" alt="image-20181116171602076"><br>依然是babel-polyfill<code>+</code>babel-register，同样把@babel/core作为了peerDependencies</td>
 </tr>
 <tr>
 <td style="text-align:center">@babel/register（babel-register）</td>
 <td style="text-align:center">改写require命令，为其加载的文件进行转码，但是不会对当前文件转码，包含了corejs</td>
-<td style="text-align:center"><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq379xlaj30640133yb.jpg" alt="image-20181116173312093"><br>同样把@babel/core作为了peerDependencies</td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-101909.jpg" alt="image-20181116173312093"><br>同样把@babel/core作为了peerDependencies</td>
 </tr>
 <tr>
 <td style="text-align:center">@babel/polyfill（babel-polyfill）</td>
 <td style="text-align:center">现在包括corejs和regenerator</td>
-<td style="text-align:center"><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq3awvu9j307401ljr8.jpg" alt="image-20181116171914153"></td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-101910.jpg" alt="image-20181116171914153"></td>
 </tr>
 <tr>
 <td style="text-align:center">@babel/runtime（babel-runtime）</td>
 <td style="text-align:center">现在包括regenerator和helpers</td>
-<td style="text-align:center"><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq3crgglj3079016glf.jpg" alt="image-20181116214155724"></td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-101911.jpg" alt="image-20181116214155724"></td>
 </tr>
 <tr>
 <td style="text-align:center">@babel/runtime-corejs2</td>
 <td style="text-align:center">现在包括corejs、regenerator和helpers</td>
-<td style="text-align:center"><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq3f94okj307i01pdfp.jpg" alt="image-20181116171806763"></td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-101912.jpg" alt="image-20181116171806763"></td>
 </tr>
 <tr>
 <td style="text-align:center">@babel/plugin-transform-runtime（babel-plugin-transform-runtime）</td>
 <td style="text-align:center">让 babel 自动且按需的进行 polyfill（不污染全局变量和prototype）</td>
-<td style="text-align:center">同样把@babel/core作为了peerDependencies<br><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2dq3hhaftj308d01s0sn.jpg" alt="image-20181116171624202"></td>
+<td style="text-align:center">同样把@babel/core作为了peerDependencies<br><img src="https://images.leotian.cn/blog/2019-04-29-101913.jpg" alt="image-20181116171624202"></td>
 </tr>
 <tr>
 <td style="text-align:center">@babel/core（babel-core）</td>
 <td style="text-align:center">原来只是在代码里使用 babel，现在目前来看基本是最重要的一个包了，不管装什么都对把其作为peerDependencies</td>
-<td style="text-align:center"><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq3kaqy7j3071049q2z.jpg" alt="image-20181116171551115"></td>
+<td style="text-align:center"><img src="https://images.leotian.cn/blog/2019-04-29-101914.jpg" alt="image-20181116171551115"></td>
 </tr>
 <tr>
 <td style="text-align:center">@babel/preset-env</td>
 <td style="text-align:center">整合了 es201x，并自动根据目标平台分析需要用哪些插件</td>
-<td style="text-align:center">plugin太多，不截图了，把除了babel开头的截一下，同样把@babel/core作为了peerDependencies<br><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2dq3o4ncfj305w022glh.jpg" alt="image-20181120222334071"></td>
+<td style="text-align:center">plugin太多，不截图了，把除了babel开头的截一下，同样把@babel/core作为了peerDependencies<br><img src="https://images.leotian.cn/blog/2019-04-29-101915.jpg" alt="image-20181120222334071"></td>
 </tr>
 <tr>
 <td style="text-align:center">babel-loader（babel-loader）</td>
@@ -696,7 +696,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -718,7 +718,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

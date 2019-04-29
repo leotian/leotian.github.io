@@ -92,13 +92,13 @@
 <meta property="og:site_name" content="天生爱走神">
 <meta property="og:description" content="日期和时间在程序中应用广泛，但是，一旦涉及到跨时区的日期和时间的处理时，大多数人总还是不明白如何正确地处理日期和时间，今天总结一下。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq4urmlrj30ik0b5758.jpg">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq4wzlbej3080035dfr.jpg">
-<meta property="og:updated_time" content="2019-04-24T06:54:28.813Z">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101927.jpg">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101928.jpg">
+<meta property="og:updated_time" content="2019-04-29T10:21:08.001Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="程序中的时间问题总结">
 <meta name="twitter:description" content="日期和时间在程序中应用广泛，但是，一旦涉及到跨时区的日期和时间的处理时，大多数人总还是不明白如何正确地处理日期和时间，今天总结一下。">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq4urmlrj30ik0b5758.jpg">
+<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-29-101927.jpg">
 
 
 
@@ -388,7 +388,7 @@
 
       
         <p>日期和时间在程序中应用广泛，但是，一旦涉及到跨时区的日期和时间的处理时，大多数人总还是不明白如何正确地处理日期和时间，今天总结一下。</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2dq4urmlrj30ik0b5758.jpg" alt="image-20181211171522136"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101927.jpg" alt="image-20181211171522136"></p>
 <a id="more"></a>
 <h2 id="常用概念"><a href="#常用概念" class="headerlink" title="常用概念"></a>常用概念</h2><h3 id="GMT和UT时间"><a href="#GMT和UT时间" class="headerlink" title="GMT和UT时间"></a>GMT和UT时间</h3><p>格林尼治标准时间（英语：Greenwich Mean Time，GMT）是指位于英国伦敦郊区的皇家格林尼治天文台当地的平太阳时，因为本初子午线被定义为通过那里的经线。</p>
 <p>UT（世界时）和GMT（格林威治标准时）是相同的时间标准，都是基于天体观察的。UT 是相同标准的“科学”名称。GMT：格林威治时间，是标准的“民间”名称。因此，格林威治标准时（GMT）和世界时 (UT) 是相等的。</p>
@@ -413,7 +413,7 @@
 <p><strong>闰秒</strong>：是指为保持协调世界时（UTC）接近于世界时时刻（UT），由国际计量局统一规定在年底或年中（也可能在季末）对协调世界时增加或减少1<strong>秒</strong>的调整，操作系统会进行处理，对程序员应该<a href="https://www.zhihu.com/question/27500849" target="_blank" rel="noopener">影响不大</a>。</p>
 <p><strong>DST</strong>：<a href="https://zh.wikipedia.org/wiki/%E5%A4%8F%E6%97%B6%E5%88%B6" target="_blank" rel="noopener">夏令时(Summer Time)</a> 又称日光节约时制或日光节约时间，是一种为节约能源而人为规定地方时间的制度。一般在天亮较早的夏季人为将时间调快一小时，可以使人早起早睡，减少照明量，以充分利用光照资源，从而节约照明用电。各个采纳夏时制的国家具体规定不同，目前全世界有近 110 个国家每年要实行夏令时，如美国、欧盟等；中国、日本等国家曾经实行过夏令时，但是目前不予实行。</p>
 <h2 id="程序员用到的时间"><a href="#程序员用到的时间" class="headerlink" title="程序员用到的时间"></a>程序员用到的时间</h2><h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><h4 id="Unix-时间"><a href="#Unix-时间" class="headerlink" title="Unix 时间"></a>Unix 时间</h4><p><a href="https://zh.wikipedia.org/wiki/UNIX%E6%97%B6%E9%97%B4" target="_blank" rel="noopener">Unix 时间</a>又称 Posix 时间，UNIX时间戳是程序中最常用的，指自 UTC 时间 1970 年 1 月 1 日 0 时 0 分 0 秒起值现在的总秒数。是 Unix 和 类 Unix 系统使用的表达方式，他的特点是<strong>和时区无关，无论在地球上的那个角落，同一时刻，UNIX时间戳都是一样的</strong>。所以可以作为一个通用的时间偏移度量，计算每个时区当地时间时，都可以用时间戳推算出来。，可用 <code>date +%s</code> 查看 Unix 时间：</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2dq4wzlbej3080035dfr.jpg" alt="image-20181211180804328"></p>
+<p><img src="https://images.leotian.cn/blog/2019-04-29-101928.jpg" alt="image-20181211180804328"></p>
 <p>由上可知，Unix 时间 1479655113 表示的日期为 Sun Nov 20 15:18:33 UTC 2016。</p>
 <p>现在有些系统采用 32 位有符号整数保存 Unix 时间，所以它最多只能表示 136 年，即：1901-12-13 20:45:52 至 2038-1-19 3:14:07。和 <a href="https://zh.wikipedia.org/wiki/2000%E5%B9%B4%E9%97%AE%E9%A2%98" target="_blank" rel="noopener">千年虫问题</a> 类似，32 位 Unix/Linux 的系统在 2038 年可能会发生故障，所以又叫<a href="https://zh.wikipedia.org/wiki/UNIX%E6%97%B6%E9%97%B4#2038%E5%B9%B4%E9%97%AE%E9%A2%98" target="_blank" rel="noopener">2038年问题</a>。</p>
 <h4 id="时区信息数据库"><a href="#时区信息数据库" class="headerlink" title="时区信息数据库"></a>时区信息数据库</h4><p>我们经常会看到这样的时区表示：”Asia/Shanghai”，这些信息就是保存在<a href="https://zh.wikipedia.org/wiki/%E6%97%B6%E5%8C%BA%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E5%BA%93" target="_blank" rel="noopener">时区信息数据库</a>里面的。Ubuntu安装命令如下：</p>
@@ -594,7 +594,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -616,7 +616,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
