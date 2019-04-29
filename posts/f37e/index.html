@@ -95,7 +95,7 @@
 <meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-090639.gif">
 <meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-092834.png">
 <meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-092303.png">
-<meta property="og:updated_time" content="2019-04-29T10:51:04.321Z">
+<meta property="og:updated_time" content="2019-04-29T11:18:20.545Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo更换图床和全站CDN">
 <meta name="twitter:description" content="最近更新博客，突然发现所有图片都挂掉了，网上搜了一下，发现不是个例，哀嚎一片，所以更换了一家对象存储，迁移了博客中引用的全部图片，顺便做了全站CDN的优化，访问速度也快了许多，记录一下。">
@@ -426,7 +426,7 @@
 <p>简介：注册认证后有10G永久免费空间，每月15G的HTTP和HTTPS流量，提供两款可以免费续期的SSL证书，不过用户需要加入<a href="https://link.zhihu.com/?target=https%3A//www.upyun.com/league" target="_blank" rel="noopener">又拍云联盟</a>（即在网站底部添加又拍云logo及官网链接）</p>
 <p>图片上传限制：无</p>
 </blockquote>
-<p>注册账号后，我新建了仓库，然后开始迁移工作，我在本地使用的是 Typora 作为 Markdown 编辑器并搭配 iPic 做图片插入（iPic 如果要上传图片到微博图床以外的空间需要收费，不过可以免费体验7天），修改图传为又拍云后，使用迁移工具 <code>iPic Mover</code> （只要选择<code>Markdown</code>文件所在文件夹就可以迁移整站，很方便）做整站迁移。</p>
+<p>注册账号后，我新建了仓库，然后开始迁移工作，我在本地使用的是 Typora 作为 Markdown 编辑器并搭配 iPic 做图片插入（iPic 如果要上传图片到微博图床以外的空间需要收费，不过可以免费体验7天），修改图传为又拍云后，使用迁移工具 iPic Mover（只要选择 Markdown 文件所在文件夹就可以迁移整站，很方便）做整站迁移。</p>
 <p>迁移完毕后又绑定了我自己的域名作为加速域名，并做了 https 证书的配置，整个很顺畅，根据说明操作就行，不再详细阐述。</p>
 <h2 id="全站CDN"><a href="#全站CDN" class="headerlink" title="全站CDN"></a>全站CDN</h2><p>迁移过程中发现了又拍云的 CDN 服务，之前使用 <a href="https://coding.net/pages" target="_blank" rel="noopener">Coding Pages</a> 做网站的静态页面托管，真的是太慢了，所以想乘机加速一下网站的打开速度。</p>
 <p>但是如果单纯配置域名解析到又拍云，再配置CDN指向服务地址（tybleo.coding.me）好像并没有加速多少，而且还有一些 bug（js/css请求异常）。所以索性又开了一个存储空间，把网站整个上传到又拍云，直接使用又拍云的作为托管服务（使用插件 <a href="https://github.com/Menci/hexo-deployer-upyun" target="_blank" rel="noopener">hexo-deployer-upyun</a> 可以方便的把服务部署到又拍云 ），又拍云的云存储服务是与 CDN 无缝衔接的，用户无需特殊配置，很方便。</p>
