@@ -95,7 +95,7 @@
 <meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-090639.gif">
 <meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-092834.png">
 <meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-092303.png">
-<meta property="og:updated_time" content="2019-04-29T11:18:20.545Z">
+<meta property="og:updated_time" content="2019-05-09T03:14:30.471Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo更换图床和全站CDN">
 <meta name="twitter:description" content="最近更新博客，突然发现所有图片都挂掉了，网上搜了一下，发现不是个例，哀嚎一片，所以更换了一家对象存储，迁移了博客中引用的全部图片，顺便做了全站CDN的优化，访问速度也快了许多，记录一下。">
@@ -431,7 +431,7 @@
 <h2 id="全站CDN"><a href="#全站CDN" class="headerlink" title="全站CDN"></a>全站CDN</h2><p>迁移过程中发现了又拍云的 CDN 服务，之前使用 <a href="https://coding.net/pages" target="_blank" rel="noopener">Coding Pages</a> 做网站的静态页面托管，真的是太慢了，所以想乘机加速一下网站的打开速度。</p>
 <p>但是如果单纯配置域名解析到又拍云，再配置CDN指向服务地址（tybleo.coding.me）好像并没有加速多少，而且还有一些 bug（js/css请求异常）。所以索性又开了一个存储空间，把网站整个上传到又拍云，直接使用又拍云的作为托管服务（使用插件 <a href="https://github.com/Menci/hexo-deployer-upyun" target="_blank" rel="noopener">hexo-deployer-upyun</a> 可以方便的把服务部署到又拍云 ），又拍云的云存储服务是与 CDN 无缝衔接的，用户无需特殊配置，很方便。</p>
 <p>同样配置了加速域名为自己的域名和 https 证书后，又开启了页面压缩等优化配置，再次打开页面，发现速度肉眼可见的快了一大截，又拍云不愧是专业的 CDN 服务，不过关于CDN的知识还有好多没有搞懂（比如页面缓存问题），之后再深入研究下。</p>
-<p>迁移和优化至此告一段落了，刚写了一个修改短链后恢复浏览量的脚本，现在准备再写两个图片维护的脚本（未使用图片的删除和迁移准确性的校验），到时候再更新。</p>
+<p>迁移和优化至此告一段落了，刚写了一个修改短链后恢复浏览量的脚本，现在准备再写个图片维护的脚本（未使用图片的删除/备份），到时候再更新。</p>
 
       
     </div>
@@ -525,6 +525,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/posts/52b0/" rel="prev" title="docker中部署node服务的构建优化">
+                docker中部署node服务的构建优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -603,7 +607,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -614,7 +618,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

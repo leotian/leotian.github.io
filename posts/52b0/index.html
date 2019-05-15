@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+  <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-flash.min.css" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="docker,服务部署,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="node 服务全部切换 docker 部署后，构建阶段总有人反应很慢，原因是每次构建都要在 docker 中重新装包，就想怎么能优化一下，想了很多优化的路子，记录一下优化的思路，CI 使用 Jenkins。">
+<meta name="keywords" content="docker,服务部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker中部署node服务的构建优化">
+<meta property="og:url" content="https://leotian.cn/posts/52b0/index.html">
+<meta property="og:site_name" content="天生爱走神">
+<meta property="og:description" content="node 服务全部切换 docker 部署后，构建阶段总有人反应很慢，原因是每次构建都要在 docker 中重新装包，就想怎么能优化一下，想了很多优化的路子，记录一下优化的思路，CI 使用 Jenkins。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-30-032823.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-30-032851.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-04-30-033024.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-05-08-083425.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-05-08-095048.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-05-08-095222.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-05-08-095310.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-05-10-040142.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-05-10-040856.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-05-10-065549.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-05-10-065558.png">
+<meta property="og:image" content="https://images.leotian.cn/blog/2019-05-10-063552.png">
+<meta property="og:updated_time" content="2019-05-14T11:19:07.810Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker中部署node服务的构建优化">
+<meta name="twitter:description" content="node 服务全部切换 docker 部署后，构建阶段总有人反应很慢，原因是每次构建都要在 docker 中重新装包，就想怎么能优化一下，想了很多优化的路子，记录一下优化的思路，CI 使用 Jenkins。">
+<meta name="twitter:image" content="https://images.leotian.cn/blog/2019-04-30-032823.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"right","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'MTRGWT9OKH',
+      apiKey: '83c0e99cb156fe27d37705002f709791',
+      indexName: 'blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leotian.cn/posts/52b0/">
+
+
+
+
+
+  <title>docker中部署node服务的构建优化 | 天生爱走神</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">天生爱走神</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">其实，我是一个天真活泼、充满创意的年轻人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leotian.cn/posts/52b0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo.Tian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天生爱走神">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">docker中部署node服务的构建优化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-30T10:32:15+08:00">
+                2019-04-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/posts/52b0/" class="leancloud_visitors" data-flag-title="docker中部署node服务的构建优化">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>node 服务全部切换 docker 部署后，构建阶段总有人反应很慢，原因是每次构建都要在 docker 中重新装包，就想怎么能优化一下，想了很多优化的路子，记录一下优化的思路，CI 使用 Jenkins。</p>
+<a id="more"></a>
+<h2 id="利用npm缓存-不可行，已放弃"><a href="#利用npm缓存-不可行，已放弃" class="headerlink" title="利用npm缓存(不可行，已放弃)"></a>利用npm缓存(不可行，已放弃)</h2><p>最近构建过程中还有个 bug，<code>node-sass</code> 这个包一直装不上，原因是有个二进制文件要从GitHub下载，但是一直下载不下来：</p>
+<p><img src="https://images.leotian.cn/blog/2019-04-30-032823.png" alt="image-20190430112823001"></p>
+<p>而我本地就安装的很快，本质上因为这个包我装过一次，所以直接从缓存取是很快的：</p>
+<p><img src="https://images.leotian.cn/blog/2019-04-30-032851.png" alt="CA0A0064-2E7A-4D26-ADD3-C48055BF0647"></p>
+<p>从安装过程我们也可以看到，安装好后会保存一份缓存在本地的 <code>.npm</code> 文件夹中：</p>
+<p><img src="https://images.leotian.cn/blog/2019-04-30-033024.png" alt="image-20190430113023678"></p>
+<p>所以我在想怎么在 docker 中装包时能使用到 npm 的缓存机制，我想到了两种方法：一种是在镜像外装好包后把 node_modules 拷贝进镜像中，这样就可以利用上构建服务器上<code>.npm</code>中的缓存，另一种是直接把<code>.npm</code>拷贝到镜像中，这样就可以用上缓存了。接下来看下实践。</p>
+<h3 id="拷贝node-modules"><a href="#拷贝node-modules" class="headerlink" title="拷贝node_modules"></a>拷贝node_modules</h3><p>在镜像外的构建服务器上，我们会先安装一次<code>node_modules</code>（一般是用来编译我们的代码），在服务器上安装是可以利用服务器上的缓存的，而且我们一般不会删除之间安装的<code>node_modules</code>。这样的话如果我们能直接把外部安装好的<code>node_modules</code>拷贝进来，是不是可以大大缩短安装时间呢🤔？思考这个问题前，我们先要想一个问题：一台机器上装的<code>node_modules</code>是否可以用在别的机器上？我觉得应该是可以的，来试一下。</p>
+<p>尝试在构建服务器提前装好包，同时把<code>.dockerignore</code>中的<code>node_modules</code>删除，这样 Dockerfile 中的<code>COPY . /app/</code>就可以把装好的包也复制进来，但是构建成功后，缺启动失败了，报错如下：</p>
+<p><img src="https://images.leotian.cn/blog/2019-05-08-083425.png" alt="57FF6441-531A-4677-A0CE-152A893166EC"></p>
+<p>可以看到启动失败了，原因是有个 C++库（libstdc++.so.6）获取不到，所以我猜想，在有些包使用 C++ 编写的动态链接共享对象，即 NodeJs 插件的时候，包是不能在不同系统间共享的。</p>
+<p>实际上我觉得这样简单共享 node_modules 时，肯定还有其他因系统不同导致的兼容问题存在，除非内外系统完全一致，而且这样简单共享还有一个问题就是，在外部编译还是需要安装<code>devDependencies</code>的，但其实运行时完全不需要，会造成一定的冗余。</p>
+<p>所以拷贝<code>node_modules</code>的方法是行不通的，我们接着往下看。</p>
+<h3 id="拷贝-npm"><a href="#拷贝-npm" class="headerlink" title="拷贝.npm"></a>拷贝.npm</h3><p>直接拷贝 node_modules 不行，那么我们还有什么方法利用 npm 缓存呢，我想到了 .npm（可以使用<code>npm config get cache</code>查看位置），因为在本地安装的时候之所以快就是因为用到了 .npm 的缓存，那么我把构建服务器的 .npm 拷进容器不就可以用缓存了吗🤔？这样如果拷贝速度比下载速度快的话，也是可以加快构建速度的，再试一下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Shell</span></span><br><span class="line">cp ~/.npm ./</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Dockerfile</span></span><br><span class="line">RUN cp -r ./.npm /root/</span><br></pre></td></tr></table></figure>
+<p>首先要在构建服务器把缓存文件拷贝到当前目录（因为要在构建上下文才能复制到镜像中），然后更新 Dockerfile，构建 docker 时拷贝进镜像。结果一直卡在第一步的复制：</p>
+<p><img src="https://images.leotian.cn/blog/2019-05-08-095048.png" alt="55587BA2-D844-4BEE-895D-2E3F6074FA97"></p>
+<p>过了很长时间，我停了看了一眼 .npm 的大小：</p>
+<p><img src="https://images.leotian.cn/blog/2019-05-08-095222.png" alt="CBF7FED6-6CA6-4437-A843-BBD8FA3CC667"></p>
+<p>已经拷了 9.4G 了，还没拷完，我看了一下系统目录下的<code>.npm</code>大小：</p>
+<p><img src="https://images.leotian.cn/blog/2019-05-08-095310.png" alt="57F0B362-129D-4940-8BCB-1535FDE5B7B4"></p>
+<p>足足有12G，拷贝到每个项目下根本不现实，所以这种方案也放弃了。</p>
+<h2 id="利用docker缓存机制"><a href="#利用docker缓存机制" class="headerlink" title="利用docker缓存机制"></a>利用docker缓存机制</h2><p>在利用 npm 缓存的方案都失败后，我想到了还有 docker 本身的缓存机制是不是可以用。</p>
+<p>我们知道 Docker 构建是分层的，一条指令一层，在没有带<code>--no-cache=true</code>指令的情况下，如果某一层没有改动，Docker 就不会重新构建这一层而是使用缓存，先看 Docker 官方文档的<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" target="_blank" rel="noopener">描述</a>：</p>
+<blockquote>
+<ul>
+<li>Starting with a parent image that is already in the cache, the next instruction is compared against all child images derived from that base image to see if one of them was built using the exact same instruction. If not, the cache is invalidated.</li>
+<li>In most cases, simply comparing the instruction in the Dockerfile with one of the child images is sufficient. However, certain instructions require more examination and explanation.</li>
+<li>For the ADD and COPY instructions, the contents of the file(s) in the image are examined and a checksum is calculated for each file. The last-modified and last-accessed times of the file(s) are not considered in these checksums. During the cache lookup, the checksum is compared against the checksum in the existing images. If anything has changed in the file(s), such as the contents and metadata, then the cache is invalidated.</li>
+<li>Aside from the <code>ADD</code> and <code>COPY</code> commands, cache checking does not look at the files in the container to determine a cache match. For example, when processing a <code>RUN apt-get -y update</code> command the files updated in the container are not examined to determine if a cache hit exists. In that case just the command string itself is used to find a match.</li>
+</ul>
+<p>Once the cache is invalidated, all subsequent <code>Dockerfile</code> commands generate new images and the cache is not used.</p>
+</blockquote>
+<p>简单来说就是如果第n层有改动，则n层以后的缓存都会失效，大多数情况下判断有无改动的方法是判断这层的指令和缓存中的构建指令是否一致（如果不想在某一句指令上使用缓存，有个小技巧就是在这个指令上加个空格），但是对于 COPY 和 ADD 命令（ADD 只是多了个解压的功能，尽量用 COPY，语义清晰一点），则是比较要拷贝的文件是否有改动，然后判断本层是否有改动。我们可以利用这个特性，选择先复制<code>package.json</code>并装包，再把其他文件拷贝进来，这样就能实现只在<code>package.json</code>变动的时候重新安装，在没有变动的情况下使用缓存缩短构建时间。我们对 Dockerfile 进行修改：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> xingshulin/node-with-pm2:<span class="number">10.13</span>.<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拷贝所有文件 每次都更新无法使用缓存</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /app/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 装包</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> npm install --registry=http://npm.xingshulin.com/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --no-daemon不是不守护 而是在前台守护 否则前台没有进程docker容器会自动退出</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> pm2 start ./index.js --no-daemon &gt;&gt; /dev/null</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> xingshulin/node-with-pm2:<span class="number">10.13</span>.<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改为先拷贝package.json文件</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> package.json /app/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 装包</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> npm install --registry=http://npm.xingshulin.com/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 再拷贝剩余的文件</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /app/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> pm2 start ./index.js --no-daemon &gt;&gt; /dev/null</span></span><br></pre></td></tr></table></figure>
+<p>我们修改除 package.json/Dockerfile 外其他文件，然后对比构建的日志：</p>
+<table>
+<thead>
+<tr>
+<th>全部复制</th>
+<th>先复制package.json</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://images.leotian.cn/blog/2019-05-10-040142.png" alt="image-20190510120142345"></td>
+<td><img src="https://images.leotian.cn/blog/2019-05-10-040856.png" alt="image-20190510120855766"></td>
+</tr>
+</tbody>
+</table>
+<p>可以看到全部复制从复制开始就无法使用缓存了，而先复制 package.json 则可以在装包阶段也使用缓存。 </p>
+<p>为了验证优化的有效性，同一个项目我使用两种形式分别进行了5次构建，从时间上来看，除了优化后第一次构建慢了一点外，之后有了缓存构建起来还是挺快的，优化效果还是肉眼可见的：    </p>
+<p><img src="https://images.leotian.cn/blog/2019-05-10-065549.png" alt="image-20190510145549393"></p>
+<p><img src="https://images.leotian.cn/blog/2019-05-10-065558.png" alt="image-20190510145557696"></p>
+<h2 id="构建基础镜像"><a href="#构建基础镜像" class="headerlink" title="构建基础镜像"></a>构建基础镜像</h2><p>我们发现构建中还有很多东西是不需要经常变动的，比如 apt-get 安装的一些工具包，还有做进程守护的 pm2，这些最好把他们提前打包好构建一个基础镜像，以后从基础镜像开始构建，是最节省时间的（缓存有失效风险并且对比时间也省去了，虽然不知道对比时间有多少），我构建了一些基础镜像够日常开发使用，并推送到了<a href="https://hub.docker.com" target="_blank" rel="noopener">Docker Hub</a>：</p>
+<p><img src="https://images.leotian.cn/blog/2019-05-10-063552.png" alt="image-20190510143551785"></p>
+<p>我还写了一些shell脚本帮助更新基础镜像，这次先不具体介绍。</p>
+<h2 id="更多的想法"><a href="#更多的想法" class="headerlink" title="更多的想法"></a>更多的想法</h2><p>我还看到了一些其他的优化想法，一起贴在这里。</p>
+<h3 id="挂载-npm-目录"><a href="#挂载-npm-目录" class="headerlink" title="挂载 .npm 目录"></a>挂载 .npm 目录</h3><p>容器中可以挂载主机目录，但是构建阶段是不可以的，所以还是行不通。</p>
+<h3 id="使用-CMD-启动后安装"><a href="#使用-CMD-启动后安装" class="headerlink" title="使用 CMD 启动后安装"></a>使用 CMD 启动后安装</h3><p>CMD 命令用来描述容器启动后运行的程序（如果 Dockerfile 中有多个 CMD 指令，只有最后一个 CMD  有效），除了直接运行，我们也可以运行一个 shell：<code>CMD [&quot;sh&quot;, &quot;./dockerShell.sh&quot;]</code>。</p>
+<p>我们可以把安装放在启动之后，这样就可以通过把 .npm 挂载到容器来使用缓存，装包之后再启动服务，但是这样的话服务的重启时间就比较长，我们还是希望服务能快速启动，对回滚也有好处，并且如果启动后直接找不到包，会一直报错，担心跑满服务器 CPU 影响其他服务。</p>
+<h3 id="使用上一次的镜像"><a href="#使用上一次的镜像" class="headerlink" title="使用上一次的镜像"></a>使用上一次的镜像</h3><p>每次以上一次构建的镜像为基础镜像进行构建也是不错的想法，按道理说之前的node_modules都在，也有缓存，装起来应该很快。</p>
+<p>但是我试了下没有成功，package.json 改变后重新装包时没有走缓存，但是 .npm 是确实存在的，可能是对 docker 镜像构建或者 npm 缓存机制理解还不深，有谁知道可以帮忙解释下。</p>
+<p>如果成功的话，仔细想一下这样优化的好处在于更新 package.json 后，只需要安装最新更新的包，并且有本地缓存，也有一些不完美的地方，比如第一次时没有上一次，要单独构建，并且要保留第一次构建的脚本，以防忘记一些第一次构建的细节，不知道对基础镜像做过什么了。</p>
+<h3 id="构建服务器"><a href="#构建服务器" class="headerlink" title="构建服务器"></a>构建服务器</h3><h4 id="启动一个容器作为构建服务器"><a href="#启动一个容器作为构建服务器" class="headerlink" title="启动一个容器作为构建服务器"></a>启动一个容器作为构建服务器</h4><p>之前都是直接在 Jenkins 所在服务器上构建的前端代码，有些缺库少权限的问题还得找运维解决。设想一下如果我们自己起一个 docker 容器，专门用来构建，是不是自主权就多了很多，而且如果跟部署环境是一样的话，node_modules 应该是可以直接复制的？复制的话，就要在构建容器/服务器/服务容器之间来回复制，或者直接使用 docker 嵌套？但是我感觉嵌套的话太臃肿了，三者或者去掉最终服务容器的两者（构建容器和服务器，服务容器不使用挂载，保证最终服务容器的完整性）挂载一个目录我觉得也是可行的方法。</p>
+<h4 id="借助-docker-compose"><a href="#借助-docker-compose" class="headerlink" title="借助 docker-compose"></a>借助 docker-compose</h4><p>再设想一下，把构建服务器和运行的服务器一起编排，是不是方便一些？</p>
+<p>以上两种方法都还没试，不知道效果怎么样。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.cnblogs.com/qixidi/p/10414078.html" target="_blank" rel="noopener">利用构建缓存机制缩短Docker镜像构建时</a></p>
+<p><a href="https://stackoverflow.com/questions/35774714/how-to-cache-the-run-npm-install-instruction-when-docker-build-a-dockerfile" target="_blank" rel="noopener">How to cache the RUN npm install instruction when docker build a Dockerfile</a></p>
+<p><a href="https://itnext.io/npm-install-with-cache-in-docker-4bb85283fa12" target="_blank" rel="noopener">npm install with cache in docker</a></p>
+<p>缓存策略的更多知识可以看这里：</p>
+<p><a href="http://www.ruanyifeng.com/blog/2016/01/npm-install.html" target="_blank" rel="noopener">npm 模块安装机制简介</a></p>
+<p><a href="https://www.zhihu.com/question/305539244" target="_blank" rel="noopener">npm缓存现在是怎么做的？</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>赞赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Leo.Tian 微信">
+        <p>微信</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Leo.Tian 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Leo.Tian
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://leotian.cn/posts/52b0/" title="docker中部署node服务的构建优化">https://leotian.cn/posts/52b0/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+          
+            <a href="/tags/服务部署/" rel="tag"><i class="fa fa-tag"></i> 服务部署</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/f37e/" rel="next" title="hexo更换图床和全站CDN">
+                <i class="fa fa-chevron-left"></i> hexo更换图床和全站CDN
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="vcomments"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Leo.Tian">
+          
+            <p class="site-author-name" itemprop="name">Leo.Tian</p>
+            <p class="site-description motion-element" itemprop="description">程序员、电影爱好者</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">64</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/leotian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/leo.tian" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>知乎</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用npm缓存-不可行，已放弃"><span class="nav-number">1.</span> <span class="nav-text">利用npm缓存(不可行，已放弃)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拷贝node-modules"><span class="nav-number">1.1.</span> <span class="nav-text">拷贝node_modules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拷贝-npm"><span class="nav-number">1.2.</span> <span class="nav-text">拷贝.npm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用docker缓存机制"><span class="nav-number">2.</span> <span class="nav-text">利用docker缓存机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建基础镜像"><span class="nav-number">3.</span> <span class="nav-text">构建基础镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更多的想法"><span class="nav-number">4.</span> <span class="nav-text">更多的想法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#挂载-npm-目录"><span class="nav-number">4.1.</span> <span class="nav-text">挂载 .npm 目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-CMD-启动后安装"><span class="nav-number">4.2.</span> <span class="nav-text">使用 CMD 启动后安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用上一次的镜像"><span class="nav-number">4.3.</span> <span class="nav-text">使用上一次的镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建服务器"><span class="nav-number">4.4.</span> <span class="nav-text">构建服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动一个容器作为构建服务器"><span class="nav-number">4.4.1.</span> <span class="nav-text">启动一个容器作为构建服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#借助-docker-compose"><span class="nav-number">4.4.2.</span> <span class="nav-text">借助 docker-compose</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2016 &mdash; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-coffee"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo.Tian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a></div>
+
+
+<p>Hosted by
+  <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" style="border:0">
+    <img src="/images/upyun_logo.min.svg" style="width: 60px; display: inline; vertical-align: middle;">
+  </a>
+</p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+    new Valine({
+        av: AV,
+        el: '#vcomments',
+        verify: false,
+        notify: false,
+        app_id: 'GxfYzf5roQxLdedcwOheEnWE-gzGzoHsz',
+        app_key: 'MomkTz6Tq1aBGWvzNDSv8o31',
+        placeholder: '写下你的想法...',
+        avatar: 'retro',
+    });
+  </script>
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("GxfYzf5roQxLdedcwOheEnWE-gzGzoHsz", "MomkTz6Tq1aBGWvzNDSv8o31");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
