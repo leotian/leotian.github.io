@@ -387,7 +387,57 @@
       
         
           
-            
+            <h2 id="CommonJS规范"><a href="#CommonJS规范" class="headerlink" title="CommonJS规范"></a>CommonJS规范</h2><p>NodeJs 以 JavaScript（ECMAScript） 为基础，但在 ES6 之前，JavaScript自身是不带有模块机制的，所以社区制定了一些模块加载方案，最主要的有 CommonJS 和 AMD 两种。前者用于服务器，后者用于浏览器。</p>
+<p>2009 ~ 2010 年间，CommonJS 社区大牛云集，稍微了解点历史的同学都清楚，在同时间出现了 NodeJs，一下子让 javaScript 摇身一变，有了新的用武之地，同时在 NodeJs 推动下的 CommonJS 模块系统也是逐渐深入人心。</p>
+<p>使用 CommonJs 规范必须遵守的三个主要约定：</p>
+<ol>
+<li><p>require</p>
+<p>一个函数，参数</p>
+</li>
+<li><p>模块上下文</p>
+<p>require函数</p>
+<p>exports对象</p>
+<p>module对象</p>
+</li>
+</ol>
+<p>exports 和 module.exports 的区别</p>
+<p><a href="https://cnodejs.org/topic/5231a630101e574521e45ef8" target="_blank" rel="noopener">https://cnodejs.org/topic/5231a630101e574521e45ef8</a></p>
+<ol start="3">
+<li><p>模块标志</p>
+<p>通俗来说就是模块名，官方定义：<a href="http://wiki.commonjs.org/wiki/Modules/1.1.1#Module_Identifiers" target="_blank" rel="noopener">Module_Identifiers</a>。</p>
+</li>
+</ol>
+<p>不必要遵循的约定（实现与否都可以）：</p>
+<ol>
+<li><p>存储方案：一个模块的内容可以存在数据库里，也可以存在文件系统里，还有动态/静态链接库，甚至于函数里（对于 NodeJs 来说就是文件系统，所有模块都放在 node_modules 目录下，当然还有一些 C++ 的模块存在动态链接库中）；</p>
+</li>
+<li><p>加载器：可以支持环境变量（path）寻径（也可以不实现）</p>
+</li>
+</ol>
+<p>总之，NodeJs 应用通过入口文件之后，里面其实是由一个一个模块组成，通常一个模块就是一个遵循 CommonJs 规范书写的 JavaScript 源文件，当然也可能是后缀为 .node 的 C++ 的模块，二进制文件。这些文件通过 require 函数引入后，就可以在程序里使用了，使用 CommonJs 规范作为 NodeJs 的模块导入导出机制，就相当于把每个JavaScript文件或者说模块当做一个不会污染全局的闭包（只要不使用 global）。</p>
+<ul>
+<li><p>CommonJs 模块规范</p>
+</li>
+<li><p>CommonJs 包规范</p>
+<p>包描述文件：package.json，但和 NodeJs 的有些不同。</p>
+<p>​    必填、选填、保留字段</p>
+<p>包的格式：一个包含整个包目录（尤其是包含 package.json 文件）的zip格式的归档，首先要有一个 package.json 在根目录，二进制文件存在于名为 bin 的子目录下，JavaScript源码在lib目录下，文档在 doc 文目录下，单元测试文件在 test 目录下，这是一个遵循 CommonJs 规范的包（即使没有遵循规范，只要 package.json 是合法的也是可以用的）</p>
+<p>而 NodeJs 的包以目录的形式存在于node_modules，在安装之前（未解压前）通常是一个 tar.gz 格式的包。</p>
+</li>
+<li><p>Node.js 模块规范</p>
+</li>
+<li><p>Node.js 包规范</p>
+<p>Npm 全称 Node Package Manager，刚开始是node的包管理器，后来发展成整个JavaScript的包管理器</p>
+<p>Npm2.x 嵌套式依赖，可以非常优雅的实现某个依赖在项目中多版本共存的情况。对于后端开发及工具类开发的 NodeJs 应用来说，嵌套式依赖其实更适合。</p>
+<p>Npm3.x、4.x扁平化依赖方案，适合前端，需要考虑代码体积。</p>
+</li>
+</ul>
+<ul>
+<li>Node.js 四种模块本质和加载原理</li>
+<li>Node.js 入口模块</li>
+</ul>
+<h3 id="模块寻径"><a href="#模块寻径" class="headerlink" title="模块寻径"></a>模块寻径</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.zhihu.com/lives/842742839304667136" target="_blank" rel="noopener">深入了解 Node.js 包与模块机制</a></p>
+
           
         
       
@@ -1039,7 +1089,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">64</span>
+                <span class="site-state-item-count">66</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1122,6 +1172,7 @@
   <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" style="border:0">
     <img src="/images/upyun_logo.min.svg" style="width: 60px; display: inline; vertical-align: middle;">
   </a>
+  <a href="http://www.miitbeian.gov.cn/">京ICP备17008411号-1</a>
 </p>
 
         
