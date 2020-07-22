@@ -96,7 +96,7 @@
 <meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101842.jpg">
 <meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101843.jpg">
 <meta property="og:image" content="https://images.leotian.cn/blog/2019-04-29-101845.jpg">
-<meta property="og:updated_time" content="2019-04-30T02:34:15.122Z">
+<meta property="og:updated_time" content="2019-04-30T02:34:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用docker部署服务和一些注意事项">
 <meta name="twitter:description" content="从半年前开始，逐渐把新服务都放进了docker，使用也算有了一些心得，在这里总结一下。">
@@ -431,9 +431,9 @@
 <h3 id="使用私有仓库"><a href="#使用私有仓库" class="headerlink" title="使用私有仓库"></a>使用私有仓库</h3><p>对于公司来说有自己的私有仓库还是很有必要的，目前我们是用的是阿里云的私有仓库，这部分的使用直接看阿里云的文档即可。并且阿里云还提供个人专属的镜像加速器，这部分阿里云还是很良心的。</p>
 <p><img src="https://images.leotian.cn/blog/2019-04-29-101842.jpg" alt="95431CFD-3F49-4F23-8E58-D9D55B29B6BD"></p>
 <h3 id="清楚废弃镜像"><a href="#清楚废弃镜像" class="headerlink" title="清楚废弃镜像"></a>清楚废弃镜像</h3><p>过多不再使用镜像会占用磁盘空间，所以我们需要去删除他们。这些镜像的特征就是标签为none，无标签镜像也被称为 <strong>虚悬镜像(dangling image)</strong> ，可以用下面的命令专门显示这类镜像：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker image ls -f dangling=<span class="literal">true</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> docker image ls -f dangling=true</span><br></pre></td></tr></table></figure>
 <p>一般来说，虚悬镜像已经失去了存在的价值，是可以随意删除的，可以用下面的命令删除。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker image prune</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> docker image prune</span><br></pre></td></tr></table></figure>
 <p>如果这个命令不好使的话，我们还总结了三条命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a | grep "Exited" | awk '&#123;print $1 &#125;' | xargs docker stop</span><br><span class="line">docker ps -a | grep "Exited" | awk '&#123;print $1 &#125;' | xargs docker rm //</span><br><span class="line">docker images | grep "&lt;none&gt;" | awk '&#123;print $3&#125;' | xargs docker rmi	//</span><br></pre></td></tr></table></figure>
 <p>这三句分别执行了如下的操作：</p>
@@ -623,7 +623,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">48</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -645,7 +645,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-count">73</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -723,7 +723,7 @@
         <div class="copyright">
   
   &copy;  2016 &mdash; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-coffee"></i>
   </span>
