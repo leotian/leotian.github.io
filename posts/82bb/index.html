@@ -93,7 +93,7 @@
 <meta property="og:description" content="换电脑有一阵了，记录一下关键过程，以便下次换电脑。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://images.leotian.cn/blog/image-20200722115216650.png">
-<meta property="og:updated_time" content="2020-07-22T03:59:33.757Z">
+<meta property="og:updated_time" content="2020-07-22T09:29:03.716Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="换电脑记录">
 <meta name="twitter:description" content="换电脑有一阵了，记录一下关键过程，以便下次换电脑。">
@@ -389,14 +389,13 @@
         <p>换电脑有一阵了，记录一下关键过程，以便下次换电脑。</p>
 <a id="more"></a>
 <h2 id="钥匙串"><a href="#钥匙串" class="headerlink" title="钥匙串"></a>钥匙串</h2><p><a href="https://support.apple.com/zh-cn/guide/keychain-access/kyca1121/mac" target="_blank" rel="noopener">将钥匙串拷贝到另一台 Mac</a></p>
-<h2 id="应用数据迁移"><a href="#应用数据迁移" class="headerlink" title="应用数据迁移"></a>应用数据迁移</h2><p>当然，你可以直接全磁盘备份，但是那样可能有些慢，所以我只是手动迁移了一些关键应用的数据，像chrome、印象笔记这些，能同步的同步就好。</p>
+<h2 id="应用数据迁移"><a href="#应用数据迁移" class="headerlink" title="应用数据迁移"></a>应用数据迁移</h2><p>当然，你可以直接全磁盘备份，但是那样可能有些慢，所以我只是手动迁移了一些关键应用的数据，像chrome、印象笔记这些，能同步的同步就好</p>
 <h3 id="QQ-微信聊天记录"><a href="#QQ-微信聊天记录" class="headerlink" title="QQ/微信聊天记录"></a>QQ/微信聊天记录</h3><p>参考：<a href="https://www.zhihu.com/question/25667176" target="_blank" rel="noopener">如何迁移 Mac QQ 的聊天记录？</a></p>
 <h3 id="WebStorm"><a href="#WebStorm" class="headerlink" title="WebStorm"></a>WebStorm</h3><p>使用 <code>File -&gt; Manager IDE Settings</code> 里的导出和导入配置做迁移</p>
 <h3 id="Iterm2（profiles）"><a href="#Iterm2（profiles）" class="headerlink" title="Iterm2（profiles）"></a>Iterm2（profiles）</h3><p>使用 <code>Preferences —&gt; profiles —&gt; Other Actions</code> 里的保存和导入配置做迁移</p>
 <h3 id="Sequel-pro"><a href="#Sequel-pro" class="headerlink" title="Sequel pro"></a>Sequel pro</h3><p>也是应用内自带的 Export/Import</p>
 <h2 id="项目-代码"><a href="#项目-代码" class="headerlink" title="项目/代码"></a>项目/代码</h2><p>通过隔空投送传递，速度还挺快的。</p>
-<h3 id="日志存储"><a href="#日志存储" class="headerlink" title="日志存储"></a>日志存储</h3><p>项目设置的日志存储位置在 <code>/logs</code> 下，但是升级至 Catalina 之后，硬盘会分为两部分：只读和可写两部分</p>
-<p>使用者无法在只读系统卷进行数据的存储，使用 root 在通过命令行的方式也无法对/根目录下进行写操作了。具体可见<a href="https://support.apple.com/zh-cn/HT210650" target="_blank" rel="noopener">官方说明</a></p>
+<h3 id="日志存储"><a href="#日志存储" class="headerlink" title="日志存储"></a>日志存储</h3><p>项目设置的日志存储位置在 <code>/logs</code> 下，但是升级至 Catalina 之后，硬盘会分为两部分：只读和可写两部分（具体可见<a href="https://support.apple.com/zh-cn/HT210650" target="_blank" rel="noopener">官方说明</a>），根目录只读，会导致项目起不来</p>
 <p>解决办法是：</p>
 <ol>
 <li><p>首先设定SIP</p>
